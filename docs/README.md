@@ -1505,7 +1505,8 @@ To perform Redfish aggregation service actions, you require `ConfigureComponents
 
 
 ## The aggregation service root
-
+|||
+|-----|-------|
 |<strong>Method</strong> | `GET` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService` |
 |<strong>Description</strong> |JSON schema representing the aggregation service root.|
@@ -1582,10 +1583,12 @@ Transfer-Encoding":chunked
 
 ##  Adding a plugin as an aggregation source
 
+| | |
+|-------|------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Actions/AggregationSources` |
 |<strong>Description</strong> | This operation creates an aggregation source for a plugin and adds it in the inventory. This operation is performed in the background as a Redfish task.|
-|<strong>Returns</strong> |`Location` URI of the task monitor associated with this operation in the response header. See `Location` URI highlighted in bold in "Sample response header \(HTTP 202 status\)". Link to the task and the task Id in the sample response body. To get more information on the task, perform HTTP `GET` on the task URI. See "Sample response body \(HTTP 202 status\)".On successful completion: The aggregation source Id, the IP address, the username, and other details of the added plugin in the JSON response body. A link \(having the aggregation source Id\) to the added plugin in the `Location` header. See `Location` URI highlighted in bold in "Sample response header \(HTTP 201 status\)".|
+|<strong>Returns</strong> |<ul><li>`Location` URI of the task monitor associated with this operation in the response header. See `Location` URI highlighted in bold in "Sample response header \(HTTP 202 status\)".</li><li>Link to the task and the task Id in the sample response body. To get more information on the task, perform HTTP `GET` on the task URI. See "Sample response body \(HTTP 202 status\)".</li><li>On successful completion:<ul><li>The aggregation source Id, the IP address, the username, and other details of the added plugin in the JSON response body.</li><li> A link \(having the aggregation source Id\) to the added plugin in the `Location` header. See `Location` URI highlighted in bold in "Sample response header \(HTTP 201 status\)".</li></ul></li></ul>  |
 |<strong>Response Code</strong> |`202 Accepted` On success, `201 Created`|
 |<strong>Authentication</strong> |Yes|
 
@@ -1734,7 +1737,7 @@ x-frame-options":"sameorigin"
 ## Adding a server as an aggregation source
 
 | | |
-----------------------------------
+|-------------|---------------------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/AggregationSources` |
 |<strong>Description</strong> | This operation creates an aggregation source for a Base Management Controller \(BMC\), discovers information, and performs a detailed inventory of it.<br> The `AggregationSource` schema provides information about a BMC such as the IP address, the username, the password, and more.<br> This operation is performed in the background as a Redfish task.<br> |
@@ -1800,9 +1803,9 @@ curl -i -X POST \
 |UserName|String \(required\)<br> |The username of the HPE iLO administrator account.|
 |Password|String \(required\)<br> |The password of the HPE iLO administrator account.|
 |Links \{|Object \(required\)<br> |The links to other resources that are related to this resource.|
-|Oem\{ PluginID<br> \}<br> \}<br> |String \(required\)<br> |The plugin Id of the plugin. <blockquote>
+|Oem\{ PluginID \} \} |String \(required\)<br> |The plugin Id of the plugin. <blockquote>
 NOTE:<br>Before specifying the plugin Id, ensure that the installed plugin is added in the resource inventory. To know how to add a plugin, see [Adding a Plugin](GUID-4E64426F-559C-430A-AE60-61409DFB4131.md).<br></blockquote>
-For HPE iLO, use the plugin Id that you had specified while adding the HPE iLO plugin. Example: "ILO"<br> |
+For HPE iLO, use the plugin Id that you had specified while adding the HPE iLO plugin. Example: "ILO"<br> 
 
 > Sample response header \(HTTP 202 status\)
 
@@ -1872,6 +1875,8 @@ x-frame-options":"sameorigin"
 
 ## Viewing a collection of aggregation sources
 
+| | |
+|-------|-------|
 |<strong>Method</strong> | `GET` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/AggregationSources` |
 |<strong>Description</strong> |This operation lists all aggregation sources available in HPE Resource Aggregator for ODIM.|
@@ -1879,7 +1884,7 @@ x-frame-options":"sameorigin"
 |<strong>Response Code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-### curl command
+
 
 ```
 curl -i GET \
@@ -1889,7 +1894,7 @@ curl -i GET \
 
 ```
 
-## Sample response body
+> Sample response body
 
 ```
 {
@@ -1913,6 +1918,8 @@ curl -i GET \
 
 ## Viewing an aggregation source
 
+| | |
+|--------|------|
 |<strong>Method</strong> | `GET` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/AggregationSources/{AggregationSourceId}` |
 |<strong>Description</strong> |This action retrieves information about a specific aggregation source.|
@@ -1951,6 +1958,8 @@ curl -i GET \
 
 ## Updating an aggregation source
 
+| | |
+|------|------|
 |<strong>Method</strong> | `PATCH` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/AggregationSources/{AggregationSourceId}` |
 |<strong>Description</strong> |This operation updates the details such as the username, the password, and the IP address or hostname of a specific BMC in the resource aggregator inventory. When the username, the password, or the IP address \(or hostname\) of a BMC is changed, you can update those changes in the resource aggregator as well using this operation.<br> |
@@ -2017,6 +2026,8 @@ curl -i PATCH \
 
 ## Resetting servers
 
+|| |
+|--------|--------------------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Actions/AggregationService.Reset` |
 |<strong>Description</strong> |This action shuts down, powers up, and restarts one or more servers. This operation is performed in the background as a Redfish task and is further divided into subtasks to reset each server individually.<br> |
@@ -2172,6 +2183,8 @@ Content-Length:491 bytes
 
 ## Changing the boot order of servers to default settings
 
+| | |
+|-----------|------------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Actions/AggregationService.SetDefaultBootOrder` |
 |<strong>Description</strong> |This action changes the boot order of one or more servers to default settings. This operation is performed in the background as a Redfish task and is further divided into subtasks to change the boot order of each server individually.<br> |
@@ -2314,6 +2327,8 @@ Content-Length:491 bytes
 
 ## Deleting a resource from the inventory
 
+| | |
+|--------|--------|
 |<strong>Method</strong> | `DELETE` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/AggregationSources/{AggregationSourceId}` |
 |<strong>Description</strong> |This operation removes a specific aggregation source \(plugin, BMC, or any manager\) from the inventory. Deleting an aggregation source also deletes all event subscriptions associated with the BMC. This operation is performed in the background as a Redfish task.<br> |
@@ -2394,6 +2409,8 @@ The resource aggregator allows you to:
 
 ## Creating an aggregate
 
+|||
+|---------|-----------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Aggregates` |
 |<strong>Description</strong> |This operation creates an empty aggregate or an aggregate populated with resources.|
@@ -2470,6 +2487,8 @@ Transfer-Encoding:chunked
 
 ## Viewing a list of aggregates
 
+|||
+|----------|-----------|
 |<strong>Method</strong> | `GET` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Aggregates` |
 |<strong>Description</strong> |This operation lists all aggregates available in HPE Resource Aggregator for ODIM.|
@@ -2511,6 +2530,8 @@ curl -i GET \
 
 ## Viewing information about a single aggregate
 
+|||
+|----------|-----------|
 |<strong>Method</strong> | `GET` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Aggregates/{AggregateId}` |
 |<strong>Description</strong> |This operation retrieves information about a specific aggregate.|
@@ -2551,6 +2572,8 @@ curl -i GET \
 
 ## Deleting an aggregate
 
+|||
+|--------------|---------|
 |<strong>Method</strong> | `DELETE` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Aggregates/{AggregateId}` |
 |<strong>Description</strong> |This operation deletes a specific aggregate.|
@@ -2570,6 +2593,8 @@ curl -i DELETE \
 
 ## Adding elements to an aggregate
 
+|||
+|----------|-----------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Aggregates/{AggregateId}/Actions/Aggregate.AddElements` |
 |<strong>Description</strong> |This action adds one or more resources to a specific aggregate.|
@@ -2634,6 +2659,8 @@ curl -i POST \
 
 ## Resetting an aggregate of computer systems
 
+|||
+|--------|-----------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Aggregates/{AggregateId}/Actions/Aggregate.Reset` |
 |<strong>Description</strong> |This action shuts down, powers up, and restarts servers in a specific aggregate. This operation is performed in the background as a Redfish task and is further divided into subtasks to reset each server individually.<br> |
@@ -2767,6 +2794,8 @@ Content-Length:491 bytes
 
 ## Setting boot order of an aggregate to default settings
 
+|||
+|----------|-----------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Aggregates/{AggregateId}/Actions/Aggregate.SetDefaultBootOrder` |
 |<strong>Description</strong> |This action changes the boot order of all the servers belonging to a specific aggregate to default settings. This operation is performed in the background as a Redfish task and is further divided into subtasks to change the boot order of each server individually.<br> |
@@ -2876,6 +2905,8 @@ Content-Length:491 bytes
 
 ## Removing elements from an aggregate
 
+|||
+|--------|---------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Aggregates/{AggregateId}/Actions/Aggregate.RemoveElements` |
 |<strong>Description</strong> |This action removes one or more resources from a specific aggregate.|
