@@ -39,17 +39,17 @@ Refer the section **Modifying Configurations** in the README.md to change the co
 
 |||
 |-------|--------------------|
-|/redfish/v1/AggregationService|GET|
-| /redfish/v1/AggregationService/AggregationSources<br> |GET, POST|
-|/redfish/v1/AggregationService/AggregationSources/\{aggregationSourceId\}|GET, PATCH, DELETE|
-|/redfish/v1/AggregationService/Actions/AggregationService.Reset|POST|
-|/redfish/v1/AggregationService/Actions/AggregationService.SetDefaultBootOrder|POST|
-|/redfish/v1/AggregationService/Aggregates|GET, POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}|GET, DELETE|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.AddElements|POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.Reset|POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.SetDefaultBootOrder|POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.RemoveElements|POST|
+|/redfish/v1/AggregationService|`GET`|
+| /redfish/v1/AggregationService/AggregationSources<br> |`GET`, `POST`|
+|/redfish/v1/AggregationService/AggregationSources/\{aggregationSourceId\}|`GET`, `PATCH`, `DELETE`|
+|/redfish/v1/AggregationService/Actions/AggregationService.Reset|`POST`|
+|/redfish/v1/AggregationService/Actions/AggregationService.SetDefaultBootOrder|`POST`|
+|/redfish/v1/AggregationService/Aggregates|`GET`, `POST`|
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}|`GET`, `DELETE`|
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.AddElements|`POST`|
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.Reset|`POST`|
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.SetDefaultBootOrder|`POST`|
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.RemoveElements|`POST`|
 
 
 

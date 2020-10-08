@@ -233,17 +233,17 @@ Resource Aggregator for ODIM supports the following Redfish APIs:
 
 |AggregationService||
 |-------|--------------------|
-|/redfish/v1/AggregationService|GET|
-|/redfish/v1/AggregationService/AggregationSources<br> |GET, POST|
-|/redfish/v1/AggregationService/AggregationSources/\{aggregationSourceId\}|GET, PATCH, DELETE|
-|/redfish/v1/AggregationService/Actions/AggregationService.Reset|POST|
-|/redfish/v1/AggregationService/Actions/AggregationService.SetDefaultBootOrder|POST|
-|/redfish/v1/AggregationService/Aggregates|GET, POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}|GET, DELETE|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.AddElements|POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.Reset|POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.SetDefaultBootOrder|POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.RemoveElements|POST|
+|/redfish/v1/AggregationService|`GET`|
+|/redfish/v1/AggregationService/AggregationSources<br> |`GET`, `POST`|
+|/redfish/v1/AggregationService/AggregationSources/\{aggregationSourceId\}|`GET`, `PATCH`, `DELETE`|
+|/redfish/v1/AggregationService/Actions/AggregationService.Reset|`POST`|
+|/redfish/v1/AggregationService/Actions/AggregationService.SetDefaultBootOrder|`POST`|
+|/redfish/v1/AggregationService/Aggregates|`GET`, `POST`|
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}|`GET`, `DELETE`|
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.AddElements|`POST`|
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.Reset|`POST`|
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.SetDefaultBootOrder|`POST`|
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.RemoveElements|`POST`|
 
 |Systems||
 |-------|--------------------|
@@ -260,8 +260,8 @@ Resource Aggregator for ODIM supports the following Redfish APIs:
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Drives/\{driveId\}|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes|GET , POST|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes/\{volumeId\}|GET, DELETE|
+|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes|`GET` , `POST`|
+|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes/\{volumeId\}|`GET`, `DELETE`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Processors|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Processors/\{Id\}|`GET`|
 |/redfish/v1/Systems?filter=\{searchKeys\}%20\{conditionKeys\}%20\{value/regEx\}|`GET`|
@@ -288,13 +288,13 @@ Resource Aggregator for ODIM supports the following Redfish APIs:
 
 |UpdateService||
 |-------|--------------------|
-|/redfish/v1/UpdateService|GET|
-|/redfish/v1/UpdateService/FirmwareInventory|GET|
-|/redfish/v1/UpdateService/FirmwareInventory/\{inventoryId\}|GET|
-|/redfish/v1/UpdateService/SoftwareInventory|GET|
-|/redfish/v1/UpdateService/SoftwareInventory/\{inventoryId\}|GET|
-|/redfish/v1/UpdateService/Actions/UpdateService.SimpleUpdate|POST|
-|/redfish/v1/UpdateService/Actions/UpdateService.StartUpdate|POST|
+|/redfish/v1/UpdateService|`GET`|
+|/redfish/v1/UpdateService/FirmwareInventory|`GET`|
+|/redfish/v1/UpdateService/FirmwareInventory/\{inventoryId\}|`GET`|
+|/redfish/v1/UpdateService/SoftwareInventory|`GET`|
+|/redfish/v1/UpdateService/SoftwareInventory/\{inventoryId\}|`GET`|
+|/redfish/v1/UpdateService/Actions/UpdateService.SimpleUpdate|`POST`|
+|/redfish/v1/UpdateService/Actions/UpdateService.StartUpdate|`POST`|
 
 |EventService||
 |-------|--------------------|
@@ -3011,8 +3011,8 @@ To access Redfish `Systems` and `Chassis` endpoints, ensure that you have a mini
 |/redfish/v1/Systems/\{ComputerSystemId\}/Bios|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/SecureBoot|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes|GET , POST|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes/\{volumeId\}|GET, DELETE|
+|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes|`GET` , `POST`|
+|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes/\{volumeId\}|`GET`, `DELETE`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Processors|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Processors/\{Id\}|`GET`|
 |/redfish/v1/Systems?$filter=\{searchKeys\}%20\{conditionKeys\}%20\{value\}|`GET`|

@@ -8,13 +8,13 @@ The `UpdateService` schema describes the update service and the properties for t
 
 |API URI|Operation Applicable|Required privileges|
 |-------|--------------------|-------------------|
-|/redfish/v1/UpdateService|GET|`Login` |
-|/redfish/v1/UpdateService/FirmwareInventory|GET|`Login` |
-|/redfish/v1/UpdateService/FirmwareInventory/\{inventoryId\}|GET|`Login` |
-|/redfish/v1/UpdateService/SoftwareInventory|GET|`Login` |
-|/redfish/v1/UpdateService/SoftwareInventory/\{inventoryId\}|GET|`Login` |
-|/redfish/v1/UpdateService/Actions/UpdateService.SimpleUpdate|POST|`ConfigureComponents` |
-|/redfish/v1/UpdateService/Actions/UpdateService.StartUpdate|POST|`ConfigureComponents` |
+|/redfish/v1/UpdateService|`GET`|`Login` |
+|/redfish/v1/UpdateService/FirmwareInventory|`GET`|`Login` |
+|/redfish/v1/UpdateService/FirmwareInventory/\{inventoryId\}|`GET`|`Login` |
+|/redfish/v1/UpdateService/SoftwareInventory|`GET`|`Login` |
+|/redfish/v1/UpdateService/SoftwareInventory/\{inventoryId\}|`GET`|`Login` |
+|/redfish/v1/UpdateService/Actions/UpdateService.SimpleUpdate|`POST`|`ConfigureComponents` |
+|/redfish/v1/UpdateService/Actions/UpdateService.StartUpdate|`POST`|`ConfigureComponents` |
 
 <blockquote>
 NOTE:
@@ -280,7 +280,7 @@ curl -i GET \
 
 | | |
 |-------|-----------|
-|<strong>Method</strong> | `<strong>POST</strong>` |
+|<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/UpdateService/Actions/UpdateService.SimpleUpdate` |
 |<strong>Description</strong> |This operation creates an update request for updating a software or a firmware component or directly updates a software or a firmware component. The first example in "Sample request body" is used to create an update request and the second one is used to directly update a software or a firmware component of servers.<br> |
 |<strong>Response Code</strong> |On success, `200 Ok` |
@@ -375,7 +375,7 @@ curl -i POST \
 
 | | |
 |-------|-----------|
-|<strong>Method</strong> | `<strong>POST</strong>` |
+|<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/UpdateService/Actions/UpdateService.StartUpdate` |
 |<strong>Description</strong> |This operation starts updating software or firmware components for which an update request has been created. <blockquote>IMPORTANT:<br>Before performing this operation, ensure that you have created an update request first. To know how to create an update request, see [Simple update](#Simple update).<br></blockquote>|
 |<strong>Response Code</strong> |On success, `200 Ok` |

@@ -37,8 +37,8 @@ Refer the section **Modifying Configurations** in the README.md to change the co
 |/redfish/v1/Systems/\{ComputerSystemId\}/Bios|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/SecureBoot|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes|GET , POST|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes/\{volumeId\}|GET, DELETE|
+|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes|`GET` , `POST`|
+|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes/\{volumeId\}|`GET`, `DELETE`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Processors|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Processors/\{Id\}|`GET`|
 |/redfish/v1/Systems?$filter=\{searchKeys\}%20\{conditionKeys\}%20\{value\}|`GET`|
@@ -753,6 +753,107 @@ curl -i GET \
 
 ## Volumes
 
+### A collection of volumes
+
+| | | 
+|----------|-----------|
+|<strong>Method</strong> |`GET` |
+|<strong>URI</strong>  |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes` |
+|<strong>Description</strong>  |This endpoint retrieves a collection of volumes in a specific storage subsystem.|
+|<strong>Returns</strong> |A list of links to volumes.|
+|<strong>Response Code</strong> |On success, `200 OK` |
+|<strong>Authentication</strong> |Yes|
+
+ 
+
+ 
+
+```
+curl -i GET \
+             -H "X-Auth-Token:{X-Auth-Token}" \
+              'https://{odim_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes'
+
+
+```
+
+> Sample response body 
+
+```
+{
+   ​   "@odata.context":"/redfish/v1/$metadata#VolumeCollection.VolumeCollection",
+   ​   "@odata.etag":"W/\"AA6D42B0\"",
+   ​   "@odata.id":"/redfish/v1/Systems/eb452cf4-306c-4b21-96fb-698a067da407:1/Storage/ArrayControllers-0/Volumes",
+   ​   "@odata.type":"#VolumeCollection.VolumeCollection",
+   ​   "Description":"Volume Collection view",
+   ​   "Members":​[
+      ​      {
+         ​         "@odata.id":"/redfish/v1/Systems/eb452cf4-306c-4b21-96fb-698a067da407:1/Storage/ArrayControllers-0/Volumes/1"         ​
+      }      ​
+   ],
+   ​   "Members@odata.count":1,
+   ​   "Name":"Volume Collection"   ​
+}
+```
+
+
+
+### Single volume
+
+
+| | | 
+|----------|-----------|
+|<strong>Method</strong> |`GET` |
+|<strong>URI</strong>   |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes/{volumeId}` |
+|<strong>Description</strong>   |This endpoint retrieves information about a specific volume in a storage subsystem.|
+|<strong>Returns</strong>  |JSON schema representing this volume.|
+|<strong>Response Code</strong>  |On success, `200 OK` |
+|<strong>Authentication</strong>  |Yes|
+
+ 
+
+ 
+
+```
+curl -i GET \
+             -H "X-Auth-Token:{X-Auth-Token}" \
+              'https://{odim_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/{volumeId}'
+
+
+```
+
+> Sample request body 
+
+```
+{
+   "@odata.context":"/redfish/v1/$metadata#Volume.Volume",
+   "@odata.etag":"W/\"46916D5D\"",
+   "@odata.id":"/redfish/v1/Systems/363bef34-7f89-48ac-8970-ee8955f1b56f:1/Storage/ArrayControllers-0/Volumes/1",
+   "@odata.type":"#Volume.v1_4_1.Volume",
+   "CapacityBytes":1200209526784,
+   "Encrypted":false,
+   "Id":"1",
+   "Identifiers":[
+      {
+         "DurableName":"600508B1001C2AFE083D7F9026B2E994",
+         "DurableNameFormat":"NAA"
+      }
+   ],
+   "Links":{
+      "Drives":[
+         {
+            "@odata.id":"/redfish/v1/Systems/363bef34-7f89-48ac-8970-ee8955f1b56f:1/Storage/ArrayControllers-0/Drives/0"
+         }
+      ]
+   },
+   "Name":"Drive_Volume_Link",
+   "RAIDType":"RAID0",
+   "Status":{
+      "Health":"OK",
+      "State":"Enabled"
+   }
+}
+```
+
 
 ### Creating a volume
 
@@ -835,106 +936,7 @@ curl -i -X POST \
 
 
 
-### Viewing a collection of volumes
 
-| | | 
-|----------|-----------|
-|<strong>Method</strong> |`GET` |
-|<strong>URI</strong>  |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes` |
-|<strong>Description</strong>  |This endpoint retrieves a collection of volumes in a specific storage subsystem.|
-|<strong>Returns</strong> |A list of links to volumes.|
-|<strong>Response Code</strong> |On success, `200 OK` |
-|<strong>Authentication</strong> |Yes|
-
- 
-
- 
-
-```
-curl -i GET \
-             -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odim_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes'
-
-
-```
-
-> Sample response body 
-
-```
-{
-   ​   "@odata.context":"/redfish/v1/$metadata#VolumeCollection.VolumeCollection",
-   ​   "@odata.etag":"W/\"AA6D42B0\"",
-   ​   "@odata.id":"/redfish/v1/Systems/eb452cf4-306c-4b21-96fb-698a067da407:1/Storage/ArrayControllers-0/Volumes",
-   ​   "@odata.type":"#VolumeCollection.VolumeCollection",
-   ​   "Description":"Volume Collection view",
-   ​   "Members":​[
-      ​      {
-         ​         "@odata.id":"/redfish/v1/Systems/eb452cf4-306c-4b21-96fb-698a067da407:1/Storage/ArrayControllers-0/Volumes/1"         ​
-      }      ​
-   ],
-   ​   "Members@odata.count":1,
-   ​   "Name":"Volume Collection"   ​
-}
-```
-
-
-
-### Viewing a single volume
-
-
-| | | 
-|----------|-----------|
-|<strong>Method</strong> |`GET` |
-|<strong>URI</strong>   |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes/{volumeId}` |
-|<strong>Description</strong>   |This endpoint retrieves information about a specific volume in a storage subsystem.|
-|<strong>Returns</strong>  |JSON schema representing this volume.|
-|<strong>Response Code</strong>  |On success, `200 OK` |
-|<strong>Authentication</strong>  |Yes|
-
- 
-
- 
-
-```
-curl -i GET \
-             -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odim_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/{volumeId}'
-
-
-```
-
-> Sample request body 
-
-```
-{
-   "@odata.context":"/redfish/v1/$metadata#Volume.Volume",
-   "@odata.etag":"W/\"46916D5D\"",
-   "@odata.id":"/redfish/v1/Systems/363bef34-7f89-48ac-8970-ee8955f1b56f:1/Storage/ArrayControllers-0/Volumes/1",
-   "@odata.type":"#Volume.v1_4_1.Volume",
-   "CapacityBytes":1200209526784,
-   "Encrypted":false,
-   "Id":"1",
-   "Identifiers":[
-      {
-         "DurableName":"600508B1001C2AFE083D7F9026B2E994",
-         "DurableNameFormat":"NAA"
-      }
-   ],
-   "Links":{
-      "Drives":[
-         {
-            "@odata.id":"/redfish/v1/Systems/363bef34-7f89-48ac-8970-ee8955f1b56f:1/Storage/ArrayControllers-0/Drives/0"
-         }
-      ]
-   },
-   "Name":"Drive_Volume_Link",
-   "RAIDType":"RAID0",
-   "Status":{
-      "Health":"OK",
-      "State":"Enabled"
-   }
-}
-```
 
 
 ### Deleting a volume
