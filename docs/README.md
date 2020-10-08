@@ -3735,7 +3735,7 @@ curl -i GET \
 |----------|-----------|
 |<strong>Method</strong> |`GET` |
 |<strong>URI</strong>  |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes` |
-|<strong>Description</strong>  |A collection of volumes in a specific storage subsystem.|
+|<strong>Description</strong>  |This endpoint retrieves a collection of volumes in a specific storage subsystem.|
 |<strong>Returns</strong> |A list of links to volumes.|
 |<strong>Response Code</strong> |On success, `200 OK` |
 |<strong>Authentication</strong> |Yes|
@@ -3780,7 +3780,7 @@ curl -i GET \
 |----------|-----------|
 |<strong>Method</strong> |`GET` |
 |<strong>URI</strong>   |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes/{volumeId}` |
-|<strong>Description</strong>   |A specific volume in a storage subsystem.|
+|<strong>Description</strong>   |This endpoint retrieves information about a specific volume in a storage subsystem.|
 |<strong>Returns</strong>  |JSON schema representing this volume.|
 |<strong>Response Code</strong>  |On success, `200 OK` |
 |<strong>Authentication</strong>  |Yes|
