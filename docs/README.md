@@ -112,7 +112,7 @@ Include the following HTTP headers:
 - Authentication header (BasicAuth or XAuthToken) for all RESTful API operations except for HTTP GET on the
     Redfish service root and HTTP POST on sessions.
 
-**API Endpoint**
+**Base URL**
 
 Use the following URL in all HTTP requests that you send to the resource aggregator:
 
