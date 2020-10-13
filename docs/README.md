@@ -328,6 +328,7 @@ universally unique identifier of a system (Example: ba0a6871-7bc4-5f7a-903d-67f3
 |**Authentication** |No|
 
 
+>**curl command**
 
 ```curl
 curl -i GET 'https://{odimra_host}:{port}/redfish/v1'
@@ -629,6 +630,9 @@ Before accessing these endpoints, ensure that the user has the required privileg
 |**Response Code** |`200 OK` |
 |**Authentication** |No|
 
+
+>**curl command**
+
 ```
 curl -i GET \
               'https://{odimra_host}:{port}/redfish/v1/SessionService'
@@ -671,6 +675,9 @@ curl -i GET \
 |**Response Code** |`201 Created` |
 |**Authentication** |No|
 
+
+
+>**curl command**
 
 ```
 curl -i POST \
@@ -753,6 +760,9 @@ Transfer-Encoding:chunked
 |**Response Code** |`200 OK` |
 |**Authentication** |Yes|
 
+
+>**curl command**
+
 ```
 curl -i GET \
                -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
@@ -773,6 +783,8 @@ curl -i GET \
 |**Returns** |JSON schema representing this session.|
 |**Response Code** |`200 OK` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -806,6 +818,8 @@ curl -i GET \
 |**Description** |This operation terminates a specific Redfish session when the user logs out.<br>**NOTE:**<br> Users having the `ConfigureSelf` and `ConfigureComponents` privileges are allowed to delete only those sessions that they created.<br><br> Only a user with all the Redfish-defined privileges \(Redfish-defined `Administrator` role\) is authorized to delete any user session.<br> |
 |**Response Code** |`204 No Content` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -854,6 +868,7 @@ Before accessing these endpoints, ensure that the user has the required privileg
 |**Response Code** | `200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i GET \
@@ -919,6 +934,7 @@ Transfer-Encoding:chunked
 |**Response code** |`201 Created` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i POST \
@@ -996,6 +1012,7 @@ curl -i POST \
 |**Response Code** | `200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i GET \
@@ -1053,6 +1070,7 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
+>**curl command**
 
 ```
 curl -i GET \
@@ -1095,6 +1113,7 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
  curl -i -X PATCH \
@@ -1151,6 +1170,7 @@ curl -i GET \
 |**Response Code** |`204 No Content` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i -X DELETE \
@@ -1205,6 +1225,7 @@ Before accessing these endpoints, ensure that the user has the required privileg
 |**Response Code** |`201 Created` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i POST \
@@ -1298,6 +1319,7 @@ Transfer-Encoding:chunked
 |**Response Code** |`200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i GET \
@@ -1322,6 +1344,7 @@ curl -i GET \
 |**Response Code** |`200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i GET \
@@ -1367,6 +1390,7 @@ curl -i GET \
 |**Response Code** |`200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i -X PATCH \
@@ -1443,6 +1467,7 @@ Transfer-Encoding:chunked
 |**Response Code** |`204 No Content` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl  -i -X DELETE \
@@ -1506,7 +1531,7 @@ Before accessing these endpoints, ensure that the user has the required privileg
 
  
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -1596,7 +1621,7 @@ NOTE:
 Only a user with `ConfigureComponents` privilege can add a plugin. If you perform this operation without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
-
+>**curl command**
 
 ```
 curl -i POST \
@@ -1748,6 +1773,7 @@ NOTE:
 Only a user with `ConfigureComponents` privilege can add a server. If you perform this operation without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
+>**curl command**
 
 ```
 curl -i -X POST \
@@ -1871,7 +1897,7 @@ x-frame-options":"sameorigin"
 |<strong>Response Code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -1914,7 +1940,7 @@ curl -i GET \
 |<strong>Response Code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -1954,7 +1980,7 @@ curl -i GET \
 |<strong>Response Code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i PATCH \
@@ -2034,7 +2060,7 @@ NOTE:
 Only a user with `ConfigureComponents` privilege can reset servers. If you perform this action without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
-
+>**curl command**
 
 ```
 curl -i POST \
@@ -2191,7 +2217,7 @@ NOTE:
 Only a user with `ConfigureComponents` privilege can change the boot order of one or more servers to default settings. If you perform this action without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
-
+>**curl command**
 
 ```
 curl -i POST \
@@ -2331,7 +2357,7 @@ NOTE:
 Only a user with `ConfigureComponents` privilege can delete a server. If you perform this action without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
-
+>**curl command**
 
 ```
 curl -i DELETE \
@@ -2405,7 +2431,7 @@ The resource aggregator allows you to:
 |<strong>Response Code</strong> |On success, `201 Created` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i POST \
@@ -2483,7 +2509,7 @@ Transfer-Encoding:chunked
 |<strong>Response Code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -2526,7 +2552,7 @@ curl -i GET \
 |<strong>Response Code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -2567,7 +2593,7 @@ curl -i GET \
 |<strong>Response Code</strong> |On success, `204 No Content` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i DELETE \
@@ -2589,7 +2615,7 @@ curl -i DELETE \
 |<strong>Response Code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i POST \
@@ -2667,7 +2693,7 @@ NOTE:
 Only a user with `ConfigureComponents` privilege can reset servers. If you perform this action without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
-
+>**curl command**
 
 ```
 curl -i POST \
@@ -2802,7 +2828,7 @@ NOTE:
 Only a user with `ConfigureComponents` privilege can change the boot order of one or more servers to default settings. If you perform this action without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
-
+>**curl command**
 
 ```
 curl -i POST \
@@ -2901,7 +2927,7 @@ Content-Length:491 bytes
 |<strong>Response Code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i POST \
@@ -3026,6 +3052,8 @@ To view system, chassis, and manager resources, ensure that you have a minimum p
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
+
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -3071,6 +3099,8 @@ curl -i GET \
 |**Returns** |JSON schema representing this computer system instance.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -3412,6 +3442,8 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
+
 
 ```
 curl -i GET \
@@ -3436,6 +3468,8 @@ curl -i GET \
 |**Returns** |JSON schema representing this memory resource.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -3520,6 +3554,8 @@ curl -i GET \
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
+
 ```
 curl -i GET \
          -H "X-Auth-Token:{X-Auth-Token}" \
@@ -3542,6 +3578,8 @@ curl -i GET \
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
+
+>**curl command**
 
 ```
 curl -i GET \
@@ -3566,6 +3604,7 @@ curl -i GET \
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i GET \
@@ -3592,6 +3631,8 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
+>**curl command**
+
 ```
 curl -i GET \
              -H "X-Auth-Token:{X-Auth-Token}" \
@@ -3614,6 +3655,8 @@ curl -i GET \
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
+
+>**curl command**
 
 ```
 curl -i GET \
@@ -3674,6 +3717,8 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
+>**curl command**
+
 ```
 curl -i GET \
          -H "X-Auth-Token:{X-Auth-Token}" \
@@ -3698,6 +3743,8 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
+>**curl command**
+
 ```
 curl -i GET \
          -H "X-Auth-Token:{X-Auth-Token}" \
@@ -3721,6 +3768,8 @@ curl -i GET \
 |**Returns** |JSON schema representing this drive.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -3751,7 +3800,7 @@ curl -i GET \
 
  
 
- 
+>**curl command** 
 
 ```
 curl -i GET \
@@ -3795,7 +3844,7 @@ curl -i GET \
 |<strong>Authentication</strong>  |Yes|
 
  
-
+>**curl command**
  
 
 ```
@@ -3850,7 +3899,7 @@ curl -i GET \
 |<strong>Response code</strong>   |On success, `200 Ok` |
 |<strong>Authentication</strong>|Yes|
 
-
+>**curl command**
 
 ```
 curl -i -X POST \
@@ -3934,7 +3983,7 @@ curl -i -X POST \
 |<strong>Response code</strong>|On success, `204 No Content` |
 |<strong>Authentication</strong>  |Yes|
 
-
+>**curl command**
 
 ```
 curl -i -X DELETE \
@@ -3974,6 +4023,8 @@ curl -i -X DELETE \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
+
 
 ```
 curl -i GET \
@@ -3997,6 +4048,10 @@ curl -i GET \
 |**Returns** |List of processor resource endpoints.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
+
+
+>**curl command**
+
 
 ```
 curl -i GET \
@@ -4022,7 +4077,7 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -4047,6 +4102,8 @@ curl -i GET \
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
+
+>**curl command**
 
 ```
 curl -i GET \
@@ -4119,6 +4176,8 @@ curl -i GET \
 |**Response code** |On success, `200 OK` |
 |**Authentication** |Yes|
 
+
+>**curl command**
 
 ```
 curl -i GET \
@@ -4259,6 +4318,9 @@ curl -i GET \
 | **Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+
+>**curl command**
+
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -4280,6 +4342,10 @@ curl -i GET \
 |**Returns** |Links to network adapter instances available in this chassis.|
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
+
+
+>**curl command**
+
 
 ```
 curl -i GET \
@@ -4305,6 +4371,8 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
+
 
 ```
 curl -i GET \
@@ -4328,6 +4396,8 @@ curl -i GET \
 |**Returns** |Server endpoints based on the specified filter.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -4472,6 +4542,8 @@ This filter searches a server having total physical memory of 384 GB and two Int
 |**Authentication** |Yes|
 
 
+>**curl command**
+
 ```
  curl -i POST \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -4528,7 +4600,7 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
-
+>**curl command**
 
 ```
  curl -i POST \
@@ -4570,6 +4642,8 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+
+>**curl command**
 
 ```
  curl -i -X PATCH \
@@ -4637,6 +4711,8 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 |**Returns** |Message Id of the actual message in the JSON response body. To get the complete message, look up the specified registry file \(registry file name can be obtained by concatenating `RegistryPrefix` and version number present in the Message Id\). See [Message Registries](#message-registries). For example,`MessageId` in the sample response body is `Base.1.0.Success`. The registry to look up is `Base.1.0`.<br> |
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -4794,6 +4870,8 @@ Resource Aggregator for ODIM exposes APIs to retrieve information about managers
 |**Authentication** |Yes|
 
 
+>**curl command**
+
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -4856,6 +4934,8 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+
+>**curl command**
 
 ```
 curl -i GET \
@@ -5032,7 +5112,7 @@ Before accessing these endpoints, ensure that the user account has the required 
 |<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -5086,7 +5166,7 @@ curl -i GET \
 |<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -5148,7 +5228,7 @@ curl -i GET \
 |<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -5198,7 +5278,7 @@ curl -i GET \
 |<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -5234,7 +5314,7 @@ curl -i GET \
 |<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -5285,7 +5365,7 @@ curl -i GET \
 |<strong>Authentication</strong> |Yes|
 
  
-
+>**curl command**
 
 
 ```
@@ -5379,9 +5459,7 @@ curl -i POST \
 |<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
- 
-
-
+ >**curl command**
 
 ```
 curl -i POST \
@@ -5489,6 +5567,7 @@ Before using the `Fabrics` APIs, ensure that the fabric manager is installed, it
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i GET \
@@ -5537,6 +5616,7 @@ curl -i GET \
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i GET \
@@ -5594,6 +5674,8 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
+
 
 ```
 curl -i GET \
@@ -5649,6 +5731,8 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
+
 
 ```
 curl -i GET \
@@ -5693,6 +5777,9 @@ curl -i GET \
 |**Returns** |Links to the port instances.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
+
+
+>**curl command**
 
 ```
 curl -i GET \
@@ -5740,6 +5827,8 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+
+>**curl command**
 
 ```
 curl -i GET \
@@ -5798,6 +5887,8 @@ curl -i GET \
 |**Returns** |Links to the address pool instances.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -5884,6 +5975,9 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
+>**curl command**
+
+
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -5951,6 +6045,8 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
+
 
 ```
 curl -i GET \
@@ -5998,6 +6094,8 @@ curl -i GET \
 |**Returns** |Details of this endpoint.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -6063,6 +6161,10 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+
+>**curl command**
+
+
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -6118,6 +6220,8 @@ curl -i GET \
 |**Returns** |Details of this zone.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -6182,6 +6286,9 @@ curl -i GET \
 |**Returns** |<ul><li>Link to the created address pool in the `Location` header.</li><li>JSON schema representing the created address pool.</li></ul>|
 |**Response code** |`201 Created` |
 |**Authentication** |Yes|
+
+
+>**curl command**
 
 
 ```
@@ -6343,6 +6450,8 @@ Transfer-Encoding:chunked
 |**Response code** | `201 Created` |
 |**Authentication** |Yes|
 
+
+>**curl command**
 
 
 ```
@@ -6538,6 +6647,8 @@ Transfer-Encoding:chunked
 |**Authentication** |Yes|
 
 
+>**curl command**
+
 
 ```
 curl -i POST \
@@ -6646,6 +6757,8 @@ Transfer-Encoding:chunked
 |**Response code** | `201 Created` |
 |**Authentication** |Yes|
 
+
+>**curl command**
 
 
 ```
@@ -6799,6 +6912,9 @@ Transfer-Encoding:chunked
 |**Authentication** |Yes|
 
 
+>**curl command**
+
+
 ```
 curl -i POST \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -6943,6 +7059,8 @@ Transfer-Encoding: chunked
 |**Returns** |JSON schema representing an updated zone.|
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -7089,6 +7207,9 @@ curl -i -X PATCH \
 |**Authentication** |Yes|
 
 
+>**curl command**
+
+
 ```
 curl -i -X DELETE \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -7113,6 +7234,8 @@ curl -i -X DELETE \
 |**Authentication** |Yes|
 
 
+>**curl command**
+
 ```
 curl -i DELETE \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -7134,6 +7257,8 @@ curl -i DELETE \
 |**Description** |This operation deletes an address pool in a specific fabric.<br>**NOTE:**<br> If you delete an address pool that is being used in any zone, you will receive an HTTP `400` error. Before attempting to delete, ensure that the address pool you want to delete is not present in any zone. To get the list of address pools in a zone, see links to `addresspools` in the sample response body for a [single zone](#single-zone).|
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
+
+>**curl command**
 
 
 ```
@@ -7199,7 +7324,7 @@ To view the tasks and the task monitor, ensure that the user has `Login` privile
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -7279,6 +7404,9 @@ Transfer-Encoding":chunked
 |**Authentication** |Yes|
 
 
+>**curl command**
+
+
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -7326,7 +7454,7 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -7392,6 +7520,10 @@ curl -i GET \
 |**Returns** |<ul><li>Details of the task and its progress in the JSON response such as:<br> Link to the task,<br>Id of the task,<br>Task state and status,<br>Percentage of completion,<br>Start time and end time,<br>Link to subtasks \(if any\).<br>To know the status of a subtask, perform `GET` on the respective subtask link.<br>**NOTE:**<br><ul><li>Note down the task Id. If the task completes with an error, it is required to know which subtask has failed.To get the list of subtasks, perform HTTP `GET` on `/redfish/v1/TaskService/Tasks/{taskId}`.</li><li>`EndTime` of an ongoing task has `0001-01-01T00:00:00Z` as value, which is equivalent to zero time stamp value. It is updated only after the completion of the task.</li></ul></li><li>On failure, an error message. See "Sample error response".<br> To get the list of subtasks, perform `GET` on the task URI having the Id of the failed task. To know which subtasks have failed, perform `GET` on subtask links individually.</li><li>On successful completion, result of the operation carried out by the task. See "Sample response body \(completed task\)".</li></ul>|
 |**Response code** | <ul><li>`202 Accepted` until the task is complete.</li><li>`200 OK`, `201 Created` on success.</li></ul>|
 |**Authentication** |Yes|
+
+
+>**curl command**
+
 
 ```
 curl -i GET \
@@ -7489,6 +7621,9 @@ Content-Length:491 bytes
 |**Authentication** |Yes|
 
 
+>**curl command**
+
+
 ```
 curl -i DELETE \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -7584,7 +7719,7 @@ Before accessing these endpoints, ensure that the user has the required privileg
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -7758,7 +7893,7 @@ To get the list of subtask URIs, perform HTTP `GET` on the task URI returned in 
 Only a user with `ConfigureComponents` privilege is authorized to create event subscriptions. If you perform this action without necessary privileges, you will receive an HTTP`403 Forbidden` error.
 
 
-
+>**curl command**
 
 ```
 curl -i POST \
@@ -7990,6 +8125,18 @@ Transfer-Encoding:chunked
 
 ## Submitting a test event
 
+|||
+|-----------|-----------|
+|**Method** | `POST` |
+|**URI** |`/redfish/v1/EventService/Actions/EventService.SubmitTestEvent` |
+|**Description** | Once the subscription is successfully created, you can post a test event to Resource Aggregator for ODIM to check whether you are able to receive events. If the event is successfully posted, you will receive a JSON payload of the event response on the client machine \(destination\) that is listening to events. To know more about this event, look up the message registry using the `MessageId` received in the payload. See "Sample message registry \(Alert.1.0.0\)". For more information on message registries, see [Message registries](#message-registries). |
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
+
+>**curl command**
+
+
 ```
 curl -i POST \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -8014,13 +8161,7 @@ curl -i POST \
 ```
 
 
-|||
-|-----------|-----------|
-|**Method** | `POST` |
-|**URI** |`/redfish/v1/EventService/Actions/EventService.SubmitTestEvent` |
-|**Description** | Once the subscription is successfully created, you can post a test event to Resource Aggregator for ODIM to check whether you are able to receive events. If the event is successfully posted, you will receive a JSON payload of the event response on the client machine \(destination\) that is listening to events. To know more about this event, look up the message registry using the `MessageId` received in the payload. See "Sample message registry \(Alert.1.0.0\)". For more information on message registries, see [Message registries](#message-registries). |
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
 
 
@@ -8279,6 +8420,7 @@ To get notified of the task completion status, subscribe to `StatusChange` event
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
+>**curl command**
 
 ```
 curl -i GET \
@@ -8330,7 +8472,7 @@ curl -i GET \
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
-
+>**curl command**
 
 ```
 curl -i GET \
@@ -8385,7 +8527,7 @@ curl -i GET \
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
-
+>**curl command**
 
 ```
 curl -i -X DELETE \
@@ -8460,6 +8602,9 @@ To access Redfish message registries, ensure that you have a minimum privilege o
 |**Returns** |Links to the registry instances.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
+
+
+>**curl command**
 
 ```
 curl -i GET \
@@ -8571,6 +8716,10 @@ curl -i GET \
 |**Response code** |On success, `200 OK` |
 |**Authentication** |Yes|
 
+
+>**curl command**
+
+
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -8614,6 +8763,10 @@ curl -i GET \
 |**Returns** |Content of this file.|
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
+
+
+>**curl command**
+
 
 ```
 curl -i GET \
