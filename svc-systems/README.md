@@ -761,7 +761,7 @@ curl -i GET \
 |<strong>URI</strong>  |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes` |
 |<strong>Description</strong>  |This endpoint retrieves a collection of volumes in a specific storage subsystem.|
 |<strong>Returns</strong> |A list of links to volumes.|
-|<strong>Response Code</strong> |On success, `200 OK` |
+|<strong>Response code</strong> |On success, `200 OK` |
 |<strong>Authentication</strong> |Yes|
 
  
@@ -806,7 +806,7 @@ curl -i GET \
 |<strong>URI</strong>   |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes/{volumeId}` |
 |<strong>Description</strong>   |This endpoint retrieves information about a specific volume in a storage subsystem.|
 |<strong>Returns</strong>  |JSON schema representing this volume.|
-|<strong>Response Code</strong>  |On success, `200 OK` |
+|<strong>Response code</strong>  |On success, `200 OK` |
 |<strong>Authentication</strong>  |Yes|
 
  
@@ -862,7 +862,7 @@ curl -i GET \
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong>  |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes` |
 |<strong>Description</strong>  | This operation creates a volume in a specific storage subsystem.|
-|<strong>Response Code</strong>   |On success, `200 Ok` |
+|<strong>Response code</strong>   |On success, `200 Ok` |
 |<strong>Authentication</strong>|Yes|
 
 
@@ -947,7 +947,7 @@ curl -i -X POST \
 |<strong>Method</strong>  | `DELETE` |
 |<strong>URI</strong>   |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes/{volumeId}` |
 |<strong>Description</strong>  | This operation removes a volume in a specific storage subsystem.<br> |
-|<strong>Response Code</strong>|On success, `204 No Content` |
+|<strong>Response code</strong>|On success, `204 No Content` |
 |<strong>Authentication</strong>  |Yes|
 
 

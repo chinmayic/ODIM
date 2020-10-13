@@ -1,29 +1,10 @@
----
-title: API Reference
-
-language_tabs: # must be one of https://git.io/vQNgJ
-  - curl
-  - json: JSON 
-  - html: HTML
-  
-
-
-toc_footers:
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
-
-includes:
-  
-
-search: true
----
-
+[TOC]
 
 
 # Introduction 
 
  Welcome to Resource Aggregator for Open Distributed Infrastructure Management!
- 
- 
+
 Resource Aggregator for Open Distributed Infrastructure Management (ODIM) is a modular, open framework for
 simplified management and orchestration of distributed workloads. It provides a unified management platform for
 converging multivendor hardware equipment. By exposing a standards-based programming interface, it enables easy and
@@ -160,47 +141,50 @@ $ export no_proxy="127.0.0.1,localhost,{odimra_host}".
 Without CA certificate, curl fails to verify that HTTP connections are secure and curl commands may fail with the SSL
 certificate problem. Provide the root CA certificate to curl for secure SSL communication.
 
-	
-```curl
-curl -v --cacert {path}/rootCA.crt 'https://{odimra_host}:{port}/redfish/v1'
- ```
- 
-**1.** If you are running curl commands on the server where the resource aggregator is deployed, provide the
-    `rootCA.crt` file as shown in the curl command:
 
-	
-    {path} is where you have generated certificates during the deployment of the resource aggregator.
+
+
+**1.** If you are running curl commands on the server where the resource aggregator is deployed, provide the `rootCA.crt` file as shown in the curl command:
+
+```
+curl -v --cacert {path}/rootCA.crt 'https://{odimra_host}:{port}/redfish/v1'
+```
+
+
+{path} is where you have generated certificates during the deployment of the resource aggregator.
 
 **2.** If you are running curl commands on a different server, perform the following steps to provide the rootCA.crt file.
       
-      a. Navigate to `~/ODIM/build/cert_generator/certificates` on the server where the resource
-         aggregator is deployed.
+
+a. Navigate to `~/ODIM/build/cert_generator/certificates` on the server where the resource aggregator is deployed.
 
 
-      b. Copy the `rootCA.crt` file.
+b. Copy the `rootCA.crt` file.
 
 
-      c. Log in to your server and paste the `rootCA.crt` file in a folder.
+c. Log in to your server and paste the `rootCA.crt` file in a folder.
 
 
-      d. Open the `/etc/hosts` file to edit.
+d. Open the `/etc/hosts` file to edit.
 
 
-      e. Scroll to the end of the file, add the following line, and save:
-	  
-         `{odim_server_ipv4_address} {FQDN}`
+e. Scroll to the end of the file, add the following line, and save:
+      
+    {odim_server_ipv4_address} {FQDN}
 
+
+
+f. Check if curl is working using the curl command:
 ```curl
 curl -v --cacert {path}/rootCA.crt 'https://{odimra_host}:{port}/redfish/v1'
- ```
- 
-      f. Check if curl is working using the curl command:
-	     
+```
 
-		 
-<aside class="notice">
-To avoid using the `--cacert` flag in every curl command, add `rootCA.crt` in the `ca-certificates.crt` file located in this path:<br> `/etc/ssl/certs/ca-certificates.crt`.
-</aside>
+​		 
+
+>NOTE: To avoid using the `--cacert` flag in every curl command, add `rootCA.crt` in the `ca-certificates.crt` file located in this path:<br> `/etc/ssl/certs/ca-certificates.crt`.
+
+
+
 
 
 
@@ -327,9 +311,9 @@ Resource Aggregator for ODIM supports the following Redfish APIs:
 | /redfish/v1/ TaskService/Tasks/\{taskId\}/SubTasks/ \{subTaskId\} |`GET`|
 
 
-<aside class="notice">
-Subtask URIs are not available in the current Redfish standard (1.8.0). They will be available in the next Redfish standard.
-</aside>
+
+>NOTE: Subtask URIs are not available in the current Redfish standard (1.8.0). They will be available in the next Redfish standard.
+
 
 
 |Task monitor||
@@ -343,15 +327,22 @@ Subtask URIs are not available in the current Redfish standard (1.8.0). They wil
 |/redfish/v1/registries/\{registryFileId\}|`GET`|
 
 
-**NOTE:**
-
+>**NOTE:**
 `ComputerSystemId` is the unique identifier of a system. It is specified by Resource Aggregator for ODIM.
-
 `ComputerSystemId` is represented as `<UUID:n>` in Resource Aggregator for ODIM. `<UUID:n>` is the
 universally unique identifier of a system (Example: ba0a6871-7bc4-5f7a-903d-67f3c205b08c:1).
 
 
 ## Viewing the list of supported Redfish services
+
+|||
+|---------|-------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1` |
+|**Description** |This is the URI for the Redfish service root. Perform `GET` on this URI to fetch a list of available Redfish services.|
+|**Returns** |All the available services in the service root.|
+|**Response Code** |`200 OK` |
+|**Authentication** |No|
 
 ```curl
 curl -i GET 'https://{odimra_host}:{port}/redfish/v1'
@@ -427,14 +418,7 @@ Transfer-Encoding:chunked
 ```
 
 
-|||
-|---------|-------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1` |
-|**Description** |This is the URI for the Redfish service root. Perform `GET` on this URI to fetch a list of available Redfish services.|
-|**Returns** |All the available services in the service root.|
-|**Response Code** |`200 OK` |
-|**Authentication** |No|
+
 
 
 
@@ -483,14 +467,14 @@ Following are the HTTP status codes with their descriptions:
 |503 Service Unavailable|When the server is unable to service the request due to temporary overloading or maintenance.|
 
 
-<aside class="notice">
+>NOTE:
 This guide provides success codes (200, 201, 202, 204) for all the referenced API operations. For failed operations, refer to the error codes listed in this section.
-</aside>
 
 
 
+# Authentication and authorization
 
-#  Authentication methods for Redfish APIs
+##  Authentication methods for Redfish APIs
 
  To keep HTTP connections secure, Resource Aggregator for ODIM verifies credentials of HTTP requests. If you perform an unauthenticated HTTP operation on resources except for the following, you will receive an HTTP `401 unauthorized` error.
 
@@ -504,51 +488,124 @@ This guide provides success codes (200, 201, 202, 204) for all the referenced AP
 
 To authenticate requests with the Redfish services, implement any one of the following authentication methods:
 
+
 -   **HTTP BASIC authentication \(BasicAuth\)** 
- 
+
      To implement HTTP BASIC authentication:
 
-     1. Generate a base64 encoded string of `{valid_username_of_odim_userAccount}:{valid_password_of_odim_userAccount}` using the following command:
+     1. Generate a base64 encoded string of `{valid_username_of_odim_userAccount}:{valid_password_of_odim_userAccount}` using    the following command:
 
-       ```
-       $ echo -n '{username}:{password}' | base64 -w0
-       ```
+         ```
+        $ echo -n '{username}:{password}' | base64 -w0
+        ```
 
-       Initially, use the username and the password of the default administrator account. Later, you can create additional [user accounts](#user-accounts) and use their details to implement authentication.
+        Initially, use the username and the password of the default administrator account. Later, you can create additional [user accounts](#user-accounts) and use their details to implement authentication.
 
-```
-curl -i --cacert {path}/rootCA.crt GET\
--H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
-'https://{odimra_host}:{port}/redfish/v1/AccountService'
- ```
-     
-	 2. Provide the base64 encoded string in an HTTP `Authorization:Basic` header as shown in the curl command:
+     2. Provide the base64 encoded string in an HTTP `Authorization:Basic` header as shown in the curl command:
 
-        
+         ```
+         curl -i --cacert {path}/rootCA.crt GET\
+         -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+         'https://{odimra_host}:{port}/redfish/v1/AccountService'
+         ```
 
-<br>
+
 
 -   **Redfish session login authentication \(XAuthToken\)** 
 
-```
-curl -i --cacert {path}/rootCA.crt GET \
--H "X-Auth-Token:{X-Auth-Token}" \
-'https://{odimra_host}:{port}/redfish/v1/AccountService'
-  ```
-
       To implement Redfish session login authentication, create a Redfish login [session](#Sessions) and obtain an authentication token through session management interface.
-
+    
       Every session that is created has an authentication token called `X-AUTH-TOKEN` associated with it. An `X-AUTH-TOKEN` is returned in the response header from session creation.
-
+    
       To authenticate subsequent requests, provide this token in the `X-AUTH-TOKEN` request header.
-
-      
+    ```
+    curl -i --cacert {path}/rootCA.crt GET \
+    -H "X-Auth-Token:{X-Auth-Token}" \
+     'https://{odimra_host}:{port}/redfish/v1/AccountService'
+    ```
 
       An `X-AUTH-TOKEN` is valid and a session is open only for 30 minutes, unless you continue to send requests to a Redfish service using this token. An idle session is automatically terminated after the time-out interval.
 
 
 
-# Sessions
+
+
+## Role-based authorization
+
+In Resource Aggregator for ODIM, the roles and privileges control which users have what access to resources. If you perform an HTTP operation on a resource without necessary privileges, you will receive an HTTP `403 Forbidden` error.
+
+**Roles**
+
+A role represents a set of operations that a user is allowed to perform. It is determined by a defined set of privileges. You can assign a role to a user at the time of user account creation.
+
+With Resource Aggregator for ODIM, there are two kinds of defined roles:
+
+-   **Redfish predefined roles** 
+
+    Redfish predefined roles come with a predefined set of privileges. These predefined privileges cannot be removed or modified. You may assign additional OEM \(custom\) privileges. Following are the Redfish predefined roles that are available in Resource Aggregator for ODIM by default:
+
+    -   `Administrator` 
+
+    -   `Operator` 
+
+    -   `ReadOnly` 
+
+-   **User-defined roles** 
+
+    User-defined roles are the custom roles that you can create and assign to a user. The privileges of a user-defined role are configurable—you can choose a privilege or a set of privileges to assign to this role at the time of role creation.
+
+
+<blockquote>
+**NOTE:**
+
+-   Redfish predefined roles cannot be modified.
+
+-   Before assigning a user-defined role to a user at the time of user account creation, ensure that it is created first.
+</blockquote>
+
+**Privileges**
+
+A privilege is a permission to perform an operation or a set of operations within a defined management domain.
+
+The following Redfish-specified privileges can be assigned to any user in Resource Aggregator for ODIM:
+
+-    `ConfigureComponents` 
+ Users with this privilege can configure components managed by the Redfish services in Resource   Aggregator for ODIM.
+This privilege is required to create, update, and delete a resource or a collection of resources exposed by Redfish APIs using HTTP `POST, PATCH, DELETE` operations.
+
+ -    `ConfigureManager` 
+ Users with this privilege can configure manager resources.
+
+ -    `ConfigureComponents` 
+ Users with this privilege can configure components managed by the services.
+
+ -    `ConfigureSelf` 
+ Users with this privilege can change the password for their account.
+
+ -    `ConfigureUsers` 
+ Users with this privilege can configure users and their accounts. This privilege is assigned to an `Administrator`.
+This privilege is required to create, update, and delete user accounts using HTTP `POST, PATCH, DELETE` operations.
+
+ -    `Login` 
+ Users with this privilege can log in to the service and read the resources.
+This privilege is required to view any resource or a collection of resources exposed by Redfish APIs using HTTP `GET` operation.
+
+**Mapping of privileges to roles in Resource Aggregator for ODIM**
+
+|Roles|Assigned privileges|
+|-----|-------------------|
+|Administrator \(Redfish predefined\)| -   `Login` <br>-   `ConfigureManager` <br>-   `ConfigureUsers` <br>-    `ConfigureComponents` <br>-   `ConfigureSelf` <br>|
+|Operator \(Redfish predefined\)| -   `Login` <br>-   `ConfigureComponents` <br>-   `ConfigureSelf` <br>|
+|ReadOnly \(Redfish predefined\)| -   `Login` <br>-   `ConfigureSelf` <br>|
+
+
+>**NOTE:**
+Resource Aggregator for ODIM has a default user account that has all the privileges of an administrator role.
+
+
+
+
+#  Sessions
 
 A session represents a window of user's login with a Redfish service and contains details about the user and the user activity. You can run multiple sessions simultaneously.
 
@@ -563,26 +620,37 @@ Resource Aggregator for ODIM offers Redfish `SessionService` interface for creat
 -   Deleting a session
 
 
-
 **Supported APIs**
 
-|||
-|-------|--------------------|
-|/redfish/v1/SessionService|`GET`|
-|/redfish/v1/SessionService/Sessions|`POST`, `GET`|
-|redfish/v1/SessionService/Sessions/\{sessionId\}|`GET`, `DELETE`|
+|API URI|Operation Applicable|Required privileges|
+|-------|--------------------|-------------------|
+|/redfish/v1/SessionService|GET|`Login` |
+|/redfish/v1/SessionService/Sessions|POST, GET|`Login`,|
+|redfish/v1/SessionService/Sessions/\{sessionId\}|GET, DELETE|`Login`, `ConfigureManager`, `ConfigureSelf` |
+
+>**NOTE:**
+Before accessing these endpoints, ensure that the user has the required privileges. If you access these endpoints without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
 
 ## Viewing the session service root
 
+|||
+|---------|---------------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/SessionService` |
+|**Description** |This endpoint retrieves JSON schema representing the Redfish `SessionService` root.|
+|**Returns** |The properties for the Redfish `SessionService` itself and links to the actual list of sessions.|
+|**Response Code** |`200 OK` |
+|**Authentication** |No|
+
 ```
 curl -i GET \
               'https://{odimra_host}:{port}/redfish/v1/SessionService'
 
- ```
- 
- 
+```
+
+
 > Sample response body
 
 ```
@@ -604,21 +672,20 @@ curl -i GET \
 ```
 
 
-|||
-|---------|---------------|
-|**Method** | `GET` |
-|**URI** |`/redfish/v1/SessionService` |
-|**Description** |This endpoint retrieves JSON schema representing the Redfish `SessionService` root.|
-|**Returns** |The properties for the Redfish `SessionService` itself and links to the actual list of sessions.|
-|**Response Code** |`200 OK` |
-|**Authentication** |No|
-
-
-
 
 
 
 ##  Creating a session
+
+|||
+|---------|---------------|
+|**Method** | `POST` |
+|**URI** |`/redfish/v1/SessionService/Sessions` |
+|**Description** |This operation creates a session to implement authentication. Creating a session allows you to create an `X-AUTH-TOKEN` which is then used to authenticate with other services.<br>**NOTE:**<br>It is a good practice to note down the following:<br><ul><li>The session authentication token returned in the `X-AUTH-TOKEN` header.</li><li>The session Id returned in the `Location` header and the JSON response body.</li></ul><br> You will need the session authentication token to authenticate subsequent requests to the Redfish services and the session Id to log out later.|
+|**Returns** |<ul><li> An `X-AUTH-TOKEN` header containing session authentication token.</li><li>`Location` header that contains a link to the newly created session instance.</li><li>The session Id and a message in the JSON response body saying that the session is created.</li></ul> |
+|**Response Code** |`201 Created` |
+|**Authentication** |No|
+
 
 ```
 curl -i POST \
@@ -630,17 +697,7 @@ curl -i POST \
 }' \
  'https://{odimra_host}:{port}/redfish/v1/SessionService/Sessions'
 
- ```
-
-|||
-|---------|---------------|
-|**Method** | `POST` |
-|**URI** |`/redfish/v1/SessionService/Sessions` |
-|**Description** |This operation creates a session to implement authentication. Creating a session allows you to create an `X-AUTH-TOKEN` which is then used to authenticate with other services.<br>**NOTE:**<br>It is a good practice to note down the following:<br><ul><li>The session authentication token returned in the `X-AUTH-TOKEN` header.</li><li>The session Id returned in the `Location` header and the JSON response body.</li></ul><br> You will need the session authentication token to authenticate subsequent requests to the Redfish services and the session Id to log out later.|
-|**Returns** |<ul><li> An `X-AUTH-TOKEN` header containing session authentication token.</li><li>`Location` header that contains a link to the newly created session instance.</li><li>The session Id and a message in the JSON response body saying that the session is created.</li></ul> |
-|**Response Code** |`201 Created` |
-|**Authentication** |No|
-
+```
 
 
 > Sample request body
@@ -656,7 +713,7 @@ curl -i POST \
 
 
 
-###  Request URI parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -695,20 +752,12 @@ Transfer-Encoding:chunked
 	"Severity": "OK",
 	"UserName": "abc"
 }
- ```
+```
 
 
 
- 
+
 ## Listing sessions
-
-```
-curl -i GET \
-               -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
-              'https://{odimra_host}:{port}/redfish/v1/SessionService/Sessions'
-
-
-```
 
 |||
 |---------|---------------|
@@ -719,10 +768,26 @@ curl -i GET \
 |**Response Code** |`200 OK` |
 |**Authentication** |Yes|
 
+```
+curl -i GET \
+               -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+              'https://{odimra_host}:{port}/redfish/v1/SessionService/Sessions'
+
+
+```
 
 
 
 ## Viewing information about a single session
+
+|||
+|---------|---------------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/SessionService/Sessions/{sessionId}` |
+|**Description** |This operation retrieves information about a specific user session.<br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can view information about any user session.<br><br> Users with `ConfigureSelf` privilege can view information about only the sessions created by them.<br>|
+|**Returns** |JSON schema representing this session.|
+|**Response Code** |`200 OK` |
+|**Authentication** |Yes|
 
 
 ```
@@ -746,28 +811,8 @@ curl -i GET \
 ```
 
 
-|||
-|---------|---------------|
-|**Method** | `GET` |
-|**URI** |`/redfish/v1/SessionService/Sessions/{sessionId}` |
-|**Description** |This operation retrieves information about a specific user session.<br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can view information about any user session.<br><br> Users with `ConfigureSelf` privilege can view information about only the sessions created by them.<br>|
-|**Returns** |JSON schema representing this session.|
-|**Response Code** |`200 OK` |
-|**Authentication** |Yes|
-
- 
-
-
 
 ## Deleting a session
-
-
-```
-curl -i -X DELETE \
-               -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
-              'https://{odimra_host}:{port}/redfish/v1/SessionService/Sessions/{sessionId}'
-
- ```
 
 |||
 |---------|---------------|
@@ -776,6 +821,16 @@ curl -i -X DELETE \
 |**Description** |This operation terminates a specific Redfish session when the user logs out.<br>**NOTE:**<br> Users having the `ConfigureSelf` and `ConfigureComponents` privileges are allowed to delete only those sessions that they created.<br><br> Only a user with all the Redfish-defined privileges \(Redfish-defined `Administrator` role\) is authorized to delete any user session.<br> |
 |**Response Code** |`204 No Content` |
 |**Authentication** |Yes|
+
+
+```
+curl -i -X DELETE \
+               -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+              'https://{odimra_host}:{port}/redfish/v1/SessionService/Sessions/{sessionId}'
+
+```
+
+
 
  
 
@@ -788,356 +843,32 @@ curl -i -X DELETE \
 
 #  User roles and privileges
 
-Resource Aggregator for ODIM supports role-based authorization of requests—the roles and privileges control which users have what access to resources. If you perform an HTTP operation on a resource without necessary privileges, you will receive an HTTP `403 Forbidden` error.
-
-**Roles**
-
-A role represents a set of operations that a user is allowed to perform. It is determined by a defined set of privileges. Every user is assigned one role at the time of user account creation.
-
-With Resource Aggregator for ODIM, there are two kinds of defined roles:
-
--   **Redfish predefined roles** 
-
-      Redfish predefined roles come with a predefined set of privileges. These predefined privileges cannot be removed or modified. You may assign additional OEM \(custom\) privileges. Following are the Redfish predefined roles that are available in Resource Aggregator for ODIM by default:
-
-       -   `Administrator` 
-
-       -   `Operator` 
-
-       -   `ReadOnly` <br>
-	
-
-
--   **User-defined roles** 
-
-      User-defined roles are the custom roles that you can create and assign to a user. The privileges of a user-defined role are configurable - you can choose a privilege or a set of privileges to assign to this role at the time of role creation.
-      
-	  **Note:** Before assigning a user-defined role to a user at the time of user account creation, ensure that it is created first.
-	  
-	  
-<aside class="notice">
-Redfish predefined roles cannot be modified. 
-</aside>
-
-
-
-
-**Privileges**
-
-A privilege is a permission to perform an operation or a set of operations within a defined management domain.
-
-The following Redfish-specified privileges can be assigned to any user in Resource Aggregator for ODIM:
-
--   `ConfigureComponents`:
- 
-        Users with this privilege can configure components managed by the Redfish services in Resource Aggregator for ODIM.
-
-        This privilege is required to create, update, and delete a resource or a collection of resources exposed by Redfish APIs using HTTP `POST, PATCH, DELETE` operations.
-
--  `ConfigureManager`:
- 
-        Users with this privilege can configure manager resources.
-
--  `ConfigureComponents`:
- 
-        Users with this privilege can configure components managed by the services.
-
--  `ConfigureSelf`:
- 
-        Users with this privilege can change the password for their account.
-
--  `ConfigureUsers`:
- 
-        Users with this privilege can configure users and their accounts. This privilege is assigned to an `Administrator`.
-
-        This privilege is required to create, update, and delete user accounts using HTTP `POST, PATCH, DELETE` operations.
-
--  `Login`:
-
-        Users with this privilege can log in to the service and read the resources.
-
-        This privilege is required to view any resource or a collection of resources exposed by Redfish APIs using HTTP `GET` operation.
-
- 
- 
- 
-**Mapping of privileges to roles in Resource Aggregator for ODIM**
-
-|Roles|Assigned privileges|
-|-----|-------------------|
-|Administrator \(Redfish predefined\)| `Login` <br>   `ConfigureManager` <br>   `ConfigureUsers` <br>    `ConfigureComponents` <br>   `ConfigureSelf` <br>|
-|Operator \(Redfish predefined\)| `Login` <br>   `ConfigureComponents` <br>   `ConfigureSelf` <br>|
-|ReadOnly \(Redfish predefined\)| `Login` <br>   `ConfigureSelf` <br>|
-
-
-## Creating a role
-
-
-```
-curl -i POST \
-   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
-   -H "Content-Type:application/json" \
-   -d \
-'{ 
-   "RoleId":"CLIENT11",
-   "AssignedPrivileges":[ 
-      "Login",
-      "ConfigureUsers",
-      "ConfigureSelf"
-   ],
-   "OemPrivileges":null 
-}' \
- 'https://{odimra_host}:{port}/redfish/v1/AccountService/Roles'
-
-
-```
-
-|||
-|---------|---------------|
-|**Method** | `POST` |
-|**URI** |`/redfish/v1/AccountService/Roles` |
-|**Description** |This operation creates a role other than Redfish predefined roles. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can perform this operation.|
-|**Returns** |JSON schema representing the newly created role.|
-|**Response code** |`201 Created` |
-|**Authentication** |Yes|
-
- 
-
-
-
-> Sample request body
-
-```
-{ 
-   "RoleId":"CLIENT11",
-   "AssignedPrivileges":[ 
-      "Login",
-      "ConfigureUsers",
-      "ConfigureSelf"
-   ],
-   "OemPrivileges":null
-}
-```
-
-###  Request URI parameters
-
-|Parameter|Type|Description|
-|---------|----|-----------|
-|Id|String \(required, read-only\)<br> |Name for this role. <br>**NOTE:**<br> Id cannot be modified later.|
-|AssignedPrivileges|Array \(string \(enum\)\) \(required\)<br> |The Redfish privileges that this role includes. Possible values are:<br>  `ConfigureManager` <br>   `ConfigureSelf` <br>   `ConfigureUsers` <br>   `Login` <br>   `ConfigureComponents` <br>|
-|OemPrivileges|Array \(string\) \(required\)<br> |The OEM privileges that this role includes. If you do not want to specify any OEM privileges, use `null` or `[]` as value.|
-
-
-> Sample response body
-
-```
-{
-   "@odata.type":"#Role.v1_2_4.Role",
-   "@odata.id":"/redfish/v1/AccountService/Roles/CLIENT11",
-   "Id":"CLIENT11",
-   "Name":"User Role",
-   "Message":"The resource has been created successfully.",
-   "MessageId":"ResourceEvent.1.0.2.ResourceCreated",
-   "Severity":"OK",
-   "IsPredefined":false,
-   "AssignedPrivileges":[
-      "Login",
-      "ConfigureUsers",
-      "ConfigureSelf"
-   ],
-   "OemPrivileges":null
-}
-```
-
-## Listing roles
-
-```
-curl -i GET \
-   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
- 'https://{odimra_host}:{port}/redfish/v1/AccountService/Roles'
-
-```
-> Sample response body
-
-```
-{ 
-   "@odata.type":"#RoleCollection.RoleCollection",
-   "@odata.id":"/redfish/v1/AccountService/Roles",
-   "Name":"Roles Collection",
-   "Members@odata.count":5,
-   "Members":[ 
-      { 
-         "@odata.id":"/redfish/v1/AccountService/Roles/Administrator"
-      },
-      { 
-         "@odata.id":"/redfish/v1/AccountService/Roles/Operator"
-      },
-      { 
-         "@odata.id":"/redfish/v1/AccountService/Roles/ReadOnly"
-      },
-      { 
-         "@odata.id":"/redfish/v1/AccountService/Roles/CLIENT13"
-      },
-      { 
-         "@odata.id":"/redfish/v1/AccountService/Roles/CLIENT11"
-      }
-      
-   ]
-}
-```
-
-
-|||
-|---------|---------------|
-|**Method** | `GET` |
-|**URI** |`/redfish/v1/AccountService/Roles` |
-|**Description** |This operation lists available user roles. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can perform this operation.|
-|**Returns** |Links to user role resources.|
-|**Response Code** | `200 OK` |
-|**Authentication** |Yes|
-
- 
-
-
-## Viewing information about a role
-
-```
-curl -i GET \
-   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
- 'https://{odimra_host}:{port}/redfish/v1/AccountService/Roles/{RoleId}'
-
-
- ```
- 
- > Sample response body
-
-```
-{
-   "@odata.type":"#Role.v1_2_4.Role",
-   "@odata.id":"/redfish/v1/AccountService/Roles/CLIENT11",
-   "Id":"CLIENT11",
-   "Name":"User Role",
-   "IsPredefined":false,
-   "AssignedPrivileges":[
-      "Login",
-      "ConfigureUsers",
-      "ConfigureSelf"
-   ],
-   "OemPrivileges":null
-}
-```
-
-
-|||
-|---------|---------------|
-|**Method** | `GET` |
-|**URI** |`/redfish/v1/AccountService/Roles/{RoleId}` |
-|**Description** |This operation fetches information about a specific user role. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can perform this operation.|
-|**Returns** |JSON schema representing this role. The schema has the details such as - Id, name, description, assigned privileges, OEM privileges.|
-|**Response Code** | `200 OK` |
-|**Authentication** |Yes|
-
-
-## Updating a role
-
-```
- curl -i -X PATCH \
-   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
-   -H "Content-Type:application/json" \
-   -d \
-'{
-  "AssignedPrivileges": [{Set_Of_Privileges_to_update}],
-  "OemPrivileges": []
-}' \
- 'https://{odimra_host}:{port}/redfish/v1/AccountService/Roles/{RoleId}'
-
-
-```
-
-> Sample request body
-
-```
-{ 
-   "AssignedPrivileges":[ 
-      "Login",
-      "ConfigureManager",
-      "ConfigureUsers"
-   ],
-   "OemPrivileges": []
-}
-```
-
-> Sample response body
-
-```
-{
-   "RoleId":"CLIENT11",
-   "IsPredefined":false,
-   "AssignedPrivileges":[
-      "Login",
-      "ConfigureManager",
-      "ConfigureUsers"
-   ],
-   "OemPrivileges":null
-}
-```
-
-|||
-|---------|---------------|
-|**Method** | `PATCH` |
-|**URI** |`/redfish/v1/AccountService/Roles/{RoleId}` |
-|**Description** |This operation updates privileges of a specific user role - assigned privileges \(Redfish predefined\) and OEM privileges. Id of a role cannot be modified.<br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can perform this operation.|
-|**Returns** |JSON schema representing the updated role.|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
-
-
-## Deleting a role
-
-```
-curl -i -X DELETE \
-   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
- 'https://{odimra_host}:{port}/redfish/v1/AccountService/Roles/{RoleId}'
-
-```
-
-
-|||
-|---------|---------------|
-|**Method** | `DELETE` |
-|**URI** |`/redfish/v1/AccountService/Roles/{RoleId}` |
-|**Description** |This operation deletes a specific user role. If you attempt to delete a role that is already assigned to a user account, you will receive an HTTP `403 Forbidden` error.<br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can perform this operation.|
-|**Response Code** |`204 No Content` |
-|**Authentication** |Yes|
-
-
-#  User accounts
-
-Resource Aggregator for ODIM allows users to have accounts to configure their actions and restrictions.
-
-Resource Aggregator for ODIM has an administrator user account by default.
-
-Create other user accounts by defining a username, a password, and a role for each account. The username and the password are used to authenticate with the Redfish services \(using `BasicAuth` or `XAuthToken`\).
-
-Resource Aggregator for ODIM exposes Redfish `AccountsService` APIs to create and manage user accounts. Use these endpoints to perform the following operations:
-
--   Creating, modifying, and deleting account details.
-
--   Fetching account details.
-
+Resource Aggregator for ODIM allows you to create and manage user roles through Redfish APIs.
 
 **Supported APIs**:
 
-|||
-|-------|--------------------|
-|/redfish/v1/AccountService|`GET`|
-|/redfish/v1/AccountService/Accounts|`POST`, `GET`|
-|/redfish/v1/AccountService/Accounts/\{accountId\}|`GET`, `DELETE`, `PATCH`|
+|API URI|Operation Applicable|Required privileges|
+|-------|--------------------|-------------------|
+|/redfish/v1/AccountService|GET|`Login` |
+|/redfish/v1/AccountService/Roles|GET, POST|`Login`, `ConfigureManager` |
+|/redfish/v1/AccountService/Roles/\{RoleId\}|GET, PATCH, DELETE|`Login`, `ConfigureManager` |
 
 
+>**NOTE:**
+Before accessing these endpoints, ensure that the user has the required privileges. If you access these endpoints without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
 ## Viewing the account service root
+
+|||
+|---------|---------------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/AccountService` |
+|**Description** |This endpoint fetches JSON schema representing the Redfish `AccountService` root.|
+|**Returns** |The properties common to all user accounts and links to the collections of manager accounts and roles.|
+|**Response Code** | `200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -1191,27 +922,303 @@ Transfer-Encoding:chunked
 ```
 
 
+
+## Creating a role
+
+|||
+|---------|---------------|
+|**Method** | `POST` |
+|**URI** |`/redfish/v1/AccountService/Roles` |
+|**Description** |This operation creates a role other than Redfish predefined roles. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can perform this operation.|
+|**Returns** |JSON schema representing the newly created role.|
+|**Response code** |`201 Created` |
+|**Authentication** |Yes|
+
+
+```
+curl -i POST \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+   -H "Content-Type:application/json" \
+   -d \
+'{ 
+   "RoleId":"CLIENT11",
+   "AssignedPrivileges":[ 
+      "Login",
+      "ConfigureUsers",
+      "ConfigureSelf"
+   ],
+   "OemPrivileges":null 
+}' \
+ 'https://{odimra_host}:{port}/redfish/v1/AccountService/Roles'
+
+
+```
+
+
+
+> Sample request body
+
+```
+{ 
+   "RoleId":"CLIENT11",
+   "AssignedPrivileges":[ 
+      "Login",
+      "ConfigureUsers",
+      "ConfigureSelf"
+   ],
+   "OemPrivileges":null
+}
+```
+
+**Request parameters**
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|Id|String \(required, read-only\)<br> |Name for this role. <br>**NOTE:**<br> Id cannot be modified later.|
+|AssignedPrivileges|Array \(string \(enum\)\) \(required\)<br> |The Redfish privileges that this role includes. Possible values are:<br>  `ConfigureManager` <br>   `ConfigureSelf` <br>   `ConfigureUsers` <br>   `Login` <br>   `ConfigureComponents` <br>|
+|OemPrivileges|Array \(string\) \(required\)<br> |The OEM privileges that this role includes. If you do not want to specify any OEM privileges, use `null` or `[]` as value.|
+
+
+> Sample response body
+
+```
+{
+   "@odata.type":"#Role.v1_2_4.Role",
+   "@odata.id":"/redfish/v1/AccountService/Roles/CLIENT11",
+   "Id":"CLIENT11",
+   "Name":"User Role",
+   "Message":"The resource has been created successfully.",
+   "MessageId":"ResourceEvent.1.0.2.ResourceCreated",
+   "Severity":"OK",
+   "IsPredefined":false,
+   "AssignedPrivileges":[
+      "Login",
+      "ConfigureUsers",
+      "ConfigureSelf"
+   ],
+   "OemPrivileges":null
+}
+```
+
+## Listing roles
+
 |||
 |---------|---------------|
 |**Method** | `GET` |
-|**URI** |`/redfish/v1/AccountService` |
-|**Description** |This endpoint fetches JSON schema representing the Redfish `AccountService` root.|
-|**Returns** |The properties common to all user accounts and links to the collections of manager accounts and roles.|
+|**URI** |`/redfish/v1/AccountService/Roles` |
+|**Description** |This operation lists available user roles. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can perform this operation.|
+|**Returns** |Links to user role resources.|
 |**Response Code** | `200 OK` |
 |**Authentication** |Yes|
 
- 
+
+```
+curl -i GET \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+ 'https://{odimra_host}:{port}/redfish/v1/AccountService/Roles'
+
+```
+
+
+> Sample response body
+
+```
+{ 
+   "@odata.type":"#RoleCollection.RoleCollection",
+   "@odata.id":"/redfish/v1/AccountService/Roles",
+   "Name":"Roles Collection",
+   "Members@odata.count":5,
+   "Members":[ 
+      { 
+         "@odata.id":"/redfish/v1/AccountService/Roles/Administrator"
+      },
+      { 
+         "@odata.id":"/redfish/v1/AccountService/Roles/Operator"
+      },
+      { 
+         "@odata.id":"/redfish/v1/AccountService/Roles/ReadOnly"
+      },
+      { 
+         "@odata.id":"/redfish/v1/AccountService/Roles/CLIENT13"
+      },
+      { 
+         "@odata.id":"/redfish/v1/AccountService/Roles/CLIENT11"
+      }
+      
+   ]
+}
+```
 
 
 
 
 
+
+
+## Viewing information about a role
+
+
+|||
+|---------|---------------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/AccountService/Roles/{RoleId}` |
+|**Description** |This operation fetches information about a specific user role. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can perform this operation.|
+|**Returns** |JSON schema representing this role. The schema has the details such as - Id, name, description, assigned privileges, OEM privileges.|
+|**Response Code** | `200 OK` |
+|**Authentication** |Yes|
+
+
+```
+curl -i GET \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+ 'https://{odimra_host}:{port}/redfish/v1/AccountService/Roles/{RoleId}'
+
+
+```
+
+ > Sample response body
+
+```
+{
+   "@odata.type":"#Role.v1_2_4.Role",
+   "@odata.id":"/redfish/v1/AccountService/Roles/CLIENT11",
+   "Id":"CLIENT11",
+   "Name":"User Role",
+   "IsPredefined":false,
+   "AssignedPrivileges":[
+      "Login",
+      "ConfigureUsers",
+      "ConfigureSelf"
+   ],
+   "OemPrivileges":null
+}
+```
+
+
+
+
+
+## Updating a role
+
+|||
+|---------|---------------|
+|**Method** | `PATCH` |
+|**URI** |`/redfish/v1/AccountService/Roles/{RoleId}` |
+|**Description** |This operation updates privileges of a specific user role - assigned privileges \(Redfish predefined\) and OEM privileges. Id of a role cannot be modified.<br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can perform this operation.|
+|**Returns** |JSON schema representing the updated role.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
+
+```
+ curl -i -X PATCH \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+   -H "Content-Type:application/json" \
+   -d \
+'{
+  "AssignedPrivileges": [{Set_Of_Privileges_to_update}],
+  "OemPrivileges": []
+}' \
+ 'https://{odimra_host}:{port}/redfish/v1/AccountService/Roles/{RoleId}'
+
+```
+
+
+> Sample request body
+
+```
+{ 
+   "AssignedPrivileges":[ 
+      "Login",
+      "ConfigureManager",
+      "ConfigureUsers"
+   ],
+   "OemPrivileges": []
+}
+```
+
+> Sample response body
+
+```
+{
+   "RoleId":"CLIENT11",
+   "IsPredefined":false,
+   "AssignedPrivileges":[
+      "Login",
+      "ConfigureManager",
+      "ConfigureUsers"
+   ],
+   "OemPrivileges":null
+}
+```
+
+
+
+
+## Deleting a role
+
+|||
+|---------|---------------|
+|**Method** | `DELETE` |
+|**URI** |`/redfish/v1/AccountService/Roles/{RoleId}` |
+|**Description** |This operation deletes a specific user role. If you attempt to delete a role that is already assigned to a user account, you will receive an HTTP `403 Forbidden` error.<br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can perform this operation.|
+|**Response Code** |`204 No Content` |
+|**Authentication** |Yes|
+
+
+```
+curl -i -X DELETE \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+ 'https://{odimra_host}:{port}/redfish/v1/AccountService/Roles/{RoleId}'
+
+```
+
+
+
+
+
+#  User accounts
+
+Resource Aggregator for ODIM allows users to have accounts to configure their actions and restrictions.
+
+Resource Aggregator for ODIM has an administrator user account by default.
+
+Create other user accounts by defining a username, a password, and a role for each account. The username and the password are used to authenticate with the Redfish services \(using `BasicAuth` or `XAuthToken`\).
+
+Resource Aggregator for ODIM exposes Redfish `AccountsService` APIs to create and manage user accounts. Use these endpoints to perform the following operations:
+
+-   Creating, modifying, and deleting account details.
+
+-   Fetching account details.
+
+
+**Supported APIs**:
+
+|API URI|Operation Applicable|Required privileges|
+|-------|--------------------|-------------------|
+|/redfish/v1/AccountService|GET|`Login` |
+|/redfish/v1/AccountService/Accounts|POST, GET|`Login`, `ConfigureUsers` |
+|/redfish/v1/AccountService/Accounts/\{accountId\}|GET, DELETE, PATCH|`Login`, `ConfigureUsers`, `ConfigureSelf` |
+
+
+>**NOTE:**
+Before accessing these endpoints, ensure that the user has the required privileges. If you access these endpoints without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
 
 
 
 ## Creating a user account
+
+|||
+|-------|--------------------|
+|**Method** | `POST` |
+|**URI** |`/redfish/v1/AccountService/Accounts` |
+|**Description** |This operation creates a user account. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can create other user account.|
+|**Returns** |<ul><li>`Location` header that contains a link to the newly created account.</li><li>JSON schema representing the newly created account.</li></ul> |
+|**Response Code** |`201 Created` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i POST \
@@ -1226,20 +1233,6 @@ curl -i POST \
 ```
 
 
-|||
-|-------|--------------------|
-|**Method** | `POST` |
-|**URI** |`/redfish/v1/AccountService/Accounts` |
-|**Description** |This operation creates a user account. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can create other user account.|
-|**Returns** |<ul><li>`Location` header that contains a link to the newly created account.</li><li>JSON schema representing the newly created account.</li></ul> |
-|**Response Code** |`201 Created` |
-|**Authentication** |Yes|
-
- 
-
-
-
-
 
 > Sample request body
 
@@ -1251,7 +1244,7 @@ curl -i POST \
 }
 ```
 
-###  Request URI parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -1310,16 +1303,6 @@ Transfer-Encoding:chunked
 
 ##  Listing user accounts
 
-
-```
-curl -i GET \
-   -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odimra_host}:{port}/redfish/v1/AccountService/Accounts'
-
-
-```
-
-
 |||
 |---------|---------------|
 |**Method** | `GET` |
@@ -1330,7 +1313,29 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
+```
+curl -i GET \
+   -H "X-Auth-Token:{X-Auth-Token}" \
+ 'https://{odimra_host}:{port}/redfish/v1/AccountService/Accounts'
+
+
+```
+
+
+
+
+
 ##  Viewing the account details
+
+|||
+|---------|---------------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/AccountService/Accounts/{accountId}` |
+|**Description** |This operation fetches information about a specific user account. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can view information about a user account.|
+|**Returns** |JSON schema representing this user account.|
+|**Response Code** |`200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -1364,24 +1369,18 @@ curl -i GET \
 ```
 
 
+
+## Updating a user account
+
 |||
 |---------|---------------|
-|**Method** | `GET` |
+|**Method** | `PATCH` |
 |**URI** |`/redfish/v1/AccountService/Accounts/{accountId}` |
-|**Description** |This operation fetches information about a specific user account. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can view information about a user account.|
-|**Returns** |JSON schema representing this user account.|
+|**Description** |This operation updates user account details \(`username`, `password`, and `RoleId`\). To modify account details, add them in the request payload \(as shown in the sample request body\) and perform `PATCH` on the mentioned URI. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can modify other user accounts. Users with `ConfigureSelf` privilege can modify only their own accounts.|
+|**Returns** |<ul><li>`Location` header that contains a link to the updated account.</li><li>JSON schema representing the modified account.</li></ul>|
 |**Response Code** |`200 OK` |
 |**Authentication** |Yes|
 
- 
-
-
-
-
-
-
-
-## Updating a user account
 
 ```
 curl -i -X PATCH \
@@ -1396,20 +1395,6 @@ curl -i -X PATCH \
  'https://{odimra_host}:{port}/redfish/v1/AccountService/Accounts/{accountId}'
 
 ```
-
-
-|||
-|---------|---------------|
-|**Method** | `PATCH` |
-|**URI** |`/redfish/v1/AccountService/Accounts/{accountId}` |
-|**Description** |This operation updates user account details \(`username`, `password`, and `RoleId`\). To modify account details, add them in the request payload \(as shown in the sample request body\) and perform `PATCH` on the mentioned URI. <br>**NOTE:**<br> Only a user with `ConfigureUsers` privilege can modify other user accounts. Users with `ConfigureSelf` privilege can modify only their own accounts.|
-|**Returns** |<ul><li>`Location` header that contains a link to the updated account.</li><li>JSON schema representing the modified account.</li></ul>|
-|**Response Code** |`200 OK` |
-|**Authentication** |Yes|
-
- 
-
-
 
 
 > Sample request body
@@ -1464,14 +1449,6 @@ Transfer-Encoding:chunked
 
 ## Deleting a user account
 
-```
-curl  -i -X DELETE \
-   -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odimra_host}:{port}/redfish/v1/AccountService/Accounts/{accountId}'
-
-```
-
-
 |||
 |---------|---------------|
 |**Method** | `DELETE` |
@@ -1481,7 +1458,18 @@ curl  -i -X DELETE \
 |**Authentication** |Yes|
 
 
-# Resource aggregation and management
+```
+curl  -i -X DELETE \
+   -H "X-Auth-Token:{X-Auth-Token}" \
+ 'https://{odimra_host}:{port}/redfish/v1/AccountService/Accounts/{accountId}'
+
+```
+
+
+
+
+
+#  Resource aggregation and management
 
 The resource aggregator allows users to add and group southbound infrastructure into collections for easy management. It exposes Redfish aggregation service endpoints to achieve the following:
 
@@ -1498,25 +1486,24 @@ Using these endpoints, you can add or remove only one resource at a time. You ca
 
 All aggregation actions are performed as [tasks](#) in Resource Aggregator for ODIM. The actions performed on a group of resources \(resetting or changing the boot order to default settings\) are carried out as a set of subtasks.
 
-## Note:
-
-To perform Redfish aggregation service actions, you require `ConfigureComponents` privilege. If you access these endpoints without necessary privileges, you will receive an HTTP `403` error.
-
 **Supported endpoints**
 
-|API URI|Operation Applicable|
-|-------|--------------------|
-|/redfish/v1/AggregationService|GET|
-| /redfish/v1/AggregationService/AggregationSources<br> |GET, POST|
-|/redfish/v1/AggregationService/AggregationSources/\{aggregationSourceId\}|GET, PATCH, DELETE|
-|/redfish/v1/AggregationService/Actions/AggregationService.Reset|POST|
-|/redfish/v1/AggregationService/Actions/AggregationService.SetDefaultBootOrder|POST|
-|/redfish/v1/AggregationService/Aggregates|GET, POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}|GET, DELETE|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.AddElements|POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.Reset|POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.SetDefaultBootOrder|POST|
-|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.RemoveElements|POST|
+|API URI|Operation Applicable|Required privileges|
+|-------|--------------------|-------------------|
+|/redfish/v1/AggregationService|GET|`Login` |
+| /redfish/v1/AggregationService/AggregationSources<br> |GET, POST|`Login`, `ConfigureManager` |
+|/redfish/v1/AggregationService/AggregationSources/\{aggregationSourceId\}|GET, PATCH, DELETE|`Login`, `ConfigureManager` |
+|/redfish/v1/AggregationService/Actions/AggregationService.Reset|POST|`ConfigureManager`, `ConfigureComponents` |
+|/redfish/v1/AggregationService/Actions/AggregationService.SetDefaultBootOrder|POST|`ConfigureManager`, `ConfigureComponents` |
+|/redfish/v1/AggregationService/Aggregates|GET, POST|`Login`, `ConfigureComponents`, `ConfigureManager` |
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}|GET, DELETE|`Login`, `ConfigureComponents`, `ConfigureManager` |
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.AddElements|POST|`ConfigureComponents`, `ConfigureManager` |
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.Reset|POST|`ConfigureComponents`, `ConfigureManager` |
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.SetDefaultBootOrder|POST|`ConfigureComponents`, `ConfigureManager` |
+|/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.RemoveElements|POST|`ConfigureComponents`, `ConfigureManager` |
+
+>**Note:**
+Before accessing these endpoints, ensure that the user has the required privileges. If you access these endpoints without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
 
@@ -1594,9 +1581,9 @@ Transfer-Encoding":chunked
 ```
 
 
- 
 
- 
+
+
 
 ##  Adding a plugin as an aggregation source
 
@@ -1819,7 +1806,7 @@ curl -i -X POST \
 |UserName|String \(required\)<br> |The username of the BMC administrator account.|
 |Password|String \(required\)<br> |The password of the BMC administrator account.|
 |Links \{|Object \(required\)<br> |Links to other resources that are related to this resource.|
-|Oem\{ PluginID \} \} |String \(required\)<br> |The plugin Id of the plugin.<br> NOTE: Before specifying the plugin Id, ensure that the installed plugin is added in the resource inventory. To know how to add a plugin, see [Adding a Plugin](GUID-4E64426F-559C-430A-AE60-61409DFB4131.md).| 
+|Oem\{ PluginID \} \} |String \(required\)<br> |The plugin Id of the plugin.<br> NOTE: Before specifying the plugin Id, ensure that the installed plugin is added in the resource inventory. To know how to add a plugin, see [Adding a Plugin](GUID-4E64426F-559C-430A-AE60-61409DFB4131.md).|
 
 > Sample response header \(HTTP 202 status\)
 
@@ -1988,10 +1975,10 @@ curl -i PATCH \
    -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
    -H "Content-Type:application/json" \
    -d \
-'{​
+'{
 
-  "HostName": "10.24.0.6",​
-  "UserName": "admin"​,
+  "HostName": "10.24.0.6",
+  "UserName": "admin",
   "Password": "admin1234"
 
 }' \
@@ -2003,10 +1990,10 @@ curl -i PATCH \
 > Sample request body
 
 ```
-{​
+{
 
-  "HostName": "10.24.0.4",​
-  "UserName": "admin",​
+  "HostName": "10.24.0.4",
+  "UserName": "admin",
   "Password": "admin1234"
 
 }
@@ -2986,46 +2973,55 @@ curl -i POST \
 
 #  Resource inventory
 
-Resource Aggregator for ODIM allows you to view the inventory of compute and local storage resources through Redfish `Systems` and `Chassis` endpoints. It also offers the capability to search inventory information based on one or more configuration parameters and exposes APIs to manage the added resources.
+Resource Aggregator for ODIM allows you to view the inventory of compute and local storage resources through Redfish `Systems`, `Chassis`, and `Managers` endpoints. It also offers the capability to search inventory information based on one or more configuration parameters and exposes APIs to manage the added resources.
 
 To discover crucial configuration information about a resource, including chassis, perform `GET` on these endpoints.
 
-
-<aside class="notice">
-To access Redfish `Systems` and `Chassis` endpoints, ensure that you have a minimum privilege of `Login`. If you do not have the necessary privileges, you will receive an HTTP `403 Forbidden` error.
-</aside>
-
-
 **Supported endpoints**
 
-|||
-|-------|--------------------|
-|/redfish/v1/Systems|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}|`GET`, `PATCH`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Memory|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Memory/\{memoryId\}|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/MemoryDomains|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/NetworkInterfaces|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/EthernetInterfaces|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/EthernetInterfaces/\{Id\}|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Bios|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/SecureBoot|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Storage|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes|`GET` , `POST`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes/\{volumeId\}|`GET`, `DELETE`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Processors|`GET`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Processors/\{Id\}|`GET`|
-|/redfish/v1/Systems?$filter=\{searchKeys\}%20\{conditionKeys\}%20\{value\}|`GET`|
-| /redfish/v1/Systems/\{ComputerSystemId\}/Bios/Settings<br> |`GET`, `PATCH`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Actions/ComputerSystem.Reset|`POST`|
-|/redfish/v1/Systems/\{ComputerSystemId\}/Actions/ComputerSystem.SetDefaultBootOrder|`POST`|
+|API URI|Operation Applicable|Required privileges|
+|-------|--------------------|-------------------|
+|/redfish/v1/Systems|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}|GET, PATCH|`Login`, `ConfigureComponents` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Memory|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Memory/\{memoryId\}|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/MemoryDomains|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/NetworkInterfaces|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/EthernetInterfaces|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/EthernetInterfaces/\{Id\}|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Bios|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/SecureBoot|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Storage|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Drives/\{driveId\}|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes|GET, POST|`Login`, `ConfigureComponents` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Volumes/\{volumeId\}|GET, DELETE|`Login`, `ConfigureComponents` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Processors|GET|`Login` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Processors/\{Id\}|GET|`Login` |
+|/redfish/v1/Systems?$filter=\{searchKeys\}%20\{conditionKeys\}%20\{value\}|GET|`Login` |
+| /redfish/v1/Systems/\{ComputerSystemId\}/Bios/Settings<br> |GET, PATCH|`Login`, `ConfigureComponents` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Actions/ComputerSystem.Reset|POST|`ConfigureComponents` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Actions/ComputerSystem.SetDefaultBootOrder|POST|`ConfigureComponents` |
 
-|||
-|-------|--------------------|
-|/redfish/v1/Chassis|`GET`|
-|/redfish/v1/Chassis/\{chassisId\}|`GET`|
-|/redfish/v1/Chassis/\{chassisId\}/Thermal|`GET`|
-|/redfish/v1/Chassis/\{chassisId\}/NetworkAdapters|`GET`|
+|API URI|Operation Applicable|Required privileges|
+|-------|--------------------|-------------------|
+|/redfish/v1/Chassis|GET|`Login` |
+|/redfish/v1/Chassis/\{chassisId\}|GET|`Login` |
+|/redfish/v1/Chassis/\{chassisId\}/Thermal|GET|`Login` |
+|/redfish/v1/Chassis/\{chassisId\}/NetworkAdapters|GET|`Login` |
+
+|API URI|Operation Applicable|Required privileges|
+|-------|--------------------|-------------------|
+|/redfish/v1/Managers|GET|`Login` |
+|/redfish/v1/Managers/\{managerId\}|GET|`Login` |
+|/redfish/v1/Managers/\{managerId\}/EthernetInterfaces|GET|`Login` |
+|/redfish/v1/Managers/\{managerId\}/HostInterfaces|GET|`Login` |
+|/redfish/v1/Managers/\{managerId\}/LogServices|GET|`Login` |
+|/redfish/v1/Managers/\{managerId\}/NetworkProtocol|GET|`Login` |
+
+
+>**NOTE:**
+To view system, chassis, and manager resources, ensure that you have a minimum privilege of `Login`. If you do not have the necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
 
@@ -3034,6 +3030,15 @@ To access Redfish `Systems` and `Chassis` endpoints, ensure that you have a mini
 
 
 ##  Collection of computer systems
+
+|||
+|---------|-------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Systems` |
+|**Description** |This operation lists all systems available with Resource Aggregator for ODIM.|
+|**Returns** |A collection of links to computer system instances.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
 
 ```
 curl -i GET \
@@ -3065,19 +3070,22 @@ curl -i GET \
 ```
 
 
-|||
-|---------|-------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Systems` |
-|**Description** |This operation lists all systems available with Resource Aggregator for ODIM.|
-|**Returns** |A collection of links to computer system instances.|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
+
 
 
 
 
 ## Single computer system
+
+|||
+|---------|-------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/Systems/{ComputerSystemId}` |
+|**Description** |This endpoint fetches information about a specific system.|
+|**Returns** |JSON schema representing this computer system instance.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -3401,29 +3409,13 @@ curl -i GET \
 
 
 
-|||
-|---------|-------|
-|**Method** | `GET` |
-|**URI** |`/redfish/v1/Systems/{ComputerSystemId}` |
-|**Description** |This endpoint fetches information about a specific system.|
-|**Returns** |JSON schema representing this computer system instance.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
  
 
 
 
 ##  Memory collection
-
-
-```
-curl -i GET \
-         -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Memory'
-
-
-```
 
 |||
 |---------|-------|
@@ -3435,8 +3427,30 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
+```
+curl -i GET \
+         -H "X-Auth-Token:{X-Auth-Token}" \
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Memory'
+
+
+```
+
+
+
+
 
 ## Single memory
+
+
+|||
+|---------|-------|
+|**Method** |GET|
+|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/Memory/{memoryId}` |
+|**Description** |This endpoint retrieves configuration information of specific memory.|
+|**Returns** |JSON schema representing this memory resource.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -3502,33 +3516,15 @@ curl -i GET \
 
 
 
-|||
-|---------|-------|
-|**Method** |GET|
-|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/Memory/{memoryId}` |
-|**Description** |This endpoint retrieves configuration information of specific memory.|
-|**Returns** |JSON schema representing this memory resource.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
  
 
 
 
 
-
-
-
-
 ##  Memory domains
 
-```
-curl -i GET \
-         -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/MemoryDomains'
-
-
-```
 |||
 |-------|-------|
 |**Method** |`GET` |
@@ -3538,18 +3534,18 @@ curl -i GET \
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
-
-
-##  BIOS
-
 ```
 curl -i GET \
          -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Bios'
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/MemoryDomains'
 
 
 ```
 
+
+
+
+##  BIOS
 
 |||
 |---------|-------|
@@ -3561,16 +3557,19 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
-## Network interfaces
-
 ```
 curl -i GET \
          -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/NetworkInterfaces'
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Bios'
 
 
 ```
 
+
+
+
+
+## Network interfaces
 
 |||
 |--------|---------|
@@ -3582,17 +3581,20 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
-
-##  Ethernet interfaces
-
-
 ```
 curl -i GET \
-             -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/EthernetInterfaces'
+         -H "X-Auth-Token:{X-Auth-Token}" \
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/NetworkInterfaces'
 
 
 ```
+
+
+
+
+
+
+##  Ethernet interfaces
 
 |||
 |---------|-------|
@@ -3604,7 +3606,27 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
+```
+curl -i GET \
+             -H "X-Auth-Token:{X-Auth-Token}" \
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/EthernetInterfaces'
+
+
+```
+
+
+
+
 ## Single Ethernet interface
+
+|||
+|-----------|----------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/ EthernetInterfaces/{ethernetInterfaceId}` |
+|**Description** |This endpoint retrieves information on a single, logical Ethernet interface or network interface controller \(NIC\).|
+|**Returns** |JSON schema representing this Ethernet interface.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
 
 
 ```
@@ -3648,29 +3670,13 @@ curl -i GET \
 
 
 
-|||
-|-----------|----------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/ EthernetInterfaces/{ethernetInterfaceId}` |
-|**Description** |This endpoint retrieves information on a single, logical Ethernet interface or network interface controller \(NIC\).|
-|**Returns** |JSON schema representing this Ethernet interface.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
 
 
 
 
 ##  Storage
-
-```
-curl -i GET \
-         -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Storage'
-
-
-```
-
 
 |||
 |---------|-------|
@@ -3682,16 +3688,19 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
-##  Storage subsystem
-
-
 ```
 curl -i GET \
          -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}'
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Storage'
 
 
 ```
+
+
+
+
+
+##  Storage subsystem
 
 |||
 |---------|-------|
@@ -3703,17 +3712,20 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
-
-
-##  Storage drive
-
 ```
 curl -i GET \
          -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Drives/{driveId}'
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}'
 
 
 ```
+
+
+
+
+
+
+##  Storage drive
 
 |||
 |---------|-------|
@@ -3725,19 +3737,30 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
+```
+curl -i GET \
+         -H "X-Auth-Token:{X-Auth-Token}" \
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Drives/{driveId}'
+
+
+```
+
+
+
+
 ## Volumes
 
 
 
 ### A collection of volumes
 
-| | | 
+| | |
 |----------|-----------|
 |<strong>Method</strong> |`GET` |
 |<strong>URI</strong>  |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes` |
 |<strong>Description</strong>  |This endpoint retrieves a collection of volumes in a specific storage subsystem.|
 |<strong>Returns</strong> |A list of links to volumes.|
-|<strong>Response Code</strong> |On success, `200 OK` |
+|<strong>Response code</strong> |On success, `200 OK` |
 |<strong>Authentication</strong> |Yes|
 
  
@@ -3756,18 +3779,18 @@ curl -i GET \
 
 ```
 {
-   ​   "@odata.context":"/redfish/v1/$metadata#VolumeCollection.VolumeCollection",
-   ​   "@odata.etag":"W/\"AA6D42B0\"",
-   ​   "@odata.id":"/redfish/v1/Systems/eb452cf4-306c-4b21-96fb-698a067da407:1/Storage/ArrayControllers-0/Volumes",
-   ​   "@odata.type":"#VolumeCollection.VolumeCollection",
-   ​   "Description":"Volume Collection view",
-   ​   "Members":​[
-      ​      {
-         ​         "@odata.id":"/redfish/v1/Systems/eb452cf4-306c-4b21-96fb-698a067da407:1/Storage/ArrayControllers-0/Volumes/1"         ​
-      }      ​
+      "@odata.context":"/redfish/v1/$metadata#VolumeCollection.VolumeCollection",
+      "@odata.etag":"W/\"AA6D42B0\"",
+      "@odata.id":"/redfish/v1/Systems/eb452cf4-306c-4b21-96fb-698a067da407:1/Storage/ArrayControllers-0/Volumes",
+      "@odata.type":"#VolumeCollection.VolumeCollection",
+      "Description":"Volume Collection view",
+      "Members":[
+            {
+                  "@odata.id":"/redfish/v1/Systems/eb452cf4-306c-4b21-96fb-698a067da407:1/Storage/ArrayControllers-0/Volumes/1"         
+      }      
    ],
-   ​   "Members@odata.count":1,
-   ​   "Name":"Volume Collection"   ​
+      "Members@odata.count":1,
+      "Name":"Volume Collection"   
 }
 ```
 
@@ -3776,13 +3799,13 @@ curl -i GET \
 ### Single volume
 
 
-| | | 
+| | |
 |----------|-----------|
 |<strong>Method</strong> |`GET` |
 |<strong>URI</strong>   |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes/{volumeId}` |
 |<strong>Description</strong>   |This endpoint retrieves information about a specific volume in a storage subsystem.|
 |<strong>Returns</strong>  |JSON schema representing this volume.|
-|<strong>Response Code</strong>  |On success, `200 OK` |
+|<strong>Response code</strong>  |On success, `200 OK` |
 |<strong>Authentication</strong>  |Yes|
 
  
@@ -3833,12 +3856,12 @@ curl -i GET \
 
 ### Creating a volume
 
-| | | 
+| | |
 |----------|-----------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong>  |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes` |
 |<strong>Description</strong>  | This operation creates a volume in a specific storage subsystem.|
-|<strong>Response Code</strong>   |On success, `200 Ok` |
+|<strong>Response code</strong>   |On success, `200 Ok` |
 |<strong>Authentication</strong>|Yes|
 
 
@@ -3898,15 +3921,15 @@ curl -i -X POST \
 
 ```
  {
-   ​   "error":{
-      ​      "@Message.ExtendedInfo":[
-         ​         {
-            ​            "MessageId":"iLO.2.13.SystemResetRequired"            ​
-         }         ​
+      "error":{
+            "@Message.ExtendedInfo":[
+                  {
+                        "MessageId":"iLO.2.13.SystemResetRequired"            
+         }         
       ],
-      ​      "code":"iLO.0.10.ExtendedInfo",
-      ​      "message":"See @Message.ExtendedInfo for more information."      ​
-   }   ​
+            "code":"iLO.0.10.ExtendedInfo",
+            "message":"See @Message.ExtendedInfo for more information."      
+   }   
 }
 ```
 
@@ -3917,12 +3940,12 @@ curl -i -X POST \
 ### Deleting a volume
 
 
-| | | 
+| | |
 |----------|-----------|
 |<strong>Method</strong>  | `DELETE` |
 |<strong>URI</strong>   |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes/{volumeId}` |
 |<strong>Description</strong>  | This operation removes a volume in a specific storage subsystem.<br> |
-|<strong>Response Code</strong>|On success, `204 No Content` |
+|<strong>Response code</strong>|On success, `204 No Content` |
 |<strong>Authentication</strong>  |Yes|
 
 
@@ -3956,16 +3979,6 @@ curl -i -X DELETE \
 
 ##  SecureBoot
 
-
-```
-curl -i GET \
-         -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/SecureBoot'
-
-
-```
-
-
 |||
 |---------|-------|
 |**Method** |`GET` |
@@ -3976,16 +3989,19 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
-##  Processors
-
 ```
 curl -i GET \
          -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Processors'
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/SecureBoot'
 
 
 ```
 
+
+
+
+
+##  Processors
 
 |||
 |---------|-------|
@@ -3996,19 +4012,20 @@ curl -i GET \
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
-
-
-##  Single processor
-
-
-
 ```
 curl -i GET \
          -H "X-Auth-Token:{X-Auth-Token}" \
-              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Processors/{processoId}'
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Processors'
 
 
 ```
+
+
+
+
+
+
+##  Single processor
 
 |||
 |---------|-------|
@@ -4021,7 +4038,29 @@ curl -i GET \
 
 
 
+```
+curl -i GET \
+         -H "X-Auth-Token:{X-Auth-Token}" \
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Processors/{processoId}'
+
+
+```
+
+
+
+
+
 ##  Collection of chassis
+
+|||
+|-------|-------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Chassis` |
+|**Description** | This operation lists chassis instances available with Resource Aggregator for ODIM.<br> Chassis represents the physical components of a system - sheet-metal confined spaces, logical zones such as racks, enclosures, chassis and all other containers, and subsystems \(like sensors\).<br> |
+|**Returns** |A collection of links to chassis instances.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -4051,14 +4090,7 @@ curl -i GET \
 }
 ```
 
-|||
-|-------|-------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Chassis` |
-|**Description** | This operation lists chassis instances available with Resource Aggregator for ODIM.<br> Chassis represents the physical components of a system - sheet-metal confined spaces, logical zones such as racks, enclosures, chassis and all other containers, and subsystems \(like sensors\).<br> |
-|**Returns** |A collection of links to chassis instances.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
  
 
@@ -4092,6 +4124,14 @@ curl -i GET \
 
 ## Single chassis
 
+|||
+|---------|-------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Chassis/{ChassisId}` |
+|**Description** |This operation fetches information on a specific chassis.|
+|**Returns** |JSON schema representing this chassis instance.|
+|**Response code** |On success, `200 OK` |
+|**Authentication** |Yes|
 
 
 ```
@@ -4217,27 +4257,12 @@ curl -i GET \
 
 
 
-|||
-|---------|-------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Chassis/{ChassisId}` |
-|**Description** |This operation fetches information on a specific chassis.|
-|**Returns** |JSON schema representing this chassis instance.|
-|**Response code** |On success, `200 OK` |
-|**Authentication** |Yes|
 
 
 
- 
+
+
 ##  Thermal metrics
-
-```
-curl -i GET \
-   -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/Thermal'
-
-
-```
 
 |||
 |---------|-------|
@@ -4248,17 +4273,18 @@ curl -i GET \
 | **Response code** | `200 OK` |
 |**Authentication** |Yes|
 
-
-##  Network adapters
-
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/NetworkAdapters'
+ 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/Thermal'
 
 
 ```
 
+
+
+
+##  Network adapters
 
 |||
 |---------|-------|
@@ -4269,18 +4295,20 @@ curl -i GET \
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
-
-
-##  Power
-
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/Power'
+ 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/NetworkAdapters'
 
 
 ```
 
+
+
+
+
+
+##  Power
 
 |||
 |---------|-------|
@@ -4292,14 +4320,19 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
-##  Searching the inventory
-
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odimra_host}:{port}/redfish/v1/Systems?$filter={searchKeys}%20{conditionKeys}%20{value/regular_expression}%20{logicalOperand}%20{searchKeys}%20{conditionKeys}%20{value}'
+ 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/Power'
+
 
 ```
+
+
+
+
+
+##  Searching the inventory
 
 |||
 |---------|-------|
@@ -4310,7 +4343,13 @@ curl -i GET \
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
- 
+
+```
+curl -i GET \
+   -H "X-Auth-Token:{X-Auth-Token}" \
+ 'https://{odimra_host}:{port}/redfish/v1/Systems?$filter={searchKeys}%20{conditionKeys}%20{value/regular_expression}%20{logicalOperand}%20{searchKeys}%20{conditionKeys}%20{value}'
+
+```
 
 
 
@@ -4328,24 +4367,23 @@ curl -i GET \
 -  `{searchkeys}` refers to `ComputerSystem` parameters. Following are the allowed search keys:
 
        -    `ProcessorSummary/Count` 
-
+        
        -   `ProcessorSummary/Model` 
-
+        
        -   `ProcessorSummary/sockets` 
-
+        
        -    `SystemType` 
-
+        
        -   `MemorySummary/TotalSystemMemoryGiB` 
-
+        
        -   `FirmwareVersion` 
-
+        
        -   `Storage/Drives/Quantity` 
-
+        
        -   `Storage/Drives/Capacity` 
-
+        
        -   `Storage/Drives/Type` 
-	 
-
+	
 -  `{conditionKeys}` refers to Redfish-specified conditions. Following are the allowed condition keys:
 
     |Condition Key|Meaning|Supported data type|
@@ -4366,9 +4404,9 @@ curl -i GET \
       Examples:
 
          1. `$filter=TotalSystemMemoryGiB%20eq%20**384**` 
-
+        
          2. `$filter=ProcessorSummary/Model%20eq%20**int\***` 
-
+        
          3. `$filter=Storage/Drives/Type%20eq%20HDD` 
 
 -  `{logicalOperands}` refers to the logical operands that are used to combine two or more filters in a request. Allowed logical operands are `and`, `or`, and `not`.
@@ -4381,7 +4419,7 @@ curl -i GET \
 
 
 1. `$filter=TotalSystemMemoryGiB%20eq%20384`
-    
+   
 	This filter searches a server having total physical memory of 384 GB.
 
 
@@ -4403,9 +4441,9 @@ This filter searches a server having total physical memory of 384 GB and two Int
 
 
 
+
  
- 
- 
+
 
 > Sample response body
 
@@ -4438,6 +4476,16 @@ This filter searches a server having total physical memory of 384 GB and two Int
 
 ##  Resetting a computer system
 
+|||
+|---------|-------|
+|**Method** | `POST` |
+|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/Actions/ComputerSystem.Reset` |
+|**Description** |This action shuts down, powers up, and restarts a specific system.<br>**NOTE:**<br> To reset an aggregate of systems, use this URI:<br>`/redfish/v1/AggregationService/Actions/AggregationService.Reset` <br> See [Resetting servers](#resetting-servers).|
+|**Returns** |Message Id of the actual message in the JSON response body. To get the complete message, look up the specified registry file \(registry file name can be obtained by concatenating `RegistryPrefix` and version number present in the Message Id. Example registry file name: Base.1.4\). See [Message Registries](#message-registries).|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
+
 ```
  curl -i POST \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -4450,19 +4498,6 @@ This filter searches a server having total physical memory of 384 GB and two Int
  'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/Actions/ComputerSystem.Reset'
 
 ```
-
-
-|||
-|---------|-------|
-|**Method** | `POST` |
-|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/Actions/ComputerSystem.Reset` |
-|**Description** |This action shuts down, powers up, and restarts a specific system.<br>**NOTE:**<br> To reset an aggregate of systems, use this URI:<br>`/redfish/v1/AggregationService/Actions/AggregationService.Reset` <br> See [Resetting servers](#resetting-servers).|
-|**Returns** |Message Id of the actual message in the JSON response body. To get the complete message, look up the specified registry file \(registry file name can be obtained by concatenating `RegistryPrefix` and version number present in the Message Id. Example registry file name: Base.1.4\). See [Message Registries](#message-registries).|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
-
- 
-
 
 
 
@@ -4498,6 +4533,16 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 
 ##  Changing the boot order of a computer system to default settings
 
+|||
+|--------|------|
+|**Method** |`POST` |
+|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/Actions/ComputerSystem.SetDefaultBootOrder` |
+|**Description** |This action changes the boot order of a specific system to default settings.<br>**NOTE:**<br> To change the boot order of an aggregate of systems, use this URI:<br> `/redfish/v1/AggregationService/Actions/AggregationService.SetDefaultBootOrder` <br> See [Changing the Boot Order of Servers to Default Settings](#changing-the-boot-order-of-servers-to-default-settings).|
+|**Returns** |Message Id of the actual message in the JSON response body. To get the complete message, look up the specified registry file \(registry file name can be obtained by concatenating `RegistryPrefix` and version number present in the Message Id. Example registry file name: Base.1.4\). See [Message Registries](#message-registries).|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
+
 
 ```
  curl -i POST \
@@ -4523,19 +4568,21 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 }
 ```
 
-|||
-|--------|------|
-|**Method** |`POST` |
-|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/Actions/ComputerSystem.SetDefaultBootOrder` |
-|**Description** |This action changes the boot order of a specific system to default settings.<br>**NOTE:**<br> To change the boot order of an aggregate of systems, use this URI:<br> `/redfish/v1/AggregationService/Actions/AggregationService.SetDefaultBootOrder` <br> See [Changing the Boot Order of Servers to Default Settings](#changing-the-boot-order-of-servers-to-default-settings).|
-|**Returns** |Message Id of the actual message in the JSON response body. To get the complete message, look up the specified registry file \(registry file name can be obtained by concatenating `RegistryPrefix` and version number present in the Message Id. Example registry file name: Base.1.4\). See [Message Registries](#message-registries).|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
 
 
 
 ##  Changing BIOS settings
+
+|||
+|-------|-------|
+|**Method** |`PATCH` |
+|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/Bios/Settings` |
+|**Description** |This action changes BIOS configuration.<br>**NOTE:**<br> Any change in BIOS configuration will be reflected only after the system resets. To see the change, [reset the computer system](#resetting-a-computer-system).|
+|**Returns** |Message Id of the actual message in the JSON response body. To get the complete message, look up the specified registry file \(registry file name can be obtained by concatenating `RegistryPrefix` and version number present in the Message Id\). See [Message registries](#message-registries). For example,`MessageId` in the sample response body is `iLO.2.8.SystemResetRequired`. The registry to look up is `iLO.2.8`.<br> |
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
 
 
 ```
@@ -4547,18 +4594,6 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
  'https://{odimra_host}:{port}/redfish/v1/Systems/{system_id}/Bios/Settings'
 
 ```
-
-
-|||
-|-------|-------|
-|**Method** |`PATCH` |
-|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/Bios/Settings` |
-|**Description** |This action changes BIOS configuration.<br>**NOTE:**<br> Any change in BIOS configuration will be reflected only after the system resets. To see the change, [reset the computer system](#resetting-a-computer-system).|
-|**Returns** |Message Id of the actual message in the JSON response body. To get the complete message, look up the specified registry file \(registry file name can be obtained by concatenating `RegistryPrefix` and version number present in the Message Id\). See [Message registries](#message-registries). For example,`MessageId` in the sample response body is `iLO.2.8.SystemResetRequired`. The registry to look up is `iLO.2.8`.<br> |
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
-
- 
 
 
 
@@ -4608,6 +4643,16 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 
 ## Changing the boot order settings
 
+|||
+|---------|-------|
+|**Method** |`PATCH` |
+|**URI** |`/redfish/v1/Systems/{ComputerSystemId}` |
+|**Description** |This action changes the boot order settings of a specific system.|
+|**Returns** |Message Id of the actual message in the JSON response body. To get the complete message, look up the specified registry file \(registry file name can be obtained by concatenating `RegistryPrefix` and version number present in the Message Id\). See [Message Registries](#message-registries). For example,`MessageId` in the sample response body is `Base.1.0.Success`. The registry to look up is `Base.1.0`.<br> |
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
+
 ```
  curl -i -X PATCH \
    -H "X-Auth-Token:{X-Auth-Token}" \
@@ -4621,18 +4666,6 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
  'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}}'
 
 ```
-
-|||
-|---------|-------|
-|**Method** |`PATCH` |
-|**URI** |`/redfish/v1/Systems/{ComputerSystemId}` |
-|**Description** |This action changes the boot order settings of a specific system.|
-|**Returns** |Message Id of the actual message in the JSON response body. To get the complete message, look up the specified registry file \(registry file name can be obtained by concatenating `RegistryPrefix` and version number present in the Message Id\). See [Message Registries](#message-registries). For example,`MessageId` in the sample response body is `Base.1.0.Success`. The registry to look up is `Base.1.0`.<br> |
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
-
- 
-
 
 
 
@@ -4651,10 +4684,10 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 
 To get a full list of boot attributes that you can update, perform `GET` on:
 
- 
+
 `https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}`.
 
- 
+
 Check attributes under `Boot` in the JSON response. 
 
 Some of the attributes include:
@@ -4733,12 +4766,6 @@ If you attempt to update `BootSourceOverrideTarget` to `UefiTarget`, when `UefiT
 
 
 
-
-
-
-
-
-
 #  Managers
 
 Resource Aggregator for ODIM exposes APIs to retrieve information about managers. Examples of managers include:
@@ -4771,6 +4798,14 @@ Resource Aggregator for ODIM exposes APIs to retrieve information about managers
 
 ##  Collection of managers
 
+|||
+|---------|-------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Managers` |
+|**Description** |A collection of managers.|
+|**Returns** |Links to the manager instances. This collection includes a manager for Resource Aggregator for ODIM itself and other managers.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
 
 
 ```
@@ -4784,7 +4819,7 @@ curl -i GET \
 > Sample response body 
 
 ```
-​{
+{
    "@odata.context":"/redfish/v1/$metadata#ManagerCollection.ManagerCollection",
    "@odata.id":"/redfish/v1/Managers",
    "@odata.type":"#ManagerCollection.ManagerCollection",
@@ -4813,25 +4848,28 @@ curl -i GET \
    "Members@odata.count":6
 }
 
-​
+
 ```
 
 
 
 
-|||
-|---------|-------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Managers` |
-|**Description** |A collection of managers.|
-|**Returns** |Links to the manager instances. This collection includes a manager for Resource Aggregator for ODIM itself and other managers.|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
 
- 
+
+
 
 
 ##  Single manager
+
+|||
+|---------|-------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Managers/{managerId}` |
+|**Description** |A single manager.|
+|**Returns** |Information about a specific management control system or a plugin or Resource Aggregator for ODIM itself. In the JSON schema representing a system \(BMC\) manager, there are links to the managers for:<ul><li>EthernetInterfaces:<br>`/redfish/v1/Managers/{managerId}/EthernetInterfaces`</li><li>HostInterfaces:<br>`/redfish/v1/Managers/{managerId}/HostInterfaces` </li><li>LogServices:<br>`/redfish/v1/Managers/{managerId}/LogServices` </li><li>NetworkProtocol:<br>`/redfish/v1/Managers/{managerId}/NetworkProtocol` <br> To know more about each manager, perform HTTP `GET` on these links.</li></ul>|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -4962,14 +5000,6 @@ curl -i GET \
 
 
 
-|||
-|---------|-------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Managers/{managerId}` |
-|**Description** |A single manager.|
-|**Returns** |Information about a specific management control system or a plugin or Resource Aggregator for ODIM itself. In the JSON schema representing a system \(BMC\) manager, there are links to the managers for:<ul><li>EthernetInterfaces:<br>`/redfish/v1/Managers/{managerId}/EthernetInterfaces`</li><li>HostInterfaces:<br>`/redfish/v1/Managers/{managerId}/HostInterfaces` </li><li>LogServices:<br>`/redfish/v1/Managers/{managerId}/LogServices` </li><li>NetworkProtocol:<br>`/redfish/v1/Managers/{managerId}/NetworkProtocol` <br> To know more about each manager, perform HTTP `GET` on these links.</li></ul>|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
 
 
 
@@ -4978,13 +5008,15 @@ curl -i GET \
 
 
 
-# Software and firmware update
 
-The resource aggregator exposes Redfish update service endpoints. Use these endpoints to access and update the software components of a system such as BIOS and firmware. Using these endpoints, you can also update firmware of other components such as system drivers and provider software.
+# Software and firmware inventory
+
+The resource aggregator exposes Redfish update service endpoints. Use these endpoints to access and update the software components of a system such as BIOS and firmware. Using these endpoints, you can also upgrade or downgrade firmware of other components such as system drivers and provider software.
 
 The `UpdateService` schema describes the update service and the properties for the service itself. It exposes the firmware and software inventory resources and provides links to access them.
 
 
+**Supported endpoints**
 
 |API URI|Operation Applicable|Required privileges|
 |-------|--------------------|-------------------|
@@ -5011,7 +5043,7 @@ Before accessing these endpoints, ensure that the user account has the required 
 |<strong>URI</strong> |`/redfish/v1/UpdateService` |
 |<strong>Description</strong> |This operation retrieves JSON schema representing the `UpdateService` root.|
 |<strong>Returns</strong> |Properties for the service and a list of actions you can perform using this service.|
-|<strong>Response Code</strong> |On success, `200 Ok` |
+|<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
 
@@ -5065,7 +5097,7 @@ curl -i GET \
 |<strong>URI</strong> |`/redfish/v1/UpdateService/FirmwareInventory` |
 |<strong>Description</strong> |This operation lists firmware of all the resources available in Resource Aggregator for ODIM.|
 |<strong>Returns</strong> |A collection of links to firmware resources.|
-|<strong>Response Code</strong> |On success, `200 Ok` |
+|<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
 
@@ -5127,7 +5159,7 @@ curl -i GET \
 |<strong>URI</strong> |`/redfish/v1/UpdateService/FirmwareInventory/{inventoryId}` |
 |<strong>Description</strong> |This operation retrieves information about a specific firmware resource.|
 |<strong>Returns</strong> |JSON schema representing this firmware.|
-|<strong>Response Code</strong> |On success, `200 Ok` |
+|<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
 
@@ -5177,7 +5209,7 @@ curl -i GET \
 |<strong>URI</strong> |`/redfish/v1/UpdateService/SoftwareInventory` |
 |<strong>Description</strong> |This operation lists software of all the resources available in Resource Aggregator for ODIM.|
 |<strong>Returns</strong> |A collection of links to software resources.|
-|<strong>Response Code</strong> |On success, `200 Ok` |
+|<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
 
@@ -5213,7 +5245,7 @@ curl -i GET \
 |<strong>URI</strong> |`/redfish/v1/UpdateService/SoftwareInventory/{inventoryId}` |
 |<strong>Description</strong> |This operation retrieves information about a specific software resource.|
 |<strong>Returns</strong> |JSON schema representing this software.|
-|<strong>Response Code</strong> |On success, `200 Ok` |
+|<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
 
@@ -5263,7 +5295,7 @@ curl -i GET \
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/UpdateService/Actions/UpdateService.SimpleUpdate` |
 |<strong>Description</strong> |This operation creates an update request for updating a software or a firmware component or directly updates a software or a firmware component. The first example in "Sample request body" is used to create an update request and the second one is used to directly update a software or a firmware component of servers.<br> |
-|<strong>Response Code</strong> |On success, `200 Ok` |
+|<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
  
@@ -5358,7 +5390,7 @@ curl -i POST \
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/UpdateService/Actions/UpdateService.StartUpdate` |
 |<strong>Description</strong> |This operation starts updating software or firmware components for which an update request has been created. <blockquote>IMPORTANT:<br>Before performing this operation, ensure that you have created an update request first. To know how to create an update request, see [Simple update](#Simple update).<br></blockquote>|
-|<strong>Response Code</strong> |On success, `200 Ok` |
+|<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
  
@@ -5406,60 +5438,70 @@ None
 
 #  Host to fabric networking
 
-Resource Aggregator for ODIM exposes Redfish APIs to view and manage simple fabrics. A fabric is a network topology consisting of interconnecting switches, zones, endpoints, and address pools.
+Resource Aggregator for ODIM exposes Redfish APIs to view and manage simple fabrics. A fabric is a network topology consisting of entities such as interconnecting switches, zones, endpoints, and address pools. The Redfish `Fabrics` APIs allow you to create and remove these entities in a fabric.
+
+When creating fabric entities, ensure to create them in the following order:
+
+1.  Zone-specific address pools
+
+2.  Address pools for zone of zones
+
+3.  Zone of zones
+
+4.  Endpoints
+
+5.  Zone of endpoints
 
 
-**NOTE:**
+When deleting fabric entities, ensure to delete them in the following order:
 
--   Before using the `Fabrics` APIs, ensure that the fabric manager is installed and its plugin is deployed and added into the Resource Aggregator for ODIM framework.
+1.  Zone of endpoints
 
--  Ensure to create fabric entities in the following order:
+2.  Endpoints
 
-       1.  Zone-specific address pools
+3.  Zone of zones
 
-       2.  Address pools for zone of zones
+4.  Address pools for zone of zones
 
-       3.  Zone of zones
-
-       4.  Endpoints
-
-       5.  Zone of endpoints
-
--  Ensure to delete fabric entities in the following order:
-
-       1.  Zone of endpoints
-
-       2.  Endpoints
-
-       3.  Zone of zones
-
-       4.  Address pools for zone of zones
-
-       5.  Zone-specific address pools
+5.  Zone-specific address pools
 
 
 **Supported endpoints**
 
-|||
-|-------|--------------------|
-|/redfish/v1/Fabrics|`GET`|
-|/redfish/v1/Fabrics/\{fabricId\}|`GET`|
-|/redfish/v1/Fabrics/\{fabricId\}/Switches|`GET`|
-|/redfish/v1/Fabrics/\{fabricId\}/Switches/\{switchId\}|`GET`|
-|/redfish/v1/Fabrics/\{fabricId\}/Switches/\{switchId\}/Ports<br>|`GET`|
-|/redfish/v1/Fabrics/\{fabricId\}/Switches/\{switchId\}/Ports/\{portid\}<br>|`GET`|
-|/redfish/v1/Fabrics/\{fabricId\}/Zones|`GET`, `POST`|
-|/redfish/v1/Fabrics/\{fabricId\}/Zones/\{zoneId\}|`GET`, `PATCH`, `DELETE`|
-|/redfish/v1/Fabrics/\{fabricId\}/AddressPools|`GET`, `POST`|
-|/redfish/v1/Fabrics/\{fabricId\}/AddressPools/\{addresspoolid\}|`GET`, `DELETE`|
-|/redfish/v1/Fabrics/\{fabricId\}/Endpoints|`GET`, `POST`|
-|/redfish/v1/Fabrics/\{fabricId\}/Endpoints/\{endpointId\}|`GET`, `DELETE`|
+<blockquote>
+IMPORTANT:
+
+Before using the `Fabrics` APIs, ensure that the fabric manager is installed, its plugin is deployed, and added into the Resource Aggregator for ODIM framework.
+
+</blockquote>
+|API URI|Operation Applicable|Required privileges|
+|-------|--------------------|-------------------|
+|/redfish/v1/Fabrics|GET|`Login` |
+|/redfish/v1/Fabrics/\{fabricId\}|GET|`Login` |
+|/redfish/v1/Fabrics/\{fabricId\}/Switches|GET|`Login` |
+|/redfish/v1/Fabrics/\{fabricId\}/Switches/\{switchId\}|GET|`Login` |
+| /redfish/v1/Fabrics/\{fabricId\}/Switches/\{switchId\}/Ports<br> |GET|`Login` |
+| /redfish/v1/Fabrics/\{fabricId\} /Switches/\{switchId\}/Ports/\{portid\}<br> |GET|`Login` |
+|/redfish/v1/Fabrics/\{fabricId\}/Zones|GET, POST|`Login`, `ConfigureComponents` |
+|/redfish/v1/Fabrics/\{fabricId\}/Zones/\{zoneId\}|GET, PATCH, DELETE|`Login`, `ConfigureComponents` |
+|/redfish/v1/Fabrics/\{fabricId\}/AddressPools|GET, POST|`Login`, `ConfigureComponents` |
+|/redfish/v1/Fabrics/\{fabricId\}/AddressPools/\{addresspoolid\}|GET, DELETE|`Login`, `ConfigureComponents` |
+|/redfish/v1/Fabrics/\{fabricId\}/Endpoints|GET, POST|`Login`, `ConfigureComponents` |
+|/redfish/v1/Fabrics/\{fabricId\}/Endpoints/\{endpointId\}|GET, DELETE|`Login`, `ConfigureComponents` |
 
 
 
 
 ##  Collection of fabrics
 
+|||
+|---------------|---------------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/Fabrics` |
+|**Description** |A collection of simple fabrics.|
+|**Returns** |Links to the fabric instances.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
 
 
 ```
@@ -5488,14 +5530,7 @@ curl -i GET \
 ```
 
 
-|||
-|---------------|---------------|
-|**Method** | `GET` |
-|**URI** |`/redfish/v1/Fabrics` |
-|**Description** |A collection of simple fabrics.|
-|**Returns** |Links to the fabric instances.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
 
 
@@ -5506,6 +5541,16 @@ curl -i GET \
 
 
 ## Single fabric
+
+|||
+|---------------|---------------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Fabrics/{fabricID}` |
+|**Description** |Schema representing a specific fabric.|
+|**Returns** |Links to various components contained in this fabric instance - address pools, endpoints, switches, and zones.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -5548,18 +5593,21 @@ curl -i GET \
 
 
 
-|||
-|---------------|---------------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Fabrics/{fabricID}` |
-|**Description** |Schema representing a specific fabric.|
-|**Returns** |Links to various components contained in this fabric instance - address pools, endpoints, switches, and zones.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
 
 
 ## Collection of switches
+
+|||
+|------------------|----------------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Fabrics/{fabricID}/Switches` |
+|**Description** |A collection of switches located in this fabric.|
+|**Returns** |Links to the switch instances.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -5596,14 +5644,7 @@ curl -i GET \
 
 
 
-|||
-|------------------|----------------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Fabrics/{fabricID}/Switches` |
-|**Description** |A collection of switches located in this fabric.|
-|**Returns** |Links to the switch instances.|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
+
 
 
 
@@ -5612,6 +5653,16 @@ curl -i GET \
 
 
 ## Single switch
+
+|||
+|---------------|---------------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Fabrics/{fabricID}/Switches/{switchID}` |
+|**Description** |JSON schema representing a particular fabric switch.|
+|**Returns** |Details of this switch and links to its ports.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -5643,17 +5694,19 @@ curl -i GET \
 }
 ```
 
-|||
-|---------------|---------------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Fabrics/{fabricID}/Switches/{switchID}` |
-|**Description** |JSON schema representing a particular fabric switch.|
-|**Returns** |Details of this switch and links to its ports.|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
+
 
 
 ## Collection of ports
+
+|||
+|---------------|---------------|
+|**Method** |`GET` |
+|**URI** |``/redfish/v1/Fabrics/{fabricID}/Switches/{switchID}/Ports`` |
+|**Description** |A collection of ports of this switch.|
+|**Returns** |Links to the port instances.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
 
 ```
 curl -i GET \
@@ -5685,19 +5738,22 @@ curl -i GET \
 
 
 
-|||
-|---------------|---------------|
-|**Method** |`GET` |
-|**URI** |``/redfish/v1/Fabrics/{fabricID}/Switches/{switchID}/Ports`` |
-|**Description** |A collection of ports of this switch.|
-|**Returns** |Links to the port instances.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
 
 
 
 ## Single port
+
+|||
+|---------------|---------------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Fabrics/{fabricID}/Switches/{switchID}/Ports/{portid}` |
+|**Description** |JSON schema representing a specific switch port.|
+|**Returns** |Properties of this port.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -5740,20 +5796,22 @@ curl -i GET \
 
 
 
-|||
-|---------------|---------------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Fabrics/{fabricID}/Switches/{switchID}/Ports/{portid}` |
-|**Description** |JSON schema representing a specific switch port.|
-|**Returns** |Properties of this port.|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
+
 
 
 
 
 
 ## Collection of address pools
+
+|||
+|---------------|---------------|
+|**Method** |`GET` |
+|**URI** |``/redfish/v1/Fabrics/{fabricID}/AddressPools`` |
+|**Description** |A collection of address pools.|
+|**Returns** |Links to the address pool instances.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
 
 
 ```
@@ -5817,14 +5875,7 @@ curl -i GET \
 
 
 
-|||
-|---------------|---------------|
-|**Method** |`GET` |
-|**URI** |``/redfish/v1/Fabrics/{fabricID}/AddressPools`` |
-|**Description** |A collection of address pools.|
-|**Returns** |Links to the address pool instances.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
 
 
@@ -5836,6 +5887,15 @@ curl -i GET \
 
 
 ## Single address pool
+
+|||
+|---------------|---------------|
+|**Method** |`GET` |
+|**URI** |``/redfish/v1/Fabrics/{fabricID}/AddressPools/{addresspoolid}`` |
+|**Description** |JSON schema representing a specific address pool.|
+|**Returns** |Properties of this address pool.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
 
 
 ```
@@ -5889,18 +5949,22 @@ curl -i GET \
 ```
 
 
-|||
-|---------------|---------------|
-|**Method** |`GET` |
-|**URI** |``/redfish/v1/Fabrics/{fabricID}/AddressPools/{addresspoolid}`` |
-|**Description** |JSON schema representing a specific address pool.|
-|**Returns** |Properties of this address pool.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
 
 
 ## Collection of endpoints
+
+
+|||
+|---------------|---------------|
+|**Method** |`GET` |
+|**URI** |``/redfish/v1/Fabrics/{fabricID}/Endpoints`` |
+|**Description** |A collection of fabric endpoints.|
+|**Returns** |Links to the endpoint instances.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -5935,18 +5999,19 @@ curl -i GET \
 ```
 
 
-|||
-|---------------|---------------|
-|**Method** |`GET` |
-|**URI** |``/redfish/v1/Fabrics/{fabricID}/Endpoints`` |
-|**Description** |A collection of fabric endpoints.|
-|**Returns** |Links to the endpoint instances.|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
+
 
 
 ##  Single endpoint
 
+|||
+|---------------|---------------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Fabrics/{fabricID}/Endpoints/{endpointId}` |
+|**Description** |JSON schema representing a specific fabric endpoint.|
+|**Returns** |Details of this endpoint.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
 
 
 ```
@@ -5998,18 +6063,19 @@ curl -i GET \
 
 
 
-|||
-|---------------|---------------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Fabrics/{fabricID}/Endpoints/{endpointId}` |
-|**Description** |JSON schema representing a specific fabric endpoint.|
-|**Returns** |Details of this endpoint.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
 
 ## Collection of zones
 
+|||
+|---------------|---------------|
+|**Method** |`GET` |
+|**URI** |``/redfish/v1/Fabrics/{fabricID}/Zones`` |
+|**Description** |A collection of fabric zones.|
+|**Returns** |Links to the zone instances.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
 
 ```
 curl -i GET \
@@ -6052,17 +6118,21 @@ curl -i GET \
 
 
 
-|||
-|---------------|---------------|
-|**Method** |`GET` |
-|**URI** |``/redfish/v1/Fabrics/{fabricID}/Zones`` |
-|**Description** |A collection of fabric zones.|
-|**Returns** |Links to the zone instances.|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
+
 
 
 ## Single zone
+
+
+|||
+|---------------|---------------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Fabrics/{fabricID}/Zones/{zoneId}` |
+|**Description** |JSON schema representing a specific fabric zone.|
+|**Returns** |Details of this zone.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -6110,20 +6180,22 @@ curl -i GET \
 
 
 
-|||
-|---------------|---------------|
-|**Method** |`GET` |
-|**URI** |`/redfish/v1/Fabrics/{fabricID}/Zones/{zoneId}` |
-|**Description** |JSON schema representing a specific fabric zone.|
-|**Returns** |Details of this zone.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
 
 
 
 
 ## Creating a zone-specific address pool
+
+|||
+|---------------|---------------|
+|**Method** |`POST` |
+|**URI** |`/redfish/v1/Fabrics/{fabricID}/AddressPools` |
+|**Description** |This operation creates an address pool that can be used by a zone of endpoints.|
+|**Returns** |<ul><li>Link to the created address pool in the `Location` header.</li><li>JSON schema representing the created address pool.</li></ul>|
+|**Response code** |`201 Created` |
+|**Authentication** |Yes|
 
 
 ```
@@ -6153,14 +6225,7 @@ curl -i POST \
 ```
 
 
-|||
-|---------------|---------------|
-|**Method** |`POST` |
-|**URI** |`/redfish/v1/Fabrics/{fabricID}/AddressPools` |
-|**Description** |This operation creates an address pool that can be used by a zone of endpoints.|
-|**Returns** |<ul><li>Link to the created address pool in the `Location` header.</li><li>JSON schema representing the created address pool.</li></ul>|
-|**Response code** |`201 Created` |
-|**Authentication** |Yes|
+
 
 
 
@@ -6283,6 +6348,16 @@ Transfer-Encoding:chunked
 
 ## Creating an address pool for zone of zones
 
+|||
+|---------------|---------------|
+|**Method** |`POST` |
+|**URI** |`/redfish/v1/Fabrics/{fabricID}/AddressPools` |
+|**Description** |This operation creates an address pool for a zone of zones in a specific fabric.|
+|**Returns** |<ul><li>Link to the created address pool in the `Location` header.</li><li>JSON schema representing the created address pool.</li></ul>|
+|**Response code** | `201 Created` |
+|**Authentication** |Yes|
+
+
 
 ```
 curl -i POST \
@@ -6320,14 +6395,7 @@ curl -i POST \
 
 ```
 
-|||
-|---------------|---------------|
-|**Method** |`POST` |
-|**URI** |`/redfish/v1/Fabrics/{fabricID}/AddressPools` |
-|**Description** |This operation creates an address pool for a zone of zones in a specific fabric.|
-|**Returns** |<ul><li>Link to the created address pool in the `Location` header.</li><li>JSON schema representing the created address pool.</li></ul>|
-|**Response code** | `201 Created` |
-|**Authentication** |Yes|
+
 
 
 
@@ -6735,6 +6803,15 @@ Transfer-Encoding:chunked
 
 ## Creating a zone of endpoints
 
+|||
+|---------------|---------------|
+|**Method** |`POST` |
+|**URI** |`/redfish/v1/Fabrics/{fabricID}/Zones` |
+|**Description** |This operation creates a zone of endpoints in a specific fabric.<br>**NOTE:**<br> Ensure that the endpoints are created first before assigning them to the zone of endpoints.|
+|**Returns** |JSON schema representing the created zone.|
+|**Response code** | `201 Created` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i POST \
@@ -6766,14 +6843,7 @@ curl -i POST \
 
 ```
 
-|||
-|---------------|---------------|
-|**Method** |`POST` |
-|**URI** |`/redfish/v1/Fabrics/{fabricID}/Zones` |
-|**Description** |This operation creates a zone of endpoints in a specific fabric.<br>**NOTE:**<br> Ensure that the endpoints are created first before assigning them to the zone of endpoints.|
-|**Returns** |JSON schema representing the created zone.|
-|**Response code** | `201 Created` |
-|**Authentication** |Yes|
+
 
 
 
@@ -6879,6 +6949,15 @@ Transfer-Encoding: chunked
 
 ##  Updating a zone
 
+|||
+|---------------|---------------|
+|**Method** |`PATCH` |
+|**URI** |`/redfish/v1/Fabrics/{fabricID}/Zones/{zoneId}` |
+|**Description** |This operation assigns or unassigns a collection of endpoints, address pools, zone of zones, or switches to a zone of endpoints or a collection of address pools to a zone of zones in a specific fabric.|
+|**Returns** |JSON schema representing an updated zone.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i -X PATCH \
@@ -6897,14 +6976,7 @@ curl -i -X PATCH \
 ```
 
 
-|||
-|---------------|---------------|
-|**Method** |`PATCH` |
-|**URI** |`/redfish/v1/Fabrics/{fabricID}/Zones/{zoneId}` |
-|**Description** |This operation assigns or unassigns a collection of endpoints, address pools, zone of zones, or switches to a zone of endpoints or a collection of address pools to a zone of zones in a specific fabric.|
-|**Returns** |JSON schema representing an updated zone.|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
+
 
 
 
@@ -7022,15 +7094,6 @@ curl -i -X PATCH \
 
 ## Deleting a zone
 
-```
-curl -i -X DELETE \
-   -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odimra_host}:{port}/redfish/v1/Fabrics/{fabricID}/Zones/{zoneId}'
-
-```
-
-
-
 |||
 |---------------|---------------|
 |**Method** |`DELETE` |
@@ -7040,16 +7103,20 @@ curl -i -X DELETE \
 |**Authentication** |Yes|
 
 
+```
+curl -i -X DELETE \
+   -H "X-Auth-Token:{X-Auth-Token}" \
+ 'https://{odimra_host}:{port}/redfish/v1/Fabrics/{fabricID}/Zones/{zoneId}'
+
+```
+
+
+
+
+
+
 
 ## Deleting an endpoint
-
-
-```
-curl -i DELETE \
-   -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odim_hosts}:{port}/redfish/v1/Fabrics/{fabricID}/Endpoints/{endpointId}'
-
-```
 
 |||
 |---------------|---------------|
@@ -7060,16 +7127,19 @@ curl -i DELETE \
 |**Authentication** |Yes|
 
 
+```
+curl -i DELETE \
+   -H "X-Auth-Token:{X-Auth-Token}" \
+ 'https://{odim_hosts}:{port}/redfish/v1/Fabrics/{fabricID}/Endpoints/{endpointId}'
+
+```
+
+
+
+
 
 
 ## Deleting an address pool
-
-```
-curl -i -X DELETE \
-   -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odimra_host}:{port}/redfish/v1/Fabrics/{fabricID}/AddressPools/{addresspoolid}'
-
-```
 
 |||
 |---------------|---------------|
@@ -7078,6 +7148,15 @@ curl -i -X DELETE \
 |**Description** |This operation deletes an address pool in a specific fabric.<br>**NOTE:**<br> If you delete an address pool that is being used in any zone, you will receive an HTTP `400` error. Before attempting to delete, ensure that the address pool you want to delete is not present in any zone. To get the list of address pools in a zone, see links to `addresspools` in the sample response body for a [single zone](#single-zone).|
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
+
+
+```
+curl -i -X DELETE \
+   -H "X-Auth-Token:{X-Auth-Token}" \
+ 'https://{odimra_host}:{port}/redfish/v1/Fabrics/{fabricID}/AddressPools/{addresspoolid}'
+
+```
+
 
 
 
@@ -7105,28 +7184,35 @@ A task represents an operation that takes more time than a user typically wants 
 
 An example of a task is resetting an aggregate of servers. Resetting all the servers in a group is a time-consuming operation; the user waiting for the result would be blocked from performing other operations. Resource Aggregator for ODIM creates Redfish tasks for such long-duration operations and exposes Redfish `TaskService` APIs and `Task monitor` API. Use these APIs to manage and monitor the tasks until their completion, while performing other operations.
 
-
-<aside class="notice">
-To view the tasks and the task monitor, ensure that the user has `Login` privilege at the minimum.
-</aside>
-
-
-
 **Supported endpoints**
 
-|||
-|-------|--------------------|
-|/redfish/v1/TaskService|`GET`|
-|/redfish/v1/TaskService/Tasks|`GET`|
-|/redfish/v1/TaskService/Tasks/\{taskId\}|`GET`, `DELETE`|
-| /redfish/v1/ TaskService/Tasks/\{taskId\}/SubTasks<br> |`GET`|
-| /redfish/v1/ TaskService/Tasks/\{taskId\}/SubTasks/ \{subTaskId\}<br> |`GET`|
-|/taskmon/\{taskId\}|`GET`|
+|API URI|Operation Applicable|Required privileges|
+|-------|--------------------|-------------------|
+|/redfish/v1/TaskService|GET|`Login` |
+|/redfish/v1/TaskService/Tasks|GET|`Login` |
+|/redfish/v1/TaskService/Tasks/\{taskId\}|GET, DELETE|`Login`, `ConfigureManager` |
+| /redfish/v1/ TaskService/Tasks/\{taskId\}/SubTasks<br> |GET|`Login` |
+| /redfish/v1/ TaskService/Tasks/\{taskId\}/SubTasks/ \{subTaskId\}<br> |GET|`Login` |
+|/taskmon/\{taskId\}|GET|`Login` |
+
+
+>**NOTE:**
+To view the tasks and the task monitor, ensure that the user has `Login` privilege at the minimum. If you access these endpoints without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
 
 
 ##  viewing the task service root
+
+|||
+|-----------|----------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/TaskService` |
+|**Description** |This endpoint retrieves JSON schema for the Redfish `TaskService` root.|
+|**Returns** |<ul><li> Links to tasks</li><li>Properties of `TaskService`.<br> Following are a few important properties of `TaskService` returned in the JSON response:<br><ul><li>`CompletedTaskOverWritePolicy` : This property indicates the overwrite policy for completed tasks and is set to `oldest` by default - Older completed tasks will be removed automatically.</li><li>`LifeCycleEventOnTaskStateChange`: This property indicates if the task state change event will be sent to the clients who have subscribed to it. It is set to `true` by default.</li></ul></li></ul> |
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
 
 
 ```
@@ -7186,16 +7272,9 @@ Transfer-Encoding":chunked
 
 
 
-|||
-|-----------|----------|
-|**Method** | `GET` |
-|**URI** |`/redfish/v1/TaskService` |
-|**Description** |This endpoint retrieves JSON schema for the Redfish `TaskService` root.|
-|**Returns** |<ul><li> Links to tasks</li><li>Properties of `TaskService`.<br> Following are a few important properties of `TaskService` returned in the JSON response:<br><ul><li>`CompletedTaskOverWritePolicy` : This property indicates the overwrite policy for completed tasks and is set to `oldest` by default - Older completed tasks will be removed automatically.</li><li>`LifeCycleEventOnTaskStateChange`: This property indicates if the task state change event will be sent to the clients who have subscribed to it. It is set to `true` by default.</li></ul></li></ul> |
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
 
- 
+
+
 
 
 
@@ -7203,6 +7282,16 @@ Transfer-Encoding":chunked
 
 
 ## Viewing a collection of tasks
+
+|||
+|-----------|----------|
+|**Method** |**GET** |
+|**URI** |`/redfish/v1/TaskService/Tasks` |
+|**Description** |This endpoint retrieves a list of tasks scheduled by or being executed by Redfish `TaskService`.<br>**NOTE:**<br>Only an admin or a user with `ConfigureUsers` privilege can view all the running and scheduled tasks in Resource Aggregator for ODIM at any given time. Other users can view tasks created only for their operations with `Login` privilege.<br></blockquote>|
+|**Returns** |A list of task endpoints with task Ids.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i GET \
@@ -7236,18 +7325,21 @@ curl -i GET \
 
 
 
-|||
-|-----------|----------|
-|**Method** |**GET** |
-|**URI** |`/redfish/v1/TaskService/Tasks` |
-|**Description** |This endpoint retrieves a list of tasks scheduled by or being executed by Redfish `TaskService`.<br>**NOTE:**<br>Only an admin or a user with `ConfigureUsers` privilege can view all the running and scheduled tasks in Resource Aggregator for ODIM at any given time. Other users can view tasks created only for their operations with `Login` privilege.<br></blockquote>|
-|**Returns** |A list of task endpoints with task Ids.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
  
 
 ## Viewing information about a specific task
+
+|||
+|-----------|----------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/TaskService/Tasks/{TaskID}` |
+|**Description** |This endpoint retrieves information about a specific task scheduled by or being executed by Redfish `TaskService`.|
+|**Returns** |JSON schema having the details of this task - task Id, name, state of the task, start time and end time of this task, completion percentage, URI of the task monitor associated with this task, subtasks if any. The sample response body given in this section is a JSON response for a task which adds a server.<br> |
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
 
 
 ```
@@ -7299,19 +7391,21 @@ curl -i GET \
 
 
 
-|||
-|-----------|----------|
-|**Method** | `GET` |
-|**URI** |`/redfish/v1/TaskService/Tasks/{TaskID}` |
-|**Description** |This endpoint retrieves information about a specific task scheduled by or being executed by Redfish `TaskService`.|
-|**Returns** |JSON schema having the details of this task - task Id, name, state of the task, start time and end time of this task, completion percentage, URI of the task monitor associated with this task, subtasks if any. The sample response body given in this section is a JSON response for a task which adds a server.<br> |
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
+
 
  
 
 
 ##  Viewing the task monitor
+
+|||
+|-----------|----------|
+|**Method** | `GET` |
+|**URI** |`/taskmon/{TaskID}` |
+|**Description** |This endpoint retrieves the task monitor associated with a specific task. A task monitor allows for polling a specific task for its completion. Perform `GET` on a task monitor URI to view the progress of a specific task \(until it is complete\).|
+|**Returns** |<ul><li>Details of the task and its progress in the JSON response such as:<br> Link to the task,<br>Id of the task,<br>Task state and status,<br>Percentage of completion,<br>Start time and end time,<br>Link to subtasks \(if any\).<br>To know the status of a subtask, perform `GET` on the respective subtask link.<br>**NOTE:**<br><ul><li>Note down the task Id. If the task completes with an error, it is required to know which subtask has failed.To get the list of subtasks, perform HTTP `GET` on `/redfish/v1/TaskService/Tasks/{taskId}`.</li><li>`EndTime` of an ongoing task has `0001-01-01T00:00:00Z` as value, which is equivalent to zero time stamp value. It is updated only after the completion of the task.</li></ul></li><li>On failure, an error message. See "Sample error response".<br> To get the list of subtasks, perform `GET` on the task URI having the Id of the failed task. To know which subtasks have failed, perform `GET` on subtask links individually.</li><li>On successful completion, result of the operation carried out by the task. See "Sample response body \(completed task\)".</li></ul>|
+|**Response code** | <ul><li>`202 Accepted` until the task is complete.</li><li>`200 OK`, `201 Created` on success.</li></ul>|
+|**Authentication** |Yes|
 
 ```
 curl -i GET \
@@ -7393,18 +7487,21 @@ Content-Length:491 bytes
 
 
 
-|||
-|-----------|----------|
-|**Method** | `GET` |
-|**URI** |`/taskmon/{TaskID}` |
-|**Description** |This endpoint retrieves the task monitor associated with a specific task. A task monitor allows for polling a specific task for its completion. Perform `GET` on a task monitor URI to view the progress of a specific task \(until it is complete\).|
-|**Returns** |<ul><li>Details of the task and its progress in the JSON response such as:<br> Link to the task,<br>Id of the task,<br>Task state and status,<br>Percentage of completion,<br>Start time and end time,<br>Link to subtasks \(if any\).<br>To know the status of a subtask, perform `GET` on the respective subtask link.<br>**NOTE:**<br><ul><li>Note down the task Id. If the task completes with an error, it is required to know which subtask has failed.To get the list of subtasks, perform HTTP `GET` on `/redfish/v1/TaskService/Tasks/{taskId}`.</li><li>`EndTime` of an ongoing task has `0001-01-01T00:00:00Z` as value, which is equivalent to zero time stamp value. It is updated only after the completion of the task.</li></ul></li><li>On failure, an error message. See "Sample error response".<br> To get the list of subtasks, perform `GET` on the task URI having the Id of the failed task. To know which subtasks have failed, perform `GET` on subtask links individually.</li><li>On successful completion, result of the operation carried out by the task. See "Sample response body \(completed task\)".</li></ul>|
-|**Response code** | <ul><li>`202 Accepted` until the task is complete.</li><li>`200 OK`, `201 Created` on success.</li></ul>|
-|**Authentication** |Yes|
+
 
  
 
 ##  Deleting a task
+
+|||
+|-----------|----------|
+|**Method** | `DELETE` |
+|**URI** |`/redfish/v1/TaskService/Tasks/{TaskID}` |
+|**Description** |This operation deletes a specific task. Deleting a running task aborts the operation being carried out.<br>**NOTE:**<br> Only a user having `ConfigureComponents` privilege is authorized to delete a task. If you do not have the necessary privileges, you will receive an HTTP `403 Forbidden` error.|
+|**Returns** |JSON schema representing the deleted task.|
+|**Response code** |`202 Accepted` |
+|**Authentication** |Yes|
+
 
 ```
 curl -i DELETE \
@@ -7456,14 +7553,7 @@ curl -i DELETE \
 
 
 
-|||
-|-----------|----------|
-|**Method** | `DELETE` |
-|**URI** |`/redfish/v1/TaskService/Tasks/{TaskID}` |
-|**Description** |This operation deletes a specific task. Deleting a running task aborts the operation being carried out.<br>**NOTE:**<br> Only a user having `ConfigureComponents` privilege is authorized to delete a task. If you do not have the necessary privileges, you will receive an HTTP `403 Forbidden` error.|
-|**Returns** |JSON schema representing the deleted task.|
-|**Response code** |`202 Accepted` |
-|**Authentication** |Yes|
+
 
  
 
@@ -7476,7 +7566,7 @@ curl -i DELETE \
 
 
 
-# Events
+#  Events
 
 Resource Aggregator for ODIM offers an event interface that allows northbound clients to interact and receive notifications such as alerts and alarms from multiple resources, including Resource Aggregator for ODIM itself. It exposes Redfish `EventService` APIs for managing events.
 
@@ -7486,15 +7576,28 @@ Use these APIs to subscribe a northbound client to southbound events by creating
 
 **Supported endpoints**
 
-|||
-|-------|--------------------|
-|/redfish/v1/EventService|`GET`|
-|/redfish/v1/EventService/Subscriptions|`POST`, `GET`|
-|/redfish/v1/EventService/Actions/EventService.SubmitTestEvent|`POST`|
-|/redfish/v1/EventService/Subscriptions/\{subscriptionId\}|`GET`, `DELETE`|
+|API URI|Operation Applicable|Required privileges|
+|-------|--------------------|-------------------|
+|/redfish/v1/EventService|GET|`Login` |
+|/redfish/v1/EventService/Subscriptions|POST, GET|`Login`, `ConfigureManager` |
+|/redfish/v1/EventService/Actions/EventService.SubmitTestEvent|POST|`ConfigureManager` |
+|/redfish/v1/EventService/Subscriptions/\{subscriptionId\}|GET, DELETE|`Login`, `ConfigureManager` |
+
+>**Note:**
+Before accessing these endpoints, ensure that the user has the required privileges. If you access these endpoints without necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
 ## Viewing the event service root
+
+|||
+|----------|---------|
+|**Method** | `GET` |
+|**URI** |`redfish/v1/EventService` |
+|**Description** |This endpoint retrieves JSON schema for the Redfish `EventService` root.|
+|**Returns** |Properties for managing event subscriptions such as allowed event types and a link to the actual collection of subscriptions.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
 
 
 ```
@@ -7639,23 +7742,37 @@ Transfer-Encoding:chunked
 ```
 
 
+
+
+
+
+
+
+
+
+
+## Creating an event subscription
+
 |||
-|----------|---------|
-|**Method** | `GET` |
-|**URI** |`redfish/v1/EventService` |
-|**Description** |This endpoint retrieves JSON schema for the Redfish `EventService` root.|
-|**Returns** |Properties for managing event subscriptions such as allowed event types and a link to the actual collection of subscriptions.|
-|**Response code** |`200 OK` |
+|-----------|-----------|
+|**Method** | `POST` |
+|**URI** |`/redfish/v1/EventService/Subscriptions` |
+|**Description**| This endpoint subscribes a northbound client to events originating from a set of resources \(southbound devices, managers, Resource Aggregator for ODIM itself\) by creating a subscription entry. For use cases, see [Subscription use cases](#event-subscription-use-cases).<br>This operation is performed in the background as a Redfish task. If there is more than one resource that is sending a specific event, the task is further divided into subasks.|
+|**Returns** |<ul><li>`Location` URI of the task monitor associated with this operation in the response header.</li><li> Link to the task and the task Id in the sample response body. To get more information on the task, perform HTTP `GET` on the task URI. See "Sample response body \(HTTP 202 status\)".<br>**IMPORTANT:**<br> Note down the task Id. If the task completes with an error, it is required to know which subtask has failed. To get the list of subtasks, perform HTTP `GET` on `/redfish/v1/TaskService/Tasks/{taskId}`.</li><li>On success, a `Location` header that contains a link to the newly created subscription and a message in the JSON response body saying that the subscription is created. See "Sample response body \(HTTP 201 status\)".</li></ul>|
+|**Response code** |<ul><li>`202 Accepted`</li><li>`201 Created`</li></ul>|
 |**Authentication** |Yes|
 
- 
 
- 
+To know the progress of this action, perform HTTP `GET` on the [task monitor](#viewing-a-task-monitor) returned in the response header \(until the task is complete\).
+
+To get the list of subtask URIs, perform HTTP `GET` on the task URI returned in the JSON response body. See "Sample response body \(HTTP 202 status\)". The JSON response body of each subtask contains a link to the task monitor associated with it. To know the progress of this operation \(subtask\) on a specific server, perform HTTP `GET` on the task monitor associated with the respective subtask.
 
 
- 
- 
-## Creating an event subscription
+<aside class="notice">
+Only a user with `ConfigureComponents` privilege is authorized to create event subscriptions. If you perform this action without necessary privileges, you will receive an HTTP`403 Forbidden` error.
+</aside>
+
+
 
 ```
 curl -i POST \
@@ -7693,33 +7810,7 @@ curl -i POST \
 ```
 
 
-|||
-|-----------|-----------|
-|**Method** | `POST` |
-|**URI** |`/redfish/v1/EventService/Subscriptions` |
-|**Returns** |<ul><li>`Location` URI of the task monitor associated with this operation in the response header.</li><li> Link to the task and the task Id in the sample response body. To get more information on the task, perform HTTP `GET` on the task URI. See "Sample response body \(HTTP 202 status\)".<br>**IMPORTANT:**<br> Note down the task Id. If the task completes with an error, it is required to know which subtask has failed. To get the list of subtasks, perform HTTP `GET` on `/redfish/v1/TaskService/Tasks/{taskId}`.</li><li>On success, a `Location` header that contains a link to the newly created subscription and a message in the JSON response body saying that the subscription is created. See "Sample response body \(HTTP 201 status\)".</li></ul>|
-|**Response code** |<ul><li>`202 Accepted`</li><li>`201 Created`</li></ul>|
-|**Authentication** |Yes|
 
-**Description** 
-
-This endpoint subscribes a northbound client to events originating from a set of resources \(southbound devices, managers, Resource Aggregator for ODIM itself\) by creating a subscription entry. For use cases, see [Subscription use cases](#event-subscription-use-cases).
-
-
-It is performed as a task. If there is more than one resource that is sending a specific event, the task is further divided into subasks. To know the progress of this action, perform HTTP `GET` on the [task monitor](#viewing-a-task-monitor) returned in the response header \(until the task is complete\).
-
-To get the list of subtask URIs, perform HTTP `GET` on the task URI returned in the JSON response body. See "Sample response body \(HTTP 202 status\)". The JSON response body of each subtask contains a link to the task monitor associated with it. To know the progress of this operation \(subtask\) on a specific server, perform HTTP `GET` on the task monitor associated with the respective subtask.
-
-
-<aside class="notice">
-Only a user with `ConfigureComponents` privilege is authorized to create event subscriptions. If you perform this action without necessary privileges, you will receive an HTTP`403 Forbidden` error.
-</aside>
-
-
-
-
-
- 
 
 > Sample request body
 
@@ -8140,7 +8231,7 @@ To create this subscription, perform HTTP `POST` on `/redfish/v1/EventService/Su
             }     ​
    ]   ​
 }​
-```
+ ```
 
 To get notified whenever an existing resource is removed from Resource Aggregator for ODIM, subscribe to `ResourceRemoved` event originating from any collection \(Systems, Chassis, Fabrics\). 
 
@@ -8193,7 +8284,14 @@ To get notified of the task completion status, subscribe to `StatusChange` event
 
 ## Viewing a collection of event subscriptions
 
-
+|||
+|-----------|-----------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/EventService/Subscriptions` |
+|**Description** |This operation lists all the event subscriptions created by the user.|
+|**Returns** |A collection of event subscription links.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
 
 
 ```
@@ -8232,17 +8330,20 @@ curl -i GET \
 }
 ```
 
-|||
-|-----------|-----------|
-|**Method** | `GET` |
-|**URI** |`/redfish/v1/EventService/Subscriptions` |
-|**Description** |This operation lists all the event subscriptions created by the user.|
-|**Returns** |A collection of event subscription links.|
-|**Response code** | `200 OK` |
-|**Authentication** |Yes|
+
 
 
 ## Viewing information about a specific event subscription
+
+|||
+|-----------|-----------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/EventService/Subscriptions/{subscriptionId}` |
+|**Description** |This operation fetches information about a particular event subscription created by the user.|
+|**Returns** |JSON schema having the details of this subscription–subscription Id, destination, event types, origin resource, and so on.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
 
 
 ```
@@ -8284,17 +8385,20 @@ curl -i GET \
 
 
 
+
+
+
+##  Deleting an event subscription
+
 |||
 |-----------|-----------|
-|**Method** | `GET` |
+|**Method** | `DELETE` |
 |**URI** |`/redfish/v1/EventService/Subscriptions/{subscriptionId}` |
-|**Description** |This operation fetches information about a particular event subscription created by the user.|
-|**Returns** |JSON schema having the details of this subscription–subscription Id, destination, event types, origin resource, and so on.|
+|**Description** |To unsubscribe from an event, delete the corresponding subscription entry. Perform `DELETE` on this URI to remove an event subscription entry.<br>**NOTE:**<br> Only a user with `ConfigureComponents` privilege is authorized to delete event subscriptions. If you perform this action without necessary privileges, you will receive an HTTP`403 Forbidden` error.|
+|**Returns** |A message in the JSON response body saying that the subscription is removed.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
 
- 
-##  Deleting an event subscription
 
 
 ```
@@ -8319,41 +8423,6 @@ curl -i -X DELETE \
    "Severity":"OK"
 }
 ```
-
-
-|||
-|-----------|-----------|
-|**Method** | `DELETE` |
-|**URI** |`/redfish/v1/EventService/Subscriptions/{subscriptionId}` |
-|**Description** |To unsubscribe from an event, delete the corresponding subscription entry. Perform `DELETE` on this URI to remove an event subscription entry.<br>**NOTE:**<br> Only a user with `ConfigureComponents` privilege is authorized to delete event subscriptions. If you perform this action without necessary privileges, you will receive an HTTP`403 Forbidden` error.|
-|**Returns** |A message in the JSON response body saying that the subscription is removed.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
-
- 
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
 
 
 
@@ -8381,23 +8450,30 @@ A message registry is an array of messages and their attributes organized by `Me
 
 The arguments are the substitution variables for the message. The `MessageId` is formed according to the Redfish specification. It consists of the `RegistryPrefix` concatenated with the version and the unique identifier for the message registry entry.
 
-<aside class="notice">
-To access Redfish message registries, ensure that you have a minimum privilege of `Login`. If you do not have the necessary privileges, you will receive an HTTP `403 Forbidden` error.
-</aside>
-
-
-
 **Supported endpoints**
 
-|||
-|-------|--------------------|
-|/redfish/v1/Registries|`GET`|
-|/redfish/v1/Registries/\{registryId\}|`GET`|
-|/redfish/v1/registries/\{registryFileId\}|`GET`|
+|API URI|Operation Applicable|Required privileges|
+|-------|--------------------|-------------------|
+|/redfish/v1/Registries|GET|`Login` |
+|/redfish/v1/Registries/\{registryId\}|GET|`Login` |
+|/redfish/v1/registries/\{registryFileId\}|GET|`Login` |
+
+
+>**NOTE:**
+To access Redfish message registries, ensure that you have a minimum privilege of `Login`. If you do not have the necessary privileges, you will receive an HTTP `403 Forbidden` error.
 
 
 
 ##  Viewing a collection of registries
+
+|||
+|------|--------|
+|**Method** |`GET` |
+|**URI** |``/redfish/v1/Registries`` |
+|**Description** |This endpoint fetches a collection of Redfish-provided registries and custom registries.|
+|**Returns** |Links to the registry instances.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
 
 ```
 curl -i GET \
@@ -8494,18 +8570,20 @@ curl -i GET \
 	
 ```
 
-|||
-|------|--------|
-|**Method** |`GET` |
-|**URI** |``/redfish/v1/Registries`` |
-|**Description** |This endpoint fetches a collection of Redfish-provided registries and custom registries.|
-|**Returns** |Links to the registry instances.|
-|**Response code** |`200 OK` |
-|**Authentication** |Yes|
+
 
 
 
 ##  Viewing a single registry
+
+|||
+|------|--------|
+|**Method** |`GET` |
+|**URI** |``/redfish/v1/Registries/{registryId}`` |
+|**Description** |This endpoint fetches information about a single registry.|
+|**Returns** |Link to the file inside this registry.|
+|**Response code** |On success, `200 OK` |
+|**Authentication** |Yes|
 
 ```
 curl -i GET \
@@ -8537,25 +8615,10 @@ curl -i GET \
 }
 ```
 
-|||
-|------|--------|
-|**Method** |`GET` |
-|**URI** |``/redfish/v1/Registries/{registryId}`` |
-|**Description** |This endpoint fetches information about a single registry.|
-|**Returns** |Link to the file inside this registry.|
-|**Response code** |On success, `200 OK` |
-|**Authentication** |Yes|
+
 
 
 ## Viewing a file in a registry
-
-```
-curl -i GET \
-   -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odimra_host}:{port}/redfish/v1/registries/{jsonFileId}'
-
-```
-
 
 |||
 |------|--------|
@@ -8565,5 +8628,15 @@ curl -i GET \
 |**Returns** |Content of this file.|
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
+
+```
+curl -i GET \
+   -H "X-Auth-Token:{X-Auth-Token}" \
+ 'https://{odimra_host}:{port}/redfish/v1/registries/{jsonFileId}'
+
+```
+
+
+
 
 
