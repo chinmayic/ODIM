@@ -7164,7 +7164,7 @@ curl -i -X DELETE \
 
 
 
-#  Tasks
+# Tasks
 
 A task represents an operation that takes more time than a user typically wants to wait and is carried out asynchronously.
 
@@ -7382,7 +7382,7 @@ curl -i GET \
  
 
 
-##  Viewing the task monitor
+##  Viewing a task monitor
 
 |||
 |-----------|----------|
