@@ -102,8 +102,7 @@ Use the following URL in all HTTP requests that you send to the resource aggrega
 - {odimra_host} is the fully qualified domain name (FQDN) used for generating certificates while deploying the
     resource aggregator.
 	
-	**NOTE:**
-     Ensure that FQDN is provided in the `/etc/hosts` file or in the DNS server.
+	>**NOTE:** Ensure that FQDN is provided in the `/etc/hosts` file or in the DNS server.
 
 
 - {port} is the port where the services of the resource aggregator are running. The default port is 45000. If you
@@ -127,14 +126,15 @@ supports HTTPS.
 
 For a complete list of curl flags, see information provided at [https://curl.haxx.se](https://curl.haxx.se).
 
-<aside class="notice">
-IMPORTANT: If you have set proxy configuration, set no_proxy using the following command, before running a
-curl command.<br>
-$ export no_proxy="127.0.0.1,localhost,{odimra_host}".
-</aside>
+
+>**IMPORTANT:** If you have set proxy configuration, set no_proxy using the following command, before running a curl command.<br>
+    ```
+    $ export no_proxy="127.0.0.1,localhost,{odimra_host}"
+     ```
+
    
 
-
+<br>
 
 **Including HTTP certificate**
 
@@ -144,44 +144,27 @@ certificate problem. Provide the root CA certificate to curl for secure SSL comm
 
 
 
-**1.** If you are running curl commands on the server where the resource aggregator is deployed, provide the `rootCA.crt` file as shown in the curl command:
+1. If you are running curl commands on the server where the resource aggregator is   deployed, provide the `rootCA.crt` file as shown in the curl command:
+   ```
+   curl -v --cacert {path}/rootCA.crt 'https://{odimra_host}:{port}/redfish/v1'
+   ```
+    {path} is where you have generated certificates during the deployment of the resource aggregator.
 
-```
-curl -v --cacert {path}/rootCA.crt 'https://{odimra_host}:{port}/redfish/v1'
-```
-
-
-{path} is where you have generated certificates during the deployment of the resource aggregator.
-
-**2.** If you are running curl commands on a different server, perform the following steps to provide the rootCA.crt file.
-      
-
-a. Navigate to `~/ODIM/build/cert_generator/certificates` on the server where the resource aggregator is deployed.
-
-
-b. Copy the `rootCA.crt` file.
-
-
-c. Log in to your server and paste the `rootCA.crt` file in a folder.
-
-
-d. Open the `/etc/hosts` file to edit.
-
-
-e. Scroll to the end of the file, add the following line, and save:
-      
-    {odim_server_ipv4_address} {FQDN}
-
-
-
-f. Check if curl is working using the curl command:
-```curl
-curl -v --cacert {path}/rootCA.crt 'https://{odimra_host}:{port}/redfish/v1'
-```
+2. If you are running curl commands on a different server, perform the following steps to provide the rootCA.crt file.
+    1. Navigate to `~/ODIM/build/cert_generator/certificates` on the server where the resource aggregator is deployed.
+    2. Copy the `rootCA.crt` file.
+    3. Log in to your server and paste the `rootCA.crt` file in a folder.
+    4. Open the `/etc/hosts` file to edit.
+    5. Scroll to the end of the file, add the following line, and save:
+       `{odim_server_ipv4_address} {FQDN}`
+    6. Check if curl is working using the curl command:
+        ```curl
+        curl -v --cacert {path}/rootCA.crt 'https://{odimra_host}:{port}/redfish/v1'
+        ```
 
 ​		 
 
->NOTE: To avoid using the `--cacert` flag in every curl command, add `rootCA.crt` in the `ca-certificates.crt` file located in this path:<br> `/etc/ssl/certs/ca-certificates.crt`.
+>**NOTE:** To avoid using the `--cacert` flag in every curl command, add `rootCA.crt` in the `ca-certificates.crt` file located in this path:<br> `/etc/ssl/certs/ca-certificates.crt`.
 
 
 
@@ -312,7 +295,7 @@ Resource Aggregator for ODIM supports the following Redfish APIs:
 
 
 
->NOTE: Subtask URIs are not available in the current Redfish standard (1.8.0). They will be available in the next Redfish standard.
+>**NOTE:** Subtask URIs are not available in the current Redfish standard (1.8.0). They will be available in the next Redfish standard.
 
 
 
@@ -343,6 +326,8 @@ universally unique identifier of a system (Example: ba0a6871-7bc4-5f7a-903d-67f3
 |**Returns** |All the available services in the service root.|
 |**Response Code** |`200 OK` |
 |**Authentication** |No|
+
+
 
 ```curl
 curl -i GET 'https://{odimra_host}:{port}/redfish/v1'
@@ -467,7 +452,7 @@ Following are the HTTP status codes with their descriptions:
 |503 Service Unavailable|When the server is unable to service the request due to temporary overloading or maintenance.|
 
 
->NOTE:
+>**NOTE:**
 This guide provides success codes (200, 201, 202, 204) for all the referenced API operations. For failed operations, refer to the error codes listed in this section.
 
 
@@ -493,7 +478,7 @@ To authenticate requests with the Redfish services, implement any one of the fol
 
      To implement HTTP BASIC authentication:
 
-     1. Generate a base64 encoded string of `{valid_username_of_odim_userAccount}:{valid_password_of_odim_userAccount}` using    the following command:
+     1. Generate a base64 encoded string of `{valid_username_of_odim_userAccount}:{valid_password_of_odim_userAccount}` using the following command:
 
          ```
         $ echo -n '{username}:{password}' | base64 -w0
@@ -513,7 +498,7 @@ To authenticate requests with the Redfish services, implement any one of the fol
 
 -   **Redfish session login authentication \(XAuthToken\)** 
 
-      To implement Redfish session login authentication, create a Redfish login [session](#Sessions) and obtain an authentication token through session management interface.
+      To implement Redfish session login authentication, create a Redfish login [session](#sessions) and obtain an authentication token through session management interface.
     
       Every session that is created has an authentication token called `X-AUTH-TOKEN` associated with it. An `X-AUTH-TOKEN` is returned in the response header from session creation.
     
@@ -569,24 +554,24 @@ A privilege is a permission to perform an operation or a set of operations withi
 
 The following Redfish-specified privileges can be assigned to any user in Resource Aggregator for ODIM:
 
--    `ConfigureComponents` 
+-    `ConfigureComponents` :
  Users with this privilege can configure components managed by the Redfish services in Resource   Aggregator for ODIM.
 This privilege is required to create, update, and delete a resource or a collection of resources exposed by Redfish APIs using HTTP `POST, PATCH, DELETE` operations.
 
- -    `ConfigureManager` 
+ -    `ConfigureManager` :
  Users with this privilege can configure manager resources.
 
- -    `ConfigureComponents` 
+ -    `ConfigureComponents` :
  Users with this privilege can configure components managed by the services.
 
- -    `ConfigureSelf` 
+ -    `ConfigureSelf` :
  Users with this privilege can change the password for their account.
 
- -    `ConfigureUsers` 
+ -    `ConfigureUsers` :
  Users with this privilege can configure users and their accounts. This privilege is assigned to an `Administrator`.
 This privilege is required to create, update, and delete user accounts using HTTP `POST, PATCH, DELETE` operations.
 
- -    `Login` 
+ -    `Login` :
  Users with this privilege can log in to the service and read the resources.
 This privilege is required to view any resource or a collection of resources exposed by Redfish APIs using HTTP `GET` operation.
 
@@ -594,9 +579,9 @@ This privilege is required to view any resource or a collection of resources exp
 
 |Roles|Assigned privileges|
 |-----|-------------------|
-|Administrator \(Redfish predefined\)| -   `Login` <br>-   `ConfigureManager` <br>-   `ConfigureUsers` <br>-    `ConfigureComponents` <br>-   `ConfigureSelf` <br>|
-|Operator \(Redfish predefined\)| -   `Login` <br>-   `ConfigureComponents` <br>-   `ConfigureSelf` <br>|
-|ReadOnly \(Redfish predefined\)| -   `Login` <br>-   `ConfigureSelf` <br>|
+|Administrator \(Redfish predefined\)|    `Login` <br>   `ConfigureManager` <br>   `ConfigureUsers` <br>    `ConfigureComponents` <br>   `ConfigureSelf` <br>|
+|Operator \(Redfish predefined\)|    `Login` <br>   `ConfigureComponents` <br>   `ConfigureSelf` <br>|
+|ReadOnly \(Redfish predefined\)|    `Login` <br>   `ConfigureSelf` <br>|
 
 
 >**NOTE:**
@@ -1068,6 +1053,7 @@ curl -i GET \
 |**Authentication** |Yes|
 
 
+
 ```
 curl -i GET \
    -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
@@ -1250,7 +1236,7 @@ curl -i POST \
 |---------|----|-----------|
 |Username|String \(required\)<br> |User name for the user account.|
 |Password|String \(required\)<br> |Password for the user account. Before creating a password, see "Password Requirements" .|
-|RoleId|String \(required\)<br> |The role for this account. To know more about roles, see [User roles and privileges](#user-roles-and-privileges). Ensure that the `roleId` you want to assign to this user account exists. To check the existing roles, see [Listing Roles](#listing-roles). If you attempt to assign an unavailable role, you will receive an HTTP `400 Bad Request` error.|
+|RoleId|String \(required\)<br> |The role for this account. To know more about roles, see [User roles and privileges](#role-based-authorization). Ensure that the `roleId` you want to assign to this user account exists. To check the existing roles, see [Listing Roles](#listing-roles). If you attempt to assign an unavailable role, you will receive an HTTP `400 Bad Request` error.|
 
 ### Password requirements
 
@@ -1484,7 +1470,7 @@ The resource aggregator allows users to add and group southbound infrastructure 
 
 Using these endpoints, you can add or remove only one resource at a time. You can group the resources into one collection and perform actions \(`reset` and `setdefaultbootorder`\) in combination on that group.
 
-All aggregation actions are performed as [tasks](#) in Resource Aggregator for ODIM. The actions performed on a group of resources \(resetting or changing the boot order to default settings\) are carried out as a set of subtasks.
+All aggregation actions are performed as [tasks](#tasks) in Resource Aggregator for ODIM. The actions performed on a group of resources \(resetting or changing the boot order to default settings\) are carried out as a set of subtasks.
 
 **Supported endpoints**
 
@@ -1806,7 +1792,7 @@ curl -i -X POST \
 |UserName|String \(required\)<br> |The username of the BMC administrator account.|
 |Password|String \(required\)<br> |The password of the BMC administrator account.|
 |Links \{|Object \(required\)<br> |Links to other resources that are related to this resource.|
-|Oem\{ PluginID \} \} |String \(required\)<br> |The plugin Id of the plugin.<br> NOTE: Before specifying the plugin Id, ensure that the installed plugin is added in the resource inventory. To know how to add a plugin, see [Adding a Plugin](GUID-4E64426F-559C-430A-AE60-61409DFB4131.md).|
+|Oem\{ PluginID \} \} |String \(required\)<br> |The plugin Id of the plugin.<br> NOTE: Before specifying the plugin Id, ensure that the installed plugin is added in the resource inventory. To know how to add a plugin, see [Adding a Plugin](#adding-a-plugin-as-an-aggregation-source).|
 
 > Sample response header \(HTTP 202 status\)
 
@@ -7768,9 +7754,9 @@ To know the progress of this action, perform HTTP `GET` on the [task monitor](#v
 To get the list of subtask URIs, perform HTTP `GET` on the task URI returned in the JSON response body. See "Sample response body \(HTTP 202 status\)". The JSON response body of each subtask contains a link to the task monitor associated with it. To know the progress of this operation \(subtask\) on a specific server, perform HTTP `GET` on the task monitor associated with the respective subtask.
 
 
-<aside class="notice">
+>**NOTE:**
 Only a user with `ConfigureComponents` privilege is authorized to create event subscriptions. If you perform this action without necessary privileges, you will receive an HTTP`403 Forbidden` error.
-</aside>
+
 
 
 
