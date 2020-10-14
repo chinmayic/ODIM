@@ -1,4 +1,146 @@
-[TOC]
+
+# Table of contents
+
+- [Introduction](#introduction)
+  * [Resource Aggregator for ODIM logical architecture](#resource-aggregator-for-odim-logical-architecture)
+- [API usage and access guidelines](#api-usage-and-access-guidelines)
+- [List of supported APIs](#list-of-supported-apis)
+  * [Viewing the list of supported Redfish services](#viewing-the-list-of-supported-redfish-services)
+- [HTTP request methods, responses, and status codes](#http-request-methods--responses--and-status-codes)
+- [Authentication and authorization](#authentication-and-authorization)
+  * [Authentication methods for Redfish APIs](#authentication-methods-for-redfish-apis)
+  * [Role-based authorization](#role-based-authorization)
+- [Sessions](#sessions)
+  * [Viewing the session service root](#viewing-the-session-service-root)
+  * [Creating a session](#creating-a-session)
+  * [Listing sessions](#listing-sessions)
+  * [Viewing information about a single session](#viewing-information-about-a-single-session)
+  * [Deleting a session](#deleting-a-session)
+- [User roles and privileges](#user-roles-and-privileges)
+  * [Viewing the account service root](#viewing-the-account-service-root)
+  * [Creating a role](#creating-a-role)
+  * [Listing roles](#listing-roles)
+  * [Viewing information about a role](#viewing-information-about-a-role)
+  * [Updating a role](#updating-a-role)
+  * [Deleting a role](#deleting-a-role)
+- [User accounts](#user-accounts)
+  * [Creating a user account](#creating-a-user-account)
+    + [Password requirements](#password-requirements)
+  * [Listing user accounts](#listing-user-accounts)
+  * [Viewing the account details](#viewing-the-account-details)
+  * [Updating a user account](#updating-a-user-account)
+  * [Deleting a user account](#deleting-a-user-account)
+- [Resource aggregation and management](#resource-aggregation-and-management)
+  * [Viewing the aggregation service root](#viewing-the-aggregation-service-root)
+  * [Adding a plugin as an aggregation source](#adding-a-plugin-as-an-aggregation-source)
+  * [Adding a server as an aggregation source](#adding-a-server-as-an-aggregation-source)
+  * [Viewing a collection of aggregation sources](#viewing-a-collection-of-aggregation-sources)
+  * [Viewing an aggregation source](#viewing-an-aggregation-source)
+  * [Updating an aggregation source](#updating-an-aggregation-source)
+  * [Resetting servers](#resetting-servers)
+  * [Changing the boot order of servers to default settings](#changing-the-boot-order-of-servers-to-default-settings)
+  * [Deleting a resource from the inventory](#deleting-a-resource-from-the-inventory)
+  * [Aggregates](#aggregates)
+  * [Creating an aggregate](#creating-an-aggregate)
+  * [Viewing a list of aggregates](#viewing-a-list-of-aggregates)
+  * [Viewing information about a single aggregate](#viewing-information-about-a-single-aggregate)
+  * [Deleting an aggregate](#deleting-an-aggregate)
+  * [Adding elements to an aggregate](#adding-elements-to-an-aggregate)
+  * [Resetting an aggregate of computer systems](#resetting-an-aggregate-of-computer-systems)
+  * [Setting boot order of an aggregate to default settings](#setting-boot-order-of-an-aggregate-to-default-settings)
+  * [Removing elements from an aggregate](#removing-elements-from-an-aggregate)
+- [Resource inventory](#resource-inventory)
+  * [Collection of computer systems](#collection-of-computer-systems)
+  * [Single computer system](#single-computer-system)
+  * [Memory collection](#memory-collection)
+  * [Single memory](#single-memory)
+  * [Memory domains](#memory-domains)
+  * [BIOS](#bios)
+  * [Network interfaces](#network-interfaces)
+  * [Ethernet interfaces](#ethernet-interfaces)
+  * [Single Ethernet interface](#single-ethernet-interface)
+  * [Storage](#storage)
+  * [Storage subsystem](#storage-subsystem)
+  * [Storage drive](#storage-drive)
+  * [Volumes](#volumes)
+    + [A collection of volumes](#a-collection-of-volumes)
+    + [Single volume](#single-volume)
+    + [Creating a volume](#creating-a-volume)
+    + [Deleting a volume](#deleting-a-volume)
+  * [SecureBoot](#secureboot)
+  * [Processors](#processors)
+  * [Single processor](#single-processor)
+  * [Collection of chassis](#collection-of-chassis)
+  * [Single chassis](#single-chassis)
+  * [Thermal metrics](#thermal-metrics)
+  * [Network adapters](#network-adapters)
+  * [Power](#power)
+  * [Searching the inventory](#searching-the-inventory)
+    + [Request URI parameters](#request-uri-parameters)
+- [Actions on a computer system](#actions-on-a-computer-system)
+  * [Resetting a computer system](#resetting-a-computer-system)
+  * [Changing the boot order of a computer system to default settings](#changing-the-boot-order-of-a-computer-system-to-default-settings)
+  * [Changing BIOS settings](#changing-bios-settings)
+  * [Changing the boot order settings](#changing-the-boot-order-settings)
+- [Managers](#managers)
+  * [Collection of managers](#collection-of-managers)
+  * [Single manager](#single-manager)
+- [Software and firmware inventory](#software-and-firmware-inventory)
+  * [Viewing the update service root](#viewing-the-update-service-root)
+  * [Viewing the firmware inventory](#viewing-the-firmware-inventory)
+  * [Viewing a specific firmware resource](#viewing-a-specific-firmware-resource)
+  * [Viewing the software inventory](#viewing-the-software-inventory)
+  * [Viewing a specific software resource](#viewing-a-specific-software-resource)
+  * [Actions](#actions)
+    + [Simple update](#simple-update)
+    + [Start update](#start-update)
+- [Host to fabric networking](#host-to-fabric-networking)
+  * [Collection of fabrics](#collection-of-fabrics)
+  * [Single fabric](#single-fabric)
+  * [Collection of switches](#collection-of-switches)
+  * [Single switch](#single-switch)
+  * [Collection of ports](#collection-of-ports)
+  * [Single port](#single-port)
+  * [Collection of address pools](#collection-of-address-pools)
+  * [Single address pool](#single-address-pool)
+  * [Collection of endpoints](#collection-of-endpoints)
+  * [Single endpoint](#single-endpoint)
+  * [Collection of zones](#collection-of-zones)
+  * [Single zone](#single-zone)
+  * [Creating a zone-specific address pool](#creating-a-zone-specific-address-pool)
+  * [Creating an address pool for zone of zones](#creating-an-address-pool-for-zone-of-zones)
+  * [Adding a zone of zones](#adding-a-zone-of-zones)
+  * [Adding an endpoint](#adding-an-endpoint)
+  * [Creating a zone of endpoints](#creating-a-zone-of-endpoints)
+  * [Updating a zone](#updating-a-zone)
+  * [Deleting a zone](#deleting-a-zone)
+  * [Deleting an endpoint](#deleting-an-endpoint)
+  * [Deleting an address pool](#deleting-an-address-pool)
+- [Tasks](#tasks)
+  * [viewing the task service root](#viewing-the-task-service-root)
+  * [Viewing a collection of tasks](#viewing-a-collection-of-tasks)
+  * [Viewing information about a specific task](#viewing-information-about-a-specific-task)
+  * [Viewing a task monitor](#viewing-a-task-monitor)
+  * [Deleting a task](#deleting-a-task)
+- [Events](#events)
+  * [Viewing the event service root](#viewing-the-event-service-root)
+  * [Creating an event subscription](#creating-an-event-subscription)
+  * [Submitting a test event](#submitting-a-test-event)
+  * [Event subscription use cases](#event-subscription-use-cases)
+    + [Subscribing to resource addition notification](#subscribing-to-resource-addition-notification)
+    + [Subscribing to resource removal notification](#subscribing-to-resource-removal-notification)
+    + [Subscribing to task status notifications](#subscribing-to-task-status-notifications)
+  * [Viewing a collection of event subscriptions](#viewing-a-collection-of-event-subscriptions)
+  * [Viewing information about a specific event subscription](#viewing-information-about-a-specific-event-subscription)
+  * [Deleting an event subscription](#deleting-an-event-subscription)
+- [Message registries](#message-registries)
+  * [Viewing a collection of registries](#viewing-a-collection-of-registries)
+  * [Viewing a single registry](#viewing-a-single-registry)
+  * [Viewing a file in a registry](#viewing-a-file-in-a-registry)
+
+
+
+
 
 
 # Introduction 
@@ -1658,7 +1800,7 @@ curl -i POST \
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -1807,7 +1949,7 @@ curl -i -X POST \
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -2093,7 +2235,7 @@ curl -i POST \
 
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -2102,7 +2244,7 @@ curl -i POST \
 |ResetType|String \(required\)<br> |The type of reset to be performed. For possible values, see "Reset type". If the value is not supported by the target server machine, you will receive an HTTP `400 Bad Request` error.|
 |TargetURIs|Array \(required\)<br> |The URI of the target for `Reset`. Example: `"/redfish/v1/Systems/{ComputerSystemId}"` |
 
-### Reset type
+**Reset type**
 
 |String|Description|
 |------|-----------|
@@ -2252,7 +2394,7 @@ curl -i POST \
 
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -2455,7 +2597,7 @@ curl -i POST \
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -2641,7 +2783,7 @@ curl -i POST \
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -2717,7 +2859,7 @@ curl -i POST \
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -2953,7 +3095,7 @@ curl -i POST \
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -3939,7 +4081,7 @@ curl -i -X POST \
 }}
 ```
 
-### Request parameters 
+**Request parameters** 
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -4000,7 +4142,7 @@ curl -i -X DELETE \
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -4564,7 +4706,7 @@ This filter searches a server having total physical memory of 384 GB and two Int
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.` 
 
@@ -4665,7 +4807,7 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 `Attributes` are the list of BIOS attributes specific to the manufacturer or provider. To get a full list of attributes, perform `GET` on:
 
@@ -4739,7 +4881,7 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 To get a full list of boot attributes that you can update, perform `GET` on:
 
@@ -5406,7 +5548,7 @@ curl -i POST \
 }
 ```
 
-#### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -6342,7 +6484,7 @@ curl -i POST \
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -6527,7 +6669,7 @@ curl -i POST \
 
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -6683,7 +6825,7 @@ curl -i POST \
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Value|Description|
 |---------|-----|-----------|
@@ -6822,7 +6964,7 @@ curl -i POST \
 }
 ```
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Value|Description|
 |---------|-----|-----------|
@@ -6974,7 +7116,7 @@ curl -i POST \
 ```
 
 
-### Request parameters
+**Request parameters**
 
 |Parameter|Value|Description|
 |---------|-----|-----------|
@@ -7981,7 +8123,7 @@ curl -i POST \
 |SubordinateResources|Boolean|Read-only \(null\)|Indicates whether the service supports the `SubordinateResource` property on event subscriptions or not. If it is set to `true`, the service creates subscription for an event originating from the specified `OriginResoures` and also from its subordinate resources. For example, by setting this property to `true`, you can receive specified events from a compute node: `/redfish/v1/Systems/{ComputerSystemId}` and from its subordinate resources such as:<br> `/redfish/v1/Systems/{ComputerSystemId}/Memory`,<br> `/redfish/v1/Systems/{ComputerSystemId}/EthernetInterfaces`,<br> `/redfish/v1/Systems/{ComputerSystemId}/Bios`,<br> `/redfish/v1/Systems/{ComputerSystemId}/Storage`|
 |OriginResources|Array| Required \(null\)<br> |Resources for which the service only sends related events. If this property is absent or the array is empty, events originating from any resource will be sent to the subscriber. For possible values, see "Origin resources" table.|
 
-### Origin resources
+**Origin resources**
 
 |String|Description|
 |------|-----------|
@@ -7992,7 +8134,7 @@ curl -i POST \
 |/redfish/v1/Fabrics|All fabric resources available in Resource Aggregator for ODIM for which the service sends only related events.|
 |/redfish/v1/TaskService/Tasks|All tasks scheduled by or being executed by Redfish `TaskService`. By subscribing to Redfish tasks, you can receive task status change notifications on the subscribed destination client.<br> By specifying the task URIs as `OriginResources` and `EventTypes` as `StatusChange`, you can receive notifications automatically when the tasks are complete.<br> To check the status of a specific task manually, perform HTTP `GET` on its task monitor until the task is complete.<br> |
 
-### Event types
+**Event types**
 
 |String|Description|
 |------|-----------|
@@ -8002,19 +8144,19 @@ curl -i POST \
 |ResourceUpdated|The value of this resource has been updated.|
 |StatusChange|The status of this resource has changed.|
 
-### EventFormat type
+**EventFormat type**
 
 |String|Description|
 |------|-----------|
 |Event|The subscription destination will receive JSON bodies of the Resource Type Event.|
 
-### Subscription type
+**Subscription type**
 
 |String|Description|
 |------|-----------|
 |RedfishEvent|The subscription follows the Redfish specification for event notifications, which is done by a service sending an HTTP `POST` to the destination URI of the subscriber.|
 
-### Protocol
+**Protocol**
 
 |String|Description|
 |------|-----------|
@@ -8204,7 +8346,7 @@ curl -i POST \
 |OriginOfCondition|String|Optional|The URL in the `OriginOfCondition` property of the event to add. It is not a reference object. It is the resource that originated the condition that caused the event to be generated. For possible values, see "Origin resources" in [Creating an event subscription](#creating-an-event-subscription).|
 |Severity|String|Optional|The severity for the event to add. For possible values, see "Severity" table.|
 
-### Severity
+**Severity**
 
 |String|Description|
 |------|-----------|
