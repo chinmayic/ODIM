@@ -2,7 +2,7 @@
 [![build_unittest Actions Status](https://github.com/ODIM-Project/ODIM/workflows/build_unittest/badge.svg)](https://github.com/ODIM-Project/ODIM/actions)
 
 # Deploying ODIMRA
-## 1. Setting up OS, Docker environment, and other pre-requisites
+## 1. Setting up OS and Docker environment
 ### Prerequisites
 Ensure that the Internet is available. If your system is behind a corporate proxy or firewall, set your proxy configuration. To know how to set proxy, see information provided at `https://www.serverlab.ca/tutorials/linux/administration-linux/how-to-set-the-proxy-for-apt-for-ubuntu-18-04/`.  
 
@@ -98,6 +98,7 @@ To install `Ubuntu Make`, run the following command:
      ```
       
    >  **NOTE:** To enable Docker service to start on reboot, run the following command:
+   
        `$ sudo systemctl enable docker`
   
    
@@ -108,11 +109,13 @@ To install `Ubuntu Make`, run the following command:
 ## 2. Installing the resource aggregator for ODIM and GRF plugin
 This section provides a step-by-step procedure for deploying the resource aggregator for ODIM (odimra) and GRF plugin.
 
-> **NOTE:**
+  <blockquote>
+  **NOTE:**
   - All configuration parameters are set to default values in the configuration files for odimra and GRF plugin. 
   - The following ports are used for deploying odimra and GRF plugin:
     45000, 45001, 45101-45110, 9092, 9082, 6380, 6379, 8500, 8300, 8302, 8301, 8600
     Ensure that the above ports are not in use.
+</blockquote>
 
 **WARNING:** Do not run the commands provided in this section as root user unless mentioned.
 
@@ -146,14 +149,15 @@ This section provides a step-by-step procedure for deploying the resource aggreg
 
 6. Generate certificates:
 
+   <blockquote>
    > NOTE:
    - Self-signed Root CA (Certificate Authority) certificate and key are generated with 4096 key length and sha512 digest algorithm.
    - Using the generated CA certificate, certificates and private keys for the resource aggregator services are also generated with 4096 key length and sha512 digest algorithm. They are valid for services matching the provided FQDN. You can use one-word description of the certificate as the common name.
    - Certificates are used by the resource aggregator services to communicate    internally (Remote Procedure Call) and with the plugin services.
    - If you are using an intermediate CA for signing certificates assigned to the resource aggregator and the plugin services, ensure to:
         - Append all the intermediate certificates to the server certificate file in   the order such that each certificate has signed the preceding one.
-       - Append the Root CA used for signing the intermediate CA to the resource   aggregator CA file.
-
+        - Append the Root CA used for signing the intermediate CA to the resource   aggregator CA file.
+</blockquote>
 
    ###### Procedure
    
@@ -263,6 +267,7 @@ This section provides a step-by-step procedure for deploying the resource aggreg
    registry=consul --registry_address=consul:8500 --server_address=odim:45107
    ```
 
+   <blockquote>
    **NOTE:**
    - The resource aggregator configuration files are available at `/etc/odimra_config`.
    -  The GRF configuration files are available at `/etc/grf_plugin_config`.
@@ -270,7 +275,7 @@ This section provides a step-by-step procedure for deploying the resource aggreg
    - The GRF plugin API service runs on default port 45001.
    - The resource aggregator logs are available at `/var/log/odimra`.
    - The GRF plugin logs are available at `/var/log/GRF_PLUGIN`.
-
+</blockquote>
 
 10. To configure log rotation, do the following:
 
@@ -327,13 +332,13 @@ This section provides a step-by-step procedure for deploying the resource aggreg
   
 #  Modifying default configuration parameters for the resource aggregator
 
-1.   Navigate to the `odim_1` container using the following command: 
+1.   Navigate to the `odimra_1` container using the following command: 
 
       ```
-     $ docker exec -it odim_1/bin/bash
+     $ docker exec -it odimra_1/bin/bash
      ```
 
-2.   Edit the parameters in the `odimra_config.json` file located in this path:   `/etc/odim_config/odimra_config.json` and save. 
+2.   Edit the parameters in the `odimra_config.json` file located in this path:   `/etc/odimra_config/odimra_config.json` and save. 
 
      The parameters that are configurable are listed in the following table.
       > **NOTE:** It is recommended not to modify parameters other than the ones listed in the following table.
@@ -405,55 +410,55 @@ During the course of this procedure, you will be required to create files and co
 
 2.   Add the following content in the config.json file and save: 
 
-    ```
-    {
-     "proxies":
-     {
-       "default":
-       {
-         "httpProxy": "<Proxy_URL>",
-         "httpsProxy": "<Proxy_URL>",
-         "noProxy": "localhost,127.0.0.1, <ODIM_server_VM_IP>"
-       }
+      ```
+      {
+        "proxies":
+      {
+         "default":
+        {
+          "httpProxy": "<Proxy_URL>",
+          "httpsProxy": "<Proxy_URL>",
+          "noProxy": "localhost,127.0.0.1, <ODIM_server_VM_IP>"
+        }
+      }
      }
-    }
     
-    ```
+     ```
 
 3.   Update the `/etc/environment` file with the following content using sudo: 
 
-    ```
-    export http_proxy=<Proxy_URL>
-    export https_proxy=<Proxy_URL>
-    HOSTIP=<ODIM_server_VM_IP>
-    FQDN=<FQDN>
-    
-    ```
+      ```
+      export http_proxy=<Proxy_URL>
+      export https_proxy=<Proxy_URL>
+      HOSTIP=<ODIM_server_VM_IP>
+      FQDN=<FQDN>
+      ```
 
 4.   Do the following on the resource aggregator server: 
-    1.   Create a directory using the following command: 
 
-        ```
-        $ sudo mkdir /etc/systemd/system/docker.service.d/
-        ```
+     1. Create a directory using the following command: 
 
-    2.   Create a file called http-proxy.conf in the `/etc/systemd/system/docker.service.d/` directory. 
-    3.   Add the following content in the `http-proxy.conf` file and save: 
+         ```
+         $ sudo mkdir /etc/systemd/system/docker.service.d/
+         ```
 
-        ```
-        [Service]
-        Environment="HTTP_PROXY=<Proxy_URL>"
-        Environment="HTTPS_PROXY=<Proxy_URL>"
-        Environment="NO_PROXY=localhost,127.0.0.1, <ODIM_server_VM_IP>"
+     2. Create a file called http-proxy.conf in the `/etc/systemd/system/docker.service.d/` directory. 
+     3. Add the following content in the `http-proxy.conf` file and save: 
+
+         ```
+         [Service]
+         Environment="HTTP_PROXY=<Proxy_URL>"
+         Environment="HTTPS_PROXY=<Proxy_URL>"
+         Environment="NO_PROXY=localhost,127.0.0.1, <ODIM_server_VM_IP>"
         
-        ```
+         ```
 
-    4.   Run the following commands: 
+     4. Run the following commands: 
 
-        ```
-        $ sudo systemctl daemon-reload
-        ```
+         ```
+         $ sudo systemctl daemon-reload
+         ```
 
-        ```
-        $ sudo service docker restart
-        ```
+         ```
+         $ sudo service docker restart
+         ```
