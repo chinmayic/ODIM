@@ -267,14 +267,14 @@ This section provides a step-by-step procedure for deploying the resource aggreg
    registry=consul --registry_address=consul:8500 --server_address=odim:45107
    ```
 
-   <blockquote>
-   **NOTE:**
-   - The resource aggregator configuration files are available at `/etc/odimra_config`.
-   -  The GRF configuration files are available at `/etc/grf_plugin_config`.
-   - The resource aggregator API service runs on the default port 45000.
-   - The GRF plugin API service runs on default port 45001.
-   - The resource aggregator logs are available at `/var/log/odimra`.
-   - The GRF plugin logs are available at `/var/log/GRF_PLUGIN`.
+<blockquote>
+NOTE:
+- The resource aggregator configuration files are available at `/etc/odimra_config`.
+-  The GRF configuration files are available at `/etc/grf_plugin_config`.
+- The resource aggregator API service runs on the default port 45000.
+- The GRF plugin API service runs on default port 45001.
+- The resource aggregator logs are available at `/var/log/odimra`.
+- The GRF plugin logs are available at `/var/log/GRF_PLUGIN`.
 </blockquote>
 
 10. To configure log rotation, do the following:
@@ -316,7 +316,7 @@ This section provides a step-by-step procedure for deploying the resource aggreg
     https://github.com/ODIM-Project/ODIM/blob/development/svc-aggregation/README.md
 	
 	
-##### Default user credentials for ODIMRA and GRF Plugin 
+### Default user credentials for ODIMRA and GRF Plugin 
 
     ```
 	ODIMRA:
@@ -383,7 +383,7 @@ This section provides a step-by-step procedure for deploying the resource aggreg
 
      ```
      $ docker restart odim_1
-  
+      ```
     
    
    
