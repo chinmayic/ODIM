@@ -109,13 +109,13 @@ To install `Ubuntu Make`, run the following command:
 ## 2. Installing the resource aggregator for ODIM and GRF plugin
 This section provides a step-by-step procedure for deploying the resource aggregator for ODIM (odimra) and GRF plugin.
 
-  <blockquote>
+  
   **NOTE:**
   - All configuration parameters are set to default values in the configuration files for odimra and GRF plugin. 
   - The following ports are used for deploying odimra and GRF plugin:
     45000, 45001, 45101-45110, 9092, 9082, 6380, 6379, 8500, 8300, 8302, 8301, 8600
     Ensure that the above ports are not in use.
-</blockquote>
+
 
 **WARNING:** Do not run the commands provided in this section as root user unless mentioned.
 
@@ -149,15 +149,15 @@ This section provides a step-by-step procedure for deploying the resource aggreg
 
 6. Generate certificates:
 
-   <blockquote>
-   > NOTE:
+   
+   **NOTE:**
    - Self-signed Root CA (Certificate Authority) certificate and key are generated with 4096 key length and sha512 digest algorithm.
    - Using the generated CA certificate, certificates and private keys for the resource aggregator services are also generated with 4096 key length and sha512 digest algorithm. They are valid for services matching the provided FQDN. You can use one-word description of the certificate as the common name.
    - Certificates are used by the resource aggregator services to communicate    internally (Remote Procedure Call) and with the plugin services.
    - If you are using an intermediate CA for signing certificates assigned to the resource aggregator and the plugin services, ensure to:
         - Append all the intermediate certificates to the server certificate file in   the order such that each certificate has signed the preceding one.
         - Append the Root CA used for signing the intermediate CA to the resource   aggregator CA file.
-</blockquote>
+
 
    ###### Procedure
    
@@ -267,15 +267,15 @@ This section provides a step-by-step procedure for deploying the resource aggreg
    registry=consul --registry_address=consul:8500 --server_address=odim:45107
    ```
 
-<blockquote>
-NOTE:
-- The resource aggregator configuration files are available at `/etc/odimra_config`.
--  The GRF configuration files are available at `/etc/grf_plugin_config`.
-- The resource aggregator API service runs on the default port 45000.
-- The GRF plugin API service runs on default port 45001.
-- The resource aggregator logs are available at `/var/log/odimra`.
-- The GRF plugin logs are available at `/var/log/GRF_PLUGIN`.
-</blockquote>
+
+    **NOTE:**
+       - The resource aggregator configuration files are available at `/etc/odimra_config`.
+       -  The GRF configuration files are available at `/etc/grf_plugin_config`.
+       - The resource aggregator API service runs on the default port 45000.
+       - The GRF plugin API service runs on default port 45001.
+       - The resource aggregator logs are available at `/var/log/odimra`.
+       - The GRF plugin logs are available at `/var/log/GRF_PLUGIN`.
+
 
 10. To configure log rotation, do the following:
 
@@ -318,14 +318,14 @@ NOTE:
 	
 ### Default user credentials for ODIMRA and GRF Plugin 
 
-    ```
-	ODIMRA:
-	username: admin
-	password: Od!m12$4
+     ```
+	 ODIMRA:
+	 username: admin
+	 password: Od!m12$4
 
-	GRF PLUGIN:
-	username: admin
-	password: GRFPlug!n12$4
+	 GRF PLUGIN:
+	 username: admin
+	 password: GRFPlug!n12$4
 	 ``` 
  
  
