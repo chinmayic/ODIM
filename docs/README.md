@@ -643,7 +643,7 @@ curl -i GET \
 ```
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -717,7 +717,7 @@ curl -i POST \
 
 
 
-> Sample response header
+>**Sample response header**
 
 
 ```
@@ -733,7 +733,7 @@ Date:Fri,15 May 2020 14:08:55 GMT+5m 11s
 Transfer-Encoding:chunked
 ```
 
-> Sample response body
+>**Sample response body**
 
 
 ```
@@ -798,7 +798,7 @@ curl -i GET \
 ```
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -881,7 +881,7 @@ curl -i GET \
 
 ```
 
-> Sample response header
+>**Sample response header**
 
 ```
 Allow:GET
@@ -896,7 +896,7 @@ Transfer-Encoding:chunked
 ```
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -983,7 +983,7 @@ curl -i POST \
 |OemPrivileges|Array \(string\) \(required\)<br> |The OEM privileges that this role includes. If you do not want to specify any OEM privileges, use `null` or `[]` as value.|
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -1025,7 +1025,7 @@ curl -i GET \
 ```
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -1083,7 +1083,7 @@ curl -i GET \
 
 ```
 
- > Sample response body
+ >**Sample response body**
 
 ```
 {
@@ -1145,7 +1145,7 @@ curl -i GET \
 }
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -1271,7 +1271,7 @@ curl -i POST \
 -   Your password must contain at least one uppercase letter \(A-Z\), one lowercase letter \(a-z\), one digit \(0-9\), and one special character \(~!@\#$%^&\*-+\_|\(\)\{\}:;<\>,.?/\).
 
 
-> Sample response header
+>**Sample response header**
 
 ```
 Cache-Control:no-cache
@@ -1285,7 +1285,7 @@ Date":Fri,15 May 2020 14:36:14 GMT+5m 11s
 Transfer-Encoding:chunked
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -1357,7 +1357,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -1419,7 +1419,7 @@ curl -i -X PATCH \
 }
 ```
 
-> Sample response header
+>**Sample response header**
 
 ```
 Cache-Control:no-cache
@@ -1434,7 +1434,7 @@ Transfer-Encoding:chunked
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -1544,7 +1544,7 @@ curl -i GET \
 
 ```
 
-> Sample response header 
+>**Sample response header** 
 
 ```
 Allow:GET
@@ -1559,7 +1559,7 @@ Transfer-Encoding":chunked
 
 ```
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 {
@@ -1675,7 +1675,7 @@ curl -i POST \
 |PreferredAuthType|String \(required\)<br> |Preferred authentication method to connect to the plugin - `BasicAuth` or `XAuthToken`.|
 |PluginType|String \(required\)<br> |The string that represents the type of the plugin. Allowed values: `Compute`, and `Fabric` <br> |
 
-> Sample response header \(HTTP 202 status\)
+>**Sample response header** \(HTTP 202 status\)
 
 ```
 Connection:keep-alive
@@ -1688,7 +1688,7 @@ Content-Length:491 bytes
 
 ```
 
-> Sample response header \(HTTP 201 status\)
+>**Sample response header** \(HTTP 201 status\)
 
 ```
 "cache-control":"no-cache
@@ -1702,7 +1702,7 @@ transfer-encoding:"chunked
 x-frame-options":"sameorigin"
 ```
 
-> Sample response body \(HTTP 202 status\)
+>**Sample response body** \(HTTP 202 status\)
 
 ```
 {
@@ -1823,7 +1823,7 @@ curl -i -X POST \
 |Links \{|Object \(required\)<br> |Links to other resources that are related to this resource.|
 |Oem\{ PluginID \} \} |String \(required\)<br> |The plugin Id of the plugin.<br> NOTE: Before specifying the plugin Id, ensure that the installed plugin is added in the resource inventory. To know how to add a plugin, see [Adding a Plugin](#adding-a-plugin-as-an-aggregation-source).|
 
-> Sample response header \(HTTP 202 status\)
+>**Sample response header** \(HTTP 202 status\)
 
 ```
 Connection:keep-alive
@@ -1836,7 +1836,7 @@ Content-Length:491 bytes
 
 ```
 
-> Sample response header \(HTTP 201 status\)
+>**Sample response header** \(HTTP 201 status\)
 
 ```
 "cache-control":"no-cache
@@ -1850,7 +1850,7 @@ transfer-encoding:"chunked
 x-frame-options":"sameorigin"
 ```
 
-> Sample response body \(HTTP 202 status\)
+>**Sample response body** \(HTTP 202 status\)
 
 ```
 {
@@ -1869,7 +1869,7 @@ x-frame-options":"sameorigin"
 }
 ```
 
-> Sample response body \(HTTP 201 status\)
+>**Sample response body** \(HTTP 201 status\)
 
 ```
  {
@@ -1910,7 +1910,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -1953,7 +1953,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -2014,7 +2014,7 @@ curl -i PATCH \
 }
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -2121,7 +2121,7 @@ curl -i POST \
 |PowerCycle|Perform a power cycle of the unit.|
 |PushPowerButton|Simulate the pressing of the physical power button on this unit.|
 
-> Sample response header \(HTTP 202 status\)
+>**Sample response header** \(HTTP 202 status\)
 
 ```
 Connection:keep-alive
@@ -2134,7 +2134,7 @@ Content-Length:491 bytes
 
 ```
 
-> Sample response body \(HTTP 202 status\)
+>**Sample response body** \(HTTP 202 status\)
 
 ```
 {
@@ -2153,7 +2153,7 @@ Content-Length:491 bytes
 }
 ```
 
-> Sample response body \(subtask\)
+>**Sample response body** \(subtask\)
 
 ```
 {
@@ -2184,7 +2184,7 @@ Content-Length:491 bytes
 }
 ```
 
-> Sample response body \(HTTP 200 status\)
+>**Sample response body** \(HTTP 200 status\)
 
 ```
 { 
@@ -2264,7 +2264,7 @@ curl -i POST \
 |---------|----|-----------|
 |Systems|Array \(required\)<br> |Target servers for `SetDefaultBootOrder`.|
 
-> Sample response header \(HTTP 202 status\)
+>**Sample response header** \(HTTP 202 status\)
 
 ```
 Connection:keep-alive
@@ -2277,7 +2277,7 @@ Content-Length:491 bytes
 
 ```
 
-> Sample response body \(HTTP 202 status\)
+>**Sample response body** \(HTTP 202 status\)
 
 ```
 {
@@ -2296,7 +2296,7 @@ Content-Length:491 bytes
 }
 ```
 
-> Sample response body \(subtask\)
+>**Sample response body** \(subtask\)
 
 ```
 {
@@ -2327,7 +2327,7 @@ Content-Length:491 bytes
 }
 ```
 
-> Sample response body \(HTTP 200 status\)
+>**Sample response body** \(HTTP 200 status\)
 
 ```
 { 
@@ -2370,7 +2370,7 @@ curl -i DELETE \
 
 ```
 
-> Sample response header \(HTTP 202 status\)
+>**Sample response header** \(HTTP 202 status\)
 
 ```
 Connection:keep-alive
@@ -2383,7 +2383,7 @@ Content-Length:491 bytes
 
 ```
 
-> Sample response body \(HTTP 202 status\)
+>**Sample response body** \(HTTP 202 status\)
 
 ```
 {
@@ -2467,7 +2467,7 @@ curl -i POST \
 |---------|----|-----------|
 |Elements|Array \(required\)<br> |An empty array or an array of links to the resources that this aggregate contains. To get the links to the system resources that are available in the resource inventory, perform HTTP `GET` on:<br> `/redfish/v1/Systems/` <br> |
 
-> Sample response header
+>**Sample response header**
 
 ```
 Cache-Control:no-cache
@@ -2481,7 +2481,7 @@ Date:Fri,21 August 2020 14:08:55 GMT+5m 11s
 Transfer-Encoding:chunked
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -2522,7 +2522,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -2565,7 +2565,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -2653,7 +2653,7 @@ curl -i POST \
 |---------|----|-----------|
 |Elements|Array \(required\)<br> |An array of links to the Computer system resources that this aggregate contains.|
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -2731,7 +2731,7 @@ curl -i POST \
 |DelayBetweenBatchesInSeconds|Integer \(seconds\) \(optional\)<br> |The delay among the batches of elements being reset.|
 |ResetType|String \(optional\)<br> |For possible values, refer to "Reset type" table in [Resetting servers](GUID-22EC7FC3-6EF7-4A69-8DE1-385E3786E0C8.md).|
 
-> Sample response header \(HTTP 202 status\)
+>**Sample response header** \(HTTP 202 status\)
 
 ```
 Connection:keep-alive
@@ -2744,7 +2744,7 @@ Content-Length:491 bytes
 
 ```
 
-> Sample response body \(HTTP 202 status\)
+>**Sample response body** \(HTTP 202 status\)
 
 ```
 {
@@ -2763,7 +2763,7 @@ Content-Length:491 bytes
 }
 ```
 
-> Sample response body \(subtask\)
+>**Sample response body** \(subtask\)
 
 ```
 {
@@ -2794,7 +2794,7 @@ Content-Length:491 bytes
 }
 ```
 
-> Sample response body \(HTTP 200 status\)
+>**Sample response body** \(HTTP 200 status\)
 
 ```
  {
@@ -2842,7 +2842,7 @@ curl -i POST \
 
 ```
 
-> Sample response header \(HTTP 202 status\)
+>**Sample response header** \(HTTP 202 status\)
 
 ```
 Connection:keep-alive
@@ -2855,7 +2855,7 @@ Content-Length:491 bytes
 
 ```
 
-> Sample response body \(HTTP 202 status\)
+>**Sample response body** \(HTTP 202 status\)
 
 ```
 {
@@ -2874,7 +2874,7 @@ Content-Length:491 bytes
 }
 ```
 
-> Sample response body \(subtask\)
+>**Sample response body** \(subtask\)
 
 ```
 {
@@ -2905,7 +2905,7 @@ Content-Length:491 bytes
 }
 ```
 
-> Sample response body \(HTTP 200 status\)
+>**Sample response body** \(HTTP 200 status\)
 
 ```
 { 
@@ -2965,7 +2965,7 @@ curl -i POST \
 |---------|----|-----------|
 |Elements|Array \(required\)<br> |An array of links to the Computer system resources that you want to remove from this aggregate.|
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -3065,7 +3065,7 @@ curl -i GET \
 
 ```
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 { 
@@ -3113,7 +3113,7 @@ curl -i GET \
 
 ```
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 { 
@@ -3483,7 +3483,7 @@ curl -i GET \
 
 ```
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 { 
@@ -3670,7 +3670,7 @@ curl -i GET \
 ```
 
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 {
@@ -3813,7 +3813,7 @@ curl -i GET \
 
 ```
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 {
@@ -3858,7 +3858,7 @@ curl -i GET \
 
 ```
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 {
@@ -3955,7 +3955,7 @@ curl -i -X POST \
 |@odata.id \}\]<br> |String|A link to a drive resource.|
 |@Redfish.OperationApplyTimeSupport|Redfish annotation \(optional\)<br> | It enables you to control when the operation is carried out.<br> Supported value is: `OnReset` and `Immediate`. `OnReset` indicates that the operation will be carried out only after you reset the system.|
 
-> Sample response body 
+>**Sample response body** 
 
 ```
  {
@@ -4115,7 +4115,7 @@ curl -i GET \
 
 ```
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 { 
@@ -4143,7 +4143,7 @@ curl -i GET \
 
 
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 { 
@@ -4190,7 +4190,7 @@ curl -i GET \
 
 ```
 
-> Sample Response body 
+>**Sample response body** 
 
 ```
 { 
@@ -4504,7 +4504,7 @@ This filter searches a server having total physical memory of 384 GB and two Int
  
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -4576,7 +4576,7 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -4615,7 +4615,7 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -4681,7 +4681,7 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -4807,7 +4807,7 @@ If you attempt to update `BootSourceOverrideTarget` to `UefiTarget`, when `UefiT
 
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -4883,7 +4883,7 @@ curl -i GET \
 ```
 
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 {
@@ -4949,7 +4949,7 @@ curl -i GET \
 
 
 
-> Sample response body for a system \(BMC\) manager 
+>**Sample response body** for a system \(BMC\) manager 
 
 ```
 { 
@@ -5029,7 +5029,7 @@ curl -i GET \
 }
 ```
 
-> Sample response body for Resource Aggregator for ODIM manager 
+>**Sample response body** for Resource Aggregator for ODIM manager 
 
 ```
 {
@@ -5047,7 +5047,7 @@ curl -i GET \
 }
 ```
 
-> Sample response body for a plugin manager
+>**Sample response body** for a plugin manager
 
 ```
 {
@@ -5125,7 +5125,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -5179,7 +5179,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -5241,7 +5241,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -5291,7 +5291,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -5327,7 +5327,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -5436,7 +5436,7 @@ curl -i POST \
 | SFTP \(v1.1+\)<br> |Secure File Transfer Protocol.|
 |TFTP|Trivial File Transfer Protocol.|
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -5477,7 +5477,7 @@ curl -i POST \
 
 None
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -5579,7 +5579,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -5631,7 +5631,7 @@ curl -i GET \
 
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -5687,7 +5687,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -5744,7 +5744,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -5791,7 +5791,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -5840,7 +5840,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -5902,7 +5902,7 @@ curl -i GET \
 ```
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -5989,7 +5989,7 @@ curl -i GET \
 ```
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -6060,7 +6060,7 @@ curl -i GET \
 
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -6108,7 +6108,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -6176,7 +6176,7 @@ curl -i GET \
 ```
 
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -6234,7 +6234,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 { 
@@ -6365,7 +6365,7 @@ curl -i POST \
 
 
 
-> Sample response header
+>**Sample response header**
 
 ```
 HTTP/1.1 201 Created
@@ -6381,7 +6381,7 @@ Transfer-Encoding:chunked
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -6558,7 +6558,7 @@ curl -i POST \
 |RouteTargetList|Array \(optional\)<br> | Route targets. By default, the route targets will be configured as both import and export.<br> |
 |GatewayIPAddressList\}|Array \(required\)<br> | IP pool to assign IPv4 address to the IP interface used by the VRF per switch.<br> |
 
-> Sample response header 
+>**Sample response header** 
 
 ```
 HTTP/1.1 201 Created
@@ -6574,7 +6574,7 @@ Transfer-Encoding:chunked
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -6700,7 +6700,7 @@ curl -i POST \
 |AddressPools|Array \(optional\)<br> | `AddressPool` links supported for the Zone of Zones \(`AddressPool` links created for `ZoneofZones`\).<br> |
 
 
-> Sample response header
+>**Sample response header**
 
 ```
 HTTP/1.1 201 Created
@@ -6715,7 +6715,7 @@ Date:Thu, 14 May 2020 16:19:00 GMT
 Transfer-Encoding:chunked
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -6841,7 +6841,7 @@ curl -i POST \
 |Mode|String|Redundancy mode.|
 |RedundancySet\]|Array| Set of redundancy ports connected to the switches.<br> |
 
-> Sample response header
+>**Sample response header**
 
 ```
 HTTP/1.1 201 Created
@@ -6857,7 +6857,7 @@ Transfer-Encoding:chunked
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -6998,7 +6998,7 @@ curl -i POST \
 
 
 
-> Sample response header
+>**Sample response header**
 
 ```
 HTTP/1.1 201 Created
@@ -7014,7 +7014,7 @@ Transfer-Encoding: chunked
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -7135,7 +7135,7 @@ curl -i -X PATCH \
 }
 ```
 
-> Sample response body \(assigned links in a zone of endpoints\)
+>**Sample response body** \(assigned links in a zone of endpoints\)
 
 ```
 { 
@@ -7168,7 +7168,7 @@ curl -i -X PATCH \
 ```
 
 
-> Sample response body \(unassigned links in a zone of endpoints\)
+>**Sample response body** \(unassigned links in a zone of endpoints\)
 
 ```
 { 
@@ -7339,7 +7339,7 @@ curl -i GET \
 
  
 
-> Sample response header 
+>**Sample response header** 
 
 ```
 Allow:GET
@@ -7355,7 +7355,7 @@ Transfer-Encoding":chunked
 
  
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 {
@@ -7417,7 +7417,7 @@ curl -i GET \
 
 ```
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 { 
@@ -7468,7 +7468,7 @@ curl -i GET \
 ```
 
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 {
@@ -7537,7 +7537,7 @@ curl -i GET \
 ```
 
 
-> Sample response header
+>**Sample response header**
 
 ```
 Connection:keep-alive
@@ -7550,7 +7550,7 @@ Content-Length:491 bytes
 ```
 
 
-> Sample response body \(ongoing task\)
+>**Sample response body** \(ongoing task\)
 
 ```
 {
@@ -7585,7 +7585,7 @@ Content-Length:491 bytes
 }
 ```
 
-> Sample response body \(completed task\)
+>**Sample response body** \(completed task\)
 
 ```
 {
@@ -7634,7 +7634,7 @@ curl -i DELETE \
 
 ```
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 {
@@ -7732,7 +7732,7 @@ curl -i GET \
 
 ```
 
-> Sample response header 
+>**Sample response header** 
 
 ```
 Allow:GET
@@ -7747,7 +7747,7 @@ Transfer-Encoding:chunked
 
 ```
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 {
@@ -8030,7 +8030,7 @@ curl -i POST \
 
  
 
-> Sample response header \(HTTP 202 status\) 
+>**Sample response header** \(HTTP 202 status\) 
 
 ```
 Connection:keep-alive
@@ -8045,7 +8045,7 @@ Content-Length:0 byte
 
  
 
-> Sample response header \(HTTP 201 status\) 
+>**Sample response header** \(HTTP 201 status\) 
 
 ```
 Cache-Control:no-cache
@@ -8058,7 +8058,7 @@ Date:Thu,14 May 2020 09:48:23 GMT+5m 10s
 Transfer-Encoding:chunked
 ```
 
-> Sample response body \(HTTP 202 status\) 
+>**Sample response body** \(HTTP 202 status\) 
 
 ```
 {
@@ -8077,7 +8077,7 @@ Transfer-Encoding:chunked
 }
 ```
 
-> Sample response body \(subtask\) 
+>**Sample response body** \(subtask\) 
 
 ```
 {
@@ -8108,7 +8108,7 @@ Transfer-Encoding:chunked
 }
 ```
 
-> Sample response body \(HTTP 201 status\) 
+>**Sample response body** \(HTTP 201 status\) 
 
 ```
 {
@@ -8220,7 +8220,7 @@ curl -i POST \
 
  
 
-> Sample response header 
+>**Sample response header** 
 
 ```
 Cache-Control:no-cache
@@ -8434,7 +8434,7 @@ curl -i GET \
 
  
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -8486,7 +8486,7 @@ curl -i GET \
 
  
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 {
@@ -8541,7 +8541,7 @@ curl -i -X DELETE \
 
  
 
-> Sample response body 
+>**Sample response body** 
 
 ```
 {
@@ -8616,7 +8616,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
@@ -8730,7 +8730,7 @@ curl -i GET \
 
 ```
 
-> Sample response body
+>**Sample response body**
 
 ```
 {
