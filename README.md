@@ -269,12 +269,12 @@ This section provides a step-by-step procedure for deploying the resource aggreg
 
 
     **NOTE:**
-       - The resource aggregator configuration files are available at `/etc/odimra_config`.
-       -  The GRF configuration files are available at `/etc/grf_plugin_config`.
-       - The resource aggregator API service runs on the default port 45000.
-       - The GRF plugin API service runs on default port 45001.
-       - The resource aggregator logs are available at `/var/log/odimra`.
-       - The GRF plugin logs are available at `/var/log/GRF_PLUGIN`.
+    - The resource aggregator configuration files are available at `/etc/odimra_config`.
+    -  The GRF configuration files are available at `/etc/grf_plugin_config`.
+    - The resource aggregator API service runs on the default port 45000.
+    - The GRF plugin API service runs on default port 45001.
+    - The resource aggregator logs are available at `/var/log/odimra`.
+    - The GRF plugin logs are available at `/var/log/GRF_PLUGIN`.
 
 
 10. To configure log rotation, do the following:
