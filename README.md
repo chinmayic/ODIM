@@ -2,14 +2,14 @@
 [![build_unittest Actions Status](https://github.com/ODIM-Project/ODIM/workflows/build_unittest/badge.svg)](https://github.com/ODIM-Project/ODIM/actions)
 
 # Deploying ODIMRA
-## 1. Setting up OS, docker environment and other pre-requisites
+## 1. Setting up OS, Docker environment, and other pre-requisites
 ### Prerequisites
-Ensure that the Internet is available. If your system is behind a corporate proxy or firewall, set your proxy configuration. To set proxy, refer `https://www.serverlab.ca/tutorials/linux/administration-linux/how-to-set-the-proxy-for-apt-for-ubuntu-18-04/`.  
+Ensure that the Internet is available. If your system is behind a corporate proxy or firewall, set your proxy configuration. To know how to set proxy, see information provided at `https://www.serverlab.ca/tutorials/linux/administration-linux/how-to-set-the-proxy-for-apt-for-ubuntu-18-04/`.  
 
 
 ### Procedure
 1. Download and install `Ubuntu 18.04 LTS` on your system.
-    >   **NOTE:**  Before installation, configure your system IP to access the                data center network.
+    >   **NOTE:**  Before installation, configure your system IP to access the data center network.
 2. Install `Ubuntu Make` on your system.
 To install `Ubuntu Make`, run the following command:
    ```
@@ -89,7 +89,8 @@ To install `Ubuntu Make`, run the following command:
    containerd.toml
    ```
      
-   >  **NOTE:** If your system is behind a corporate proxy, ensure to configure Docker to use proxy server and restart docker services  
+   >  **NOTE:** If your system is behind a corporate proxy, ensure to configure Docker to use proxy server and restart docker services. To know how to configure Docker proxy, see [Configuring Docker proxy](#configuring-proxy-for-docker)
+						   
      
    c. Restart the server.
       ```
@@ -108,8 +109,8 @@ To install `Ubuntu Make`, run the following command:
 This section provides a step-by-step procedure for deploying the resource aggregator for ODIM (odimra) and GRF plugin.
 
 > **NOTE:**
-  • All configuration parameters are set to default values in the configuration files for odimra and GRF plugin. 
-  • The following ports are used for deploying odimra and GRF plugin:
+  - All configuration parameters are set to default values in the configuration files for odimra and GRF plugin. 
+  - The following ports are used for deploying odimra and GRF plugin:
     45000, 45001, 45101-45110, 9092, 9082, 6380, 6379, 8500, 8300, 8302, 8301, 8600
     Ensure that the above ports are not in use.
 
@@ -131,6 +132,7 @@ This section provides a step-by-step procedure for deploying the resource aggreg
    $ export HOSTIP=<ip_address_of_your_system>
    ```
 5. Set up FQDN in the `/etc/hosts` file (only if there is no DNS infrastructure):
+
     a. Open the `/etc/hosts` file for editing:
       ```
       $ sudo vim /etc/hosts
@@ -143,7 +145,8 @@ This section provides a step-by-step procedure for deploying the resource aggreg
 `<host_ipv4_address> <fqdn>`
 
 6. Generate certificates:
-   **NOTE:**
+
+   > NOTE:
    - Self-signed Root CA (Certificate Authority) certificate and key are generated with 4096 key length and sha512 digest algorithm.
    - Using the generated CA certificate, certificates and private keys for the resource aggregator services are also generated with 4096 key length and sha512 digest algorithm. They are valid for services matching the provided FQDN. You can use one-word description of the certificate as the common name.
    - Certificates are used by the resource aggregator services to communicate    internally (Remote Procedure Call) and with the plugin services.
@@ -151,7 +154,9 @@ This section provides a step-by-step procedure for deploying the resource aggreg
         - Append all the intermediate certificates to the server certificate file in   the order such that each certificate has signed the preceding one.
        - Append the Root CA used for signing the intermediate CA to the resource   aggregator CA file.
 
+
    ###### Procedure
+   
    a. Navigate to the path: `ODIM/build/cert_generator`
       ```
        $ cd ODIM/build/cert_generator
@@ -268,6 +273,7 @@ This section provides a step-by-step procedure for deploying the resource aggreg
 
 
 10. To configure log rotation, do the following:
+
     a. Navigate to the `/etc/logrotate.d` directory.
     ```
     $ cd /etc/logrotate.d
@@ -300,9 +306,14 @@ This section provides a step-by-step procedure for deploying the resource aggreg
       $ sudo logrotate -v -f /etc/logrotate.d/odimra
   	  ```
   
-11. Default Credentails
 
-	```
+11. To add the Generic Redfish Plugin and servers to ODIMRA, refer to the following readme.  
+    https://github.com/ODIM-Project/ODIM/blob/development/svc-aggregation/README.md
+	
+	
+##### Default user credentials for ODIMRA and GRF Plugin 
+
+```
 	ODIMRA:
 	username: admin
 	password: Od!m12$4
@@ -311,20 +322,17 @@ This section provides a step-by-step procedure for deploying the resource aggreg
 	username: admin
 	password: GRFPlug!n12$4
 	``` 
-
-12. Refer to the following readme to add the Generic Redfish Plugin and then add the servers to ODIMRA.  
-    https://github.com/ODIM-Project/ODIM/blob/development/svc-aggregation/README.md
     
   
-  #  Modifying default configuration parameters for the resource aggregator
+#  Modifying default configuration parameters for the resource aggregator
 
 1.   Navigate to the `odim_1` container using the following command: 
 
       ```
-     $ docker exec -it odim_1 /bin/bash
+     $ docker exec -it odim_1/bin/bash
      ```
 
-2.   Edit the parameters in the `odim_config.json` file located in this path:   `/etc/odim_config/odim_config.json` and save. 
+2.   Edit the parameters in the `odimra_config.json` file located in this path:   `/etc/odim_config/odimra_config.json` and save. 
 
      The parameters that are configurable are listed in the following table.
       > **NOTE:** It is recommended not to modify parameters other than the ones listed in the following table.
@@ -374,3 +382,79 @@ This section provides a step-by-step procedure for deploying the resource aggreg
    **NOTE:**
    To Refer to the ODIMRA API Guide, click on the github page below:  
    https://odim-project.github.io/ODIM
+   
+   
+   
+# Configuring proxy for Docker
+
+<blockquote>
+IMPORTANT:
+
+During the course of this procedure, you will be required to create files and copy content into them. In the content to be copied, substitute the parameters listed in the following table with their original values:
+
+|Parameter|Description|
+|---------|-----------|
+|`<Proxy_URL>` |Your company URL.|
+|`<ODIM_server_VM_IP>` |The IP address of the system where the resource aggregator is installed.|
+|`<FQDN>` |FQDN of the resource aggregator server.|
+
+</blockquote>
+
+### Procedure
+
+1.   In the home directory of odimra user, create a hidden directory called .docker, and then create a file called config.json. 
+
+2.   Add the following content in the config.json file and save: 
+
+    ```
+    {
+     "proxies":
+     {
+       "default":
+       {
+         "httpProxy": "<Proxy_URL>",
+         "httpsProxy": "<Proxy_URL>",
+         "noProxy": "localhost,127.0.0.1, <ODIM_server_VM_IP>"
+       }
+     }
+    }
+    
+    ```
+
+3.   Update the `/etc/environment` file with the following content using sudo: 
+
+    ```
+    export http_proxy=<Proxy_URL>
+    export https_proxy=<Proxy_URL>
+    HOSTIP=<ODIM_server_VM_IP>
+    FQDN=<FQDN>
+    
+    ```
+
+4.   Do the following on the resource aggregator server: 
+    1.   Create a directory using the following command: 
+
+        ```
+        $ sudo mkdir /etc/systemd/system/docker.service.d/
+        ```
+
+    2.   Create a file called http-proxy.conf in the `/etc/systemd/system/docker.service.d/` directory. 
+    3.   Add the following content in the `http-proxy.conf` file and save: 
+
+        ```
+        [Service]
+        Environment="HTTP_PROXY=<Proxy_URL>"
+        Environment="HTTPS_PROXY=<Proxy_URL>"
+        Environment="NO_PROXY=localhost,127.0.0.1, <ODIM_server_VM_IP>"
+        
+        ```
+
+    4.   Run the following commands: 
+
+        ```
+        $ sudo systemctl daemon-reload
+        ```
+
+        ```
+        $ sudo service docker restart
+        ```

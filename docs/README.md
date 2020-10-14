@@ -834,12 +834,6 @@ curl -i -X DELETE \
 
 
 
- 
-
-
-
-
-
 
 
 
