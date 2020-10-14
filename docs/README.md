@@ -328,7 +328,7 @@ universally unique identifier of a system (Example: ba0a6871-7bc4-5f7a-903d-67f3
 |**Authentication** |No|
 
 
-**curl command**
+>**curl command**
 ----------------
 
 ```curl
@@ -337,7 +337,7 @@ curl -i GET 'https://{odimra_host}:{port}/redfish/v1'
 
 
 
-**Sample response header**
+>**Sample response header**
 ------------------------- 
 
 ```
@@ -353,7 +353,7 @@ Transfer-Encoding:chunked
 
 ```
 
-**Sample response body**
+>**Sample response body**
 ------------------------ 
 
 ```
