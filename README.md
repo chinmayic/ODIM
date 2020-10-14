@@ -89,7 +89,7 @@ To install `Ubuntu Make`, run the following command:
    containerd.toml
    ```
      
-   >  **NOTE:** If your system is behind a corporate proxy, ensure to configure Docker to use proxy server and restart docker services. To know how to configure Docker proxy, see [Configuring Docker proxy](#configuring-proxy-for-docker)
+   >  **NOTE:** If your system is behind a corporate proxy, ensure to configure Docker to use proxy server and restart docker services. To know how to configure Docker proxy, see [Configuring Docker proxy](#configuring-proxy-for-docker).
 						   
      
    c. Restart the server.
@@ -313,7 +313,7 @@ This section provides a step-by-step procedure for deploying the resource aggreg
 	
 ##### Default user credentials for ODIMRA and GRF Plugin 
 
-```
+    ```
 	ODIMRA:
 	username: admin
 	password: Od!m12$4
@@ -321,8 +321,9 @@ This section provides a step-by-step procedure for deploying the resource aggreg
 	GRF PLUGIN:
 	username: admin
 	password: GRFPlug!n12$4
-	``` 
-    
+	 ``` 
+ 
+ 
   
 #  Modifying default configuration parameters for the resource aggregator
 
@@ -379,9 +380,7 @@ This section provides a step-by-step procedure for deploying the resource aggreg
      $ docker restart odim_1
   
     
-   **NOTE:**
-   To Refer to the ODIMRA API Guide, click on the github page below:  
-   https://odim-project.github.io/ODIM
+   
    
    
    
