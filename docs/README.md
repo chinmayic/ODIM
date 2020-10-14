@@ -695,7 +695,7 @@ curl -i POST \
 ```
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -960,7 +960,7 @@ curl -i POST \
 
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 { 
@@ -1132,7 +1132,7 @@ curl -i GET \
 ```
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 { 
@@ -1244,7 +1244,7 @@ curl -i POST \
 
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 { 
@@ -1410,7 +1410,7 @@ curl -i -X PATCH \
 ```
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 { 
@@ -1647,7 +1647,7 @@ curl -i POST \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -1798,7 +1798,7 @@ curl -i -X POST \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -2002,7 +2002,7 @@ curl -i PATCH \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -2084,7 +2084,7 @@ curl -i POST \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -2242,7 +2242,7 @@ curl -i POST \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -2451,7 +2451,7 @@ curl -i POST \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -2636,7 +2636,7 @@ curl -i POST \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -2713,7 +2713,7 @@ curl -i POST \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -2948,7 +2948,7 @@ curl -i POST \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -3927,7 +3927,7 @@ curl -i -X POST \
 
 ```
 
-> Sample request body 
+>**Sample request body** 
 
 ```
 {
@@ -3997,7 +3997,7 @@ curl -i -X DELETE \
 
 ```
 
-> Sample request body 
+>**Sample request body** 
 
 ```
 {
@@ -4562,7 +4562,7 @@ This filter searches a server having total physical memory of 384 GB and two Int
 
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -4661,7 +4661,7 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -4735,7 +4735,7 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 { 
@@ -5388,7 +5388,7 @@ curl -i POST \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 **Example 1:** 
 
@@ -5473,7 +5473,7 @@ curl -i POST \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 None
 
@@ -6326,7 +6326,7 @@ curl -i POST \
 
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -6499,7 +6499,7 @@ curl -i POST \
 
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -6673,7 +6673,7 @@ curl -i POST \
 
 ```
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -6790,7 +6790,7 @@ curl -i POST \
 
 ```
 
-> Sample request body for a single endpoint
+>**Sample request body** for a single endpoint
 
 ```
 {
@@ -6806,7 +6806,7 @@ curl -i POST \
 }
 ```
 
-> Sample request body for a redundant endpoint
+>**Sample request body** for a redundant endpoint
 
 ```
 {
@@ -6953,7 +6953,7 @@ curl -i POST \
 
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 {
@@ -7089,7 +7089,7 @@ curl -i -X PATCH \
 
 
 
-> Sample request body \(assigning links for a zone of endpoints\)
+>**Sample request body** \(assigning links for a zone of endpoints\)
 
 ```
 {
@@ -7101,7 +7101,7 @@ curl -i -X PATCH \
 }
 ```
 
-> Sample request body \(unassigning links for a zone of endpoints\)
+>**Sample request body** \(unassigning links for a zone of endpoints\)
 
 ```
 {
@@ -7111,7 +7111,7 @@ curl -i -X PATCH \
 }
 ```
 
-> Sample request body \(assigning links for a zone of zone\)
+>**Sample request body** \(assigning links for a zone of zone\)
 
 ```
 {
@@ -7123,7 +7123,7 @@ curl -i -X PATCH \
 }
 ```
 
-> Sample request body \(unassigning links for a zone of zone\)
+>**Sample request body** \(unassigning links for a zone of zone\)
 
 ```
 {
@@ -7936,7 +7936,7 @@ curl -i POST \
 
 
 
-> Sample request body
+>**Sample request body**
 
 ```
 { 
