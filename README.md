@@ -312,21 +312,26 @@ This section provides a step-by-step procedure for deploying the resource aggreg
   	  ```
   
 
-11. To add the Generic Redfish Plugin and servers to ODIMRA, refer to the following readme.  
+11. To add the Generic Redfish Plugin and servers to the resource aggregator for ODIM, refer to the following readme.  
     https://github.com/ODIM-Project/ODIM/blob/development/svc-aggregation/README.md
 	
 	
 ### Default user credentials for ODIMRA and GRF Plugin 
 
-     ```
-	 ODIMRA:
-	 username: admin
-	 password: Od!m12$4
 
-	 GRF PLUGIN:
-	 username: admin
-	 password: GRFPlug!n12$4
-	 ``` 
+ODIMRA:
+
+```
+username: admin
+password: Od!m12$4
+```
+
+GRF PLUGIN:
+
+```
+username: admin
+password: GRFPlug!n12$4
+``` 
  
  
   
@@ -412,16 +417,16 @@ During the course of this procedure, you will be required to create files and co
 
       ```
       {
-        "proxies":
-      {
-         "default":
+         "proxies":
         {
-          "httpProxy": "<Proxy_URL>",
-          "httpsProxy": "<Proxy_URL>",
-          "noProxy": "localhost,127.0.0.1, <ODIM_server_VM_IP>"
+           "default":
+          {
+             "httpProxy": "<Proxy_URL>",
+             "httpsProxy": "<Proxy_URL>",
+             "noProxy": "localhost,127.0.0.1, <ODIM_server_VM_IP>"
+          }
         }
       }
-     }
     
      ```
 
