@@ -736,7 +736,7 @@ Resource Aggregator for ODIM has a default user account that has all the privile
 
 
 
-#  Sessions
+# Sessions
 
 A session represents a window of user's login with a Redfish service and contains details about the user and the user activity. You can run multiple sessions simultaneously.
 
@@ -1341,7 +1341,6 @@ Resource Aggregator for ODIM exposes Redfish `AccountsService` APIs to create an
 
 |API URI|Operation Applicable|Required privileges|
 |-------|--------------------|-------------------|
-|/redfish/v1/AccountService|GET|`Login` |
 |/redfish/v1/AccountService/Accounts|POST, GET|`Login`, `ConfigureUsers` |
 |/redfish/v1/AccountService/Accounts/\{accountId\}|GET, DELETE, PATCH|`Login`, `ConfigureUsers`, `ConfigureSelf` |
 
@@ -5669,14 +5668,17 @@ When deleting fabric entities, ensure to delete them in the following order:
 5.  Zone-specific address pools
 
 
-**Supported endpoints**
-
 <blockquote>
 IMPORTANT:
 
 Before using the `Fabrics` APIs, ensure that the fabric manager is installed, its plugin is deployed, and added into the Resource Aggregator for ODIM framework.
 
 </blockquote>
+
+
+**Supported endpoints**
+
+
 |API URI|Operation Applicable|Required privileges|
 |-------|--------------------|-------------------|
 |/redfish/v1/Fabrics|GET|`Login` |
@@ -7826,7 +7828,7 @@ curl -i DELETE \
 
 
 
-#  Events
+# Events
 
 Resource Aggregator for ODIM offers an event interface that allows northbound clients to interact and receive notifications such as alerts and alarms from multiple resources, including Resource Aggregator for ODIM itself. It exposes Redfish `EventService` APIs for managing events.
 
