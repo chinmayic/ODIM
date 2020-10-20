@@ -49,7 +49,10 @@
   * [Resetting an aggregate of computer systems](#resetting-an-aggregate-of-computer-systems)
   * [Setting boot order of an aggregate to default settings](#setting-boot-order-of-an-aggregate-to-default-settings)
   * [Removing elements from an aggregate](#removing-elements-from-an-aggregate)
-- [Resource inventory](#resource-inventory)
+  * [Connection methods](#connection-methods)
+  * [Viewing a collection of connection methods](#viewing-a-collection-of-connection-methods)
+  * [Viewing a connection method](#viewing-a-connection-method)
+  * [Resource inventory](#resource-inventory)
   * [Collection of computer systems](#collection-of-computer-systems)
   * [Single computer system](#single-computer-system)
   * [Memory collection](#memory-collection)
@@ -353,6 +356,8 @@ Resource Aggregator for ODIM supports the following Redfish APIs:
 |/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.Reset|`POST`|
 |/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.SetDefaultBootOrder|`POST`|
 |/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.RemoveElements|`POST`|
+|/redfish/v1/AggregationService/ConnectionMethods|GET|
+|/redfish/v1/AggregationService/ConnectionMethods/\{connectionmethodsId\}|GET|
 
 |Systems||
 |-------|--------------------|
@@ -1650,6 +1655,8 @@ All aggregation actions are performed as [tasks](#tasks) in Resource Aggregator 
 |/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.Reset|POST|`ConfigureComponents`, `ConfigureManager` |
 |/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Aggregate.SetDefaultBootOrder|POST|`ConfigureComponents`, `ConfigureManager` |
 |/redfish/v1/AggregationService/Aggregates/\{aggregateId\}/Actions/Aggregate.RemoveElements|POST|`ConfigureComponents`, `ConfigureManager` |
+|/redfish/v1/AggregationService/ConnectionMethods|GET|`Login`|
+|/redfish/v1/AggregationService/ConnectionMethods/\{connectionmethodsId\}|GET|`Login`|
 
 >**Note:**
 Before accessing these endpoints, ensure that the user has the required privileges. If you access these endpoints without necessary privileges, you will receive an HTTP `403 Forbidden` error.
@@ -3118,6 +3125,118 @@ curl -i POST \
 }
 ```
 
+## Connection methods
+
+##  Viewing a collection of connection methods
+
+
+|||
+|--------|---------|
+|**Method**| `GET` |
+|**URI** |`/redfish/v1/AggregationService/ConnectionMethods` |
+|**Description** |This operation lists all connection methods associated with the Redfish aggregation service.|
+|**Returns** |A list of links to all the available connection method resources.|
+|**Response Code** |On success, `200 Ok` |
+|**Authentication** |Yes|
+
+
+
+>**curl command** 
+
+```
+curl -i GET \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+ 'https://{odim_host}:{port}/redfish/v1/AggregationService/ConnectionMethods'
+
+
+```
+
+>**Sample response body**
+
+```
+{
+   "@odata.context":"/redfish/v1/$metadata#ConnectionMethodCollection.ConnectionMethodCollection",
+   "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods",
+   "@odata.type":"#ConnectionMethodCollection.ConnectionMethodCollection",
+   "Description":"Connection Methods",
+   "Name":" Connection Methods",
+   "Members":[
+      {
+         "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/76a7ec10-6629-499b-99ad-c77656e5a928"
+      }
+   ],
+   "Members@odata.count":1
+}
+```
+
+## Viewing a connection method
+
+|||
+|--------|---------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/AggregationService/ConnectionMethods/ {connectionmethodsId}` |
+|**Description** |This operation retrieves information about a specific connection method.|
+|**Returns** |JSON schema representing this connection method.|
+|**Response Code** |On success, `200 Ok` |
+|**Authentication**|Yes|
+
+>**curl command**
+
+```
+curl -i GET \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+ 'https://{odim_host}:{port}/redfish/v1/AggregationService/ConnectionMethods/{connectionmethodsId}'
+
+
+```
+
+>**Sample response body**
+
+```
+{
+   "Id":{
+      connectionmethodsID
+   },
+   "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/{connectionmethodsID},
+   "@odata.type": "",
+   "@odata.context": "",
+   "ConnectionMethodType":"Redfish",
+   "ConnectionMethodVariant":"GRF_v1.0",
+   "OEM":{
+
+   },
+   "Links":{
+      "AggregationSources":[
+         {
+            "@odata.id":"/redfish/v1/AggregationService/AggregationSources/{AggregationSourceId}"
+         },
+         {
+            "@odata.id":"/redfish/v1/AggregationService/AggregationSources/{AggregationSourceId}"
+         }
+      ]
+   }
+}
+```
+
+>**Connection method properties**
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|ConnectionMethodType|String| The type of this connection method.<br> For possible property values, see "Connection method types" table.<br> |
+|ConnectionMethodVariant|String|The variant of connection method.|
+|Links \{|Object|Links to other resources that are related to this connection method.|
+| AggregationSources \[ \{<br> @odata.id<br> \} \]<br> |Array|An array of links to the `AggregationSources` resources that use this connection method.|
+
+ >**Connection method types**
+
+|String|Description|
+|------|-----------|
+| IPMI15<br> | IPMI 1.5 connection method.<br> |
+| IPMI20<br> | IPMI 2.0 connection method.<br> |
+| NETCONF<br> | Network Configuration Protocol.<br> |
+| OEM<br> | OEM connection method.<br> |
+| Redfish<br> | Redfish connection method.<br> |
+| SNMP<br> | Simple Network Management Protocol.<br> |
 
 
 
@@ -5498,7 +5617,7 @@ curl -i GET \
 |-------|-----------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/UpdateService/Actions/UpdateService.SimpleUpdate` |
-|<strong>Description</strong> |This operation creates an update request for updating a software or a firmware component or directly updates a software or a firmware component. The first example in "Sample request body" is used to create an update request and the second one is used to directly update a software or a firmware component of servers.<br> |
+|<strong>Description</strong> |This operation creates an update request for updating a software or a firmware component or directly updates them. The first example in "Sample request body" is used to create an update request and the second one is used to directly update a software or a firmware component of servers.<br> |
 |<strong>Response code</strong> |On success, `200 Ok` |
 |<strong>Authentication</strong> |Yes|
 
@@ -7454,7 +7573,7 @@ To view the tasks and the task monitor, ensure that the user has `Login` privile
 
 
 
-##  viewing the task service root
+##  Viewing the task service root
 
 |||
 |-----------|----------|

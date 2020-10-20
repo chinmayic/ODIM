@@ -18,8 +18,9 @@
 
 **Prerequisites**
 ------------------
-Ensure that the Internet is available. If your system is behind a corporate proxy or firewall, set your proxy configuration. To know how to set proxy, see information provided at `https://www.serverlab.ca/tutorials/linux/administration-linux/how-to-set-the-proxy-for-apt-for-ubuntu-18-04/`.  
+- Ensure that the Internet is available. If your system is behind a corporate proxy or firewall, set your proxy configuration. To know how to set proxy, see information provided at `https://www.serverlab.ca/tutorials/linux/administration-linux/how-to-set-the-proxy-for-apt-for-ubuntu-18-04/`.  
 
+- Ensure not to create `odimra` user during the installation of the VM.
 
 **Procedure**
 --------------
@@ -130,6 +131,14 @@ This section provides a step-by-step procedure for deploying the resource aggreg
   - The following ports are used for deploying odimra and GRF plugin:
     45000, 45001, 45101-45110, 9092, 9082, 6380, 6379, 8500, 8300, 8302, 8301, 8600
     Ensure that the above ports are not in use.
+  - The following users are created and added to group Ids automatically during deployment.
+  
+    |User Id| Group Id|
+	-----|---------|
+	|`odimra`|1234 |
+	|`plugin`|1235 |
+	
+    These users are created on both the VM and the containers for the resource aggregator and the plugin. Ensure not to create them again.
 
 
 **WARNING:** Do not run the commands provided in this section as root user unless mentioned.

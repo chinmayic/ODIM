@@ -39,7 +39,7 @@ Refer to the section **Modifying Configurations** in the README.md file to chang
 
 
 
-##  viewing the task service root
+##  Viewing the task service root
 
 |||
 |-----------|----------|
