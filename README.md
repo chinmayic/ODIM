@@ -13,7 +13,8 @@
 
 
 
-# Deploying ODIMRA
+# Deploying the resource aggregator for ODIM (ODIMRA)
+
 ## 1. Setting up OS and Docker environment
 
 **Prerequisites**
@@ -123,7 +124,7 @@ To install `Ubuntu Make`, run the following command:
 
 	   
 ## 2. Installing the resource aggregator for ODIM and GRF plugin
-This section provides a step-by-step procedure for deploying the resource aggregator for ODIM (odimra) and GRF plugin.
+This section provides a step-by-step procedure for deploying ODIMRA and GRF plugin.
 
   
   **NOTE:**
@@ -347,15 +348,15 @@ This section provides a step-by-step procedure for deploying the resource aggreg
 ODIMRA:
 
 ```
-username: admin
-password: Od!m12$4
+Username: admin
+Password: Od!m12$4
 ```
 
-GRF PLUGIN:
+GRF plugin:
 
 ```
-username: admin
-password: GRFPlug!n12$4
+Username: admin
+Password: GRFPlug!n12$4
 ``` 
  
  
