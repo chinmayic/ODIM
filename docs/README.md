@@ -41,18 +41,18 @@
   * [Changing the boot order of servers to default settings](#changing-the-boot-order-of-servers-to-default-settings)
   * [Deleting a resource from the inventory](#deleting-a-resource-from-the-inventory)
   * [Aggregates](#aggregates)
-    + [Creating an aggregate](#creating-an-aggregate)
-    + [Viewing a list of aggregates](#viewing-a-list-of-aggregates)
-    + [Viewing information about a single aggregate](#viewing-information-about-a-single-aggregate)
-    + [Deleting an aggregate](#deleting-an-aggregate)
-    + [Adding elements to an aggregate](#adding-elements-to-an-aggregate)
-    + [Resetting an aggregate of computer systems](#resetting-an-aggregate-of-computer-systems)
-    + [Setting boot order of an aggregate to default settings](#setting-boot-order-of-an-aggregate-to-default-settings)
-    + [Removing elements from an aggregate](#removing-elements-from-an-aggregate)
+  * [Creating an aggregate](#creating-an-aggregate)
+  * [Viewing a list of aggregates](#viewing-a-list-of-aggregates)
+  * [Viewing information about a single aggregate](#viewing-information-about-a-single-aggregate)
+  * [Deleting an aggregate](#deleting-an-aggregate)
+  * [Adding elements to an aggregate](#adding-elements-to-an-aggregate)
+  * [Resetting an aggregate of computer systems](#resetting-an-aggregate-of-computer-systems)
+  * [Setting boot order of an aggregate to default settings](#setting-boot-order-of-an-aggregate-to-default-settings)
+  * [Removing elements from an aggregate](#removing-elements-from-an-aggregate)
   * [Connection methods](#connection-methods)
-    + [Viewing a collection of connection methods](#viewing-a-collection-of-connection-methods)
-    + [Viewing a connection method](#viewing-a-connection-method)
-- [Resource inventory](#resource-inventory)
+  * [Viewing a collection of connection methods](#viewing-a-collection-of-connection-methods)
+  * [Viewing a connection method](#viewing-a-connection-method)
+  * [Resource inventory](#resource-inventory)
   * [Collection of computer systems](#collection-of-computer-systems)
   * [Single computer system](#single-computer-system)
   * [Memory collection](#memory-collection)
@@ -252,6 +252,12 @@ Use the following URL in all HTTP requests that you send to the resource aggrega
 
 - {port} is the port where the services of the resource aggregator are running. The default port is 45000. If you
     have changed the default port in the `odim_config.json` file, use that as the port.
+	
+	
+To access the base URL using a REST client, replace `{odimra_host}` with the IP address of the system where the resource aggregator is installed.
+ 
+>**NOTE**: To use FQDN in place of `{odimra_host}`, add the Resource Aggregator for ODIM server certificate to the browser where the REST client is launched.
+
 
 **curl usage**
 
@@ -3127,7 +3133,7 @@ curl -i POST \
 
 ## Connection methods
 
-##  Viewing a collection of connection methods
+###  Viewing a collection of connection methods
 
 
 |||
@@ -3155,21 +3161,26 @@ curl -i GET \
 
 ```
 {
-   "@odata.context":"/redfish/v1/$metadata#ConnectionMethodCollection.ConnectionMethodCollection",
-   "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods",
-   "@odata.type":"#ConnectionMethodCollection.ConnectionMethodCollection",
-   "Description":"Connection Methods",
-   "Name":" Connection Methods",
-   "Members":[
-      {
-         "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/76a7ec10-6629-499b-99ad-c77656e5a928"
-      }
-   ],
-   "Members@odata.count":1
+   ​   "@odata.type":"#ConnectionMethodCollection.ConnectionMethodCollection",
+   ​   "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods",
+   ​   "@odata.context":"/redfish/v1/$metadata#ConnectionMethodCollection.ConnectionMethodCollection",
+   ​   "Name":"Connection Methods",
+   ​   "Members@odata.count":3,
+   ​   "Members":[
+      ​      {
+         ​         "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/c27575d2-052d-4ce9-8be1-978cab002a0f"         ​
+      },
+      ​      {
+         ​         "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/aa166b6b-a367-40ba-ac2e-402f9a0c818f"         ​
+      },
+      ​      {
+         ​         "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/7cb9fc3b-8b75-45da-8aad-5ff595968b71"         ​
+      }      ​
+   ]   ​
 }
 ```
 
-## Viewing a connection method
+### Viewing a connection method
 
 |||
 |--------|---------|
@@ -3194,28 +3205,24 @@ curl -i GET \
 
 ```
 {
-   "Id":{
-      connectionmethodsID
-   },
-   "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/{connectionmethodsID},
-   "@odata.type": "",
-   "@odata.context": "",
-   "ConnectionMethodType":"Redfish",
-   "ConnectionMethodVariant":"GRF_v1.0",
-   "OEM":{
-
-   },
-   "Links":{
-      "AggregationSources":[
+   ​   "@odata.type":"#ConnectionMethod.v1_0_0.ConnectionMethod",
+   ​   "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/c27575d2-052d-4ce9-8be1-978cab002a0f",
+   ​   "@odata.context":"/redfish/v1/$metadata#ConnectionMethod.v1_0_0.ConnectionMethod",
+   ​   "Id":"c27575d2-052d-4ce9-8be1-978cab002a0f",
+   ​   "Name":"Connection Method",
+   ​   "ConnectionMethodType":"Redfish",
+   ​   "ConnectionMethodVariant":"Compute:BasicAuth:GRF:1.0.0",
+   ​   "Links":{
+      ​      "AggregationSources":[
          {
-            "@odata.id":"/redfish/v1/AggregationService/AggregationSources/{AggregationSourceId}"
+            "@odata.id":"/redfish/v1/AggregationService/AggregationSources/839c212d-9ab2-4868-8767-1bdcc0ce862c"
          },
          {
-            "@odata.id":"/redfish/v1/AggregationService/AggregationSources/{AggregationSourceId}"
+            "@odata.id":"/redfish/v1/AggregationService/AggregationSources/3536bb46-a023-4e3a-ac1a-7528cc18b660"
          }
-      ]
-   }
-}
+      ]      ​
+   }   ​
+}​
 ```
 
 >**Connection method properties**
@@ -4013,9 +4020,12 @@ curl -i GET \
 
 
 
+## Drives
+
+The drive schema represents a single physical drive for a system, including links to associated volumes.
 
 
-##  Storage drive
+###  Single drive
 
 |||
 |---------|-------|
@@ -4042,6 +4052,7 @@ curl -i GET \
 
 ## Volumes
 
+The volume schema represents a volume, virtual disk, LUN, or other logical storage entity for any system.
 
 
 ### A collection of volumes
@@ -4152,7 +4163,7 @@ curl -i GET \
 |----------|-----------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong>  |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes` |
-|<strong>Description</strong>  | This operation creates a volume in a specific storage subsystem.|
+|<strong>Description</strong>  | This operation creates a volume in a specific storage subsystem.<br>**IMPORTANT**<br><ul><li>Ensure that the system is powered off before creating a volume.</li><li>Power on the system once the operation is successful. The volume will be available in the system only after a successful reset.</li></ul><br> To know how to power off, power on, or restart a system, see [Resetting a computer system](#resetting-a-computer-system).|
 |<strong>Response code</strong>   |On success, `200 Ok` |
 |<strong>Authentication</strong>|Yes|
 
@@ -4205,7 +4216,7 @@ curl -i -X POST \
 |---------|----|-----------|
 |Name|String \(required\)<br> |Name of the new volume.|
 |RAIDType|String \(required\)<br> |The RAID type of the volume you want to create.|
-|Drives\[\{|Array \(required\)<br> |An array of links to drive resources that the new volume contains.|
+|Drives\[\{|Array \(required\)<br> |An array of links to drive resources to contain the new volume.|
 |@odata.id \}\]<br> |String|A link to a drive resource.|
 |@Redfish.OperationApplyTimeSupport|Redfish annotation \(optional\)<br> | It enables you to control when the operation is carried out.<br> Supported value is: `OnReset` and `Immediate`. `OnReset` indicates that the operation will be carried out only after you reset the system.|
 
@@ -4958,13 +4969,13 @@ Refer to [Resetting Servers](#resetting-servers) to know about `ResetType.`
 
 
 
-## Changing the boot order settings
+## Changing the boot settings
 
 |||
 |---------|-------|
 |**Method** |`PATCH` |
 |**URI** |`/redfish/v1/Systems/{ComputerSystemId}` |
-|**Description** |This action changes the boot order settings of a specific system.|
+|**Description** |This action changes the boot settings of a specific system such as boot source override target, boot order, and more.<br>**IMPORTANT**<br><ul><li>Ensure that the system is powered off before changing the boot order.</li><li>Power on the system once the operation is successful. The changes will be seen in the system only after a successful reset.</li></ul><br> To know how to power off, power on, or restart a system, see [Resetting a computer system](#resetting-a-computer-system).|
 |**Returns** |Message Id of the actual message in the JSON response body. To get the complete message, look up the specified registry file \(registry file name can be obtained by concatenating `RegistryPrefix` and version number present in the Message Id\). See [Message Registries](#message-registries). For example,`MessageId` in the sample response body is `Base.1.0.Success`. The registry to look up is `Base.1.0`.<br> |
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
@@ -5014,6 +5025,8 @@ Some of the attributes include:
 -   `BootSourceOverrideTarget` 
 
 -   `UefiTargetBootSourceOverride` 
+
+-   `Bootorder`
 
 
 For possible values, see values listed under `{attribute}.AllowableValues`. 
