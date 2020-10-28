@@ -38,108 +38,98 @@ To install `Ubuntu Make`, run the following command:
     $ sudo apt install openjdk-11-jre-headless -y
    ```
 4. Set up Docker environment:
-     > **IMPORTANT:** This procedure installs only the community edition of Docker.
+   > **IMPORTANT:** This procedure installs only the community edition of Docker.
 
-   
-   a. To install Docker, run the following commands:
-   1.  ```
-       $ sudo apt update
-       ```
-   2.  ```
-       $ sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
-       ```
-   3.  ```
-       $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        ```
-   4. ```
-      $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-      ```
-   5. ```
-      $ sudo apt update
-      ```
-   6. ```
-      $ apt-cache policy docker-ce
-       ```
+   1. To install Docker, run the following commands:
+      1.  ```
+          $ sudo apt update
+          ```
+      2.  ```
+          $ sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+          ```
+      3.  ```
+          $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+          ```
+      4.  ```
+          $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+          ```
+      5.  ```
+          $ sudo apt update
+          ```
+      6. ```
+         $ apt-cache policy docker-ce
+         ```
       
-        The following output is generated:
-      ```
-      docker-ce:
-      Installed: (none)
-      Candidate: 18.03.1~ce~3-0~ubuntu
-      Version table:
-      18.03.1~ce~3-0~ubuntu 500
-      500 https://download.docker.com/linux/ubuntu bionic/stable
-      amd64 Packages
-      ```
+         The following output is generated:
+          ```
+         docker-ce:
+         Installed: (none)
+         Candidate: 18.03.1~ce~3-0~ubuntu
+         Version table:
+         18.03.1~ce~3-0~ubuntu 500
+         500 https://download.docker.com/linux/ubuntu bionic/stable
+         amd64 Packages
+         ```
      
-      > **NOTE:** docker-ce is not installed, but the candidate for  installation is from the Docker repository for Ubuntu 18.04 (bionic).
+         > **NOTE:** docker-ce is not installed, but the candidate for  installation is from the Docker repository for Ubuntu 18.04 (bionic).
      
-    7. ```
-       $ sudo apt install docker-ce -y
-       ```
-    8. ```
-       $ sudo apt-get install docker-compose -y
-       ```
+      7. ```
+         $ sudo apt install docker-ce -y
+         ```
+      8. ```
+         $ sudo apt-get install docker-compose -y
+         ```
         
-       >  **NOTE:** To run the commands without sudo, add your username to the docker   group using the following command:
-          ```
-          $ sudo usermod -aG docker ${USER}
-          ```
-          
-		 
-    b. Check the version of `docker-compose` using the following command:
-         ```
-         $ docker-compose -v
-         ```
-	   
-       If the version of `docker-compose` is not latest (1.25.5), upgrade the version by following the next step.
-	   
-	   
-    c. [Optional]
-	
-        To upgrade the docker-compose version, run the following command:
-
-        If the environment is behind proxy:
-            ```
-            $ sudo curl -proxy "http://web-proxy.corp.hpecorp.net:8080" -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose$(uname s)$(uname -m)" -o /usr/bin/docker-compose
-            ```
-		 
-        If the environment is not behind proxy:
-           ```
-           $ sudo curl L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose$(uname s)$(uname -m)" -o /usr/bin/docker-compose
-           ```
-			
-
-    d. Check the status of Docker:
+         >  **NOTE:** To run the commands without sudo, add your username to the docker group using the following command:
         ```
-        $ sudo systemctl status docker
+         $ sudo usermod -aG docker ${USER}
         ```
+   2. Check the version of `docker-compose` using the following command:
+	    ```
+       $ docker-compose -v
+      ```
+	   If the version of `docker-compose` is not latest (1.25.5), upgrade the version by following the next step.
+   3. [Optional]
+      To upgrade the docker-compose version, run the following command:
+      - If the environment is behind proxy:
+	     ```
+        $ sudo curl -proxy "http://web-proxy.corp.hpecorp.net:8080" -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose$(uname s)$(uname -m)" -o /usr/bin/docker-compose
+        ```
+      
+	  -  If the environment is not behind proxy:
+	       ```
+         $ sudo curl L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose$(uname s)$(uname -m)" -o /usr/bin/docker-compose
+          ``` 
+   4. Check the status of Docker:
+        ```
+       $ sudo systemctl status docker
+      ```
  
-   If Docker is active and running, the following output is generated:
-   ```
-   docker.service - Docker Application Container Engine
-   Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor
-   preset: enabled)
-   Active: active (running) since Thu 2018-07-05 15:08:39 UTC; 2min 55s
-   ago
-   Docs: https://docs.docker.com
-   Main PID: 10096 (dockerd)
-   Tasks: 16
-   CGroup: /system.slice/docker.service
-   +-10096 /usr/bin/dockerd -H fd://
-   +-10113 docker-containerd --config /var/run/docker/containerd/
-   containerd.toml
-   ```
+      If Docker is active and running, the following output is generated:
+      ```
+      docker.service - Docker Application Container Engine
+      Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor
+      preset: enabled)
+      Active: active (running) since Thu 2018-07-05 15:08:39 UTC; 2min 55s
+      ago
+      Docs: https://docs.docker.com
+      Main PID: 10096 (dockerd)
+      Tasks: 16
+      CGroup: /system.slice/docker.service
+      +-10096 /usr/bin/dockerd -H fd://
+      +-10113 docker-containerd --config /var/run/docker/containerd/
+      containerd.toml
+      ```
      
-   >  **NOTE:** If your system is behind a corporate proxy, ensure to configure Docker to use proxy server and restart docker services. To know how to configure Docker proxy, see [Configuring Docker proxy](#configuring-proxy-for-docker).
+         >  **NOTE:** If your system is behind a corporate proxy, ensure to configure Docker to use proxy server and restart docker services. To know how to configure Docker proxy, see [Configuring Docker proxy](#configuring-proxy-for-docker).
 						   
-     
-    e. Restart the server.
-        ```
-        $ sudo init 6
-        ```
- >  **NOTE:** To enable Docker service to start on reboot, run the following command:
-   `$ sudo systemctl enable docker`
+   5. Restart the server.
+      ```
+      $ sudo init 6
+      ```
+      
+      >  **NOTE:** To enable Docker service to start on reboot, run the following command:
+       `$ sudo systemctl enable docker`
   
    
 	   
