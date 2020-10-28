@@ -87,7 +87,7 @@ To install `Ubuntu Make`, run the following command:
           ```
           
 		 
-  b. Check the version of `docker-compose` using the following command:
+    b. Check the version of `docker-compose` using the following command:
 	
 	```
 	$ docker-compose -v
@@ -96,7 +96,7 @@ To install `Ubuntu Make`, run the following command:
 	If the version of `docker-compose` is not latest (1.25.5), upgrade the version by following the next step.
 	   
 	   
- c. [Optional]
+    c. [Optional]
 	
 	To upgrade the docker-compose version, run the following command:
 
@@ -113,9 +113,9 @@ To install `Ubuntu Make`, run the following command:
 
  d. Check the status of Docker:
  
-    ```
-    $ sudo systemctl status docker
-    ```
+      ```
+       $ sudo systemctl status docker
+      ```
  
    If Docker is active and running, the following output is generated:
    ```
