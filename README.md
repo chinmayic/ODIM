@@ -89,9 +89,9 @@ To install `Ubuntu Make`, run the following command:
 		 
    b. Check the version of `docker-compose` using the following command:
 	
-      ```
-      $ docker-compose -v
-      ```
+        ```
+        $ docker-compose -v
+        ```
 	   
       If the version of `docker-compose` is not latest (1.25.5), upgrade the version by following the next step.
 	   
