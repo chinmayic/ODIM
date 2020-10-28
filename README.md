@@ -87,33 +87,33 @@ To install `Ubuntu Make`, run the following command:
           ```
           
 		 
-   b. Check the version of `docker-compose` using the following command:
-        ```
+    b. Check the version of `docker-compose` using the following command:
+         ```
          $ docker-compose -v
-        ```
+         ```
 	   
-      If the version of `docker-compose` is not latest (1.25.5), upgrade the version by following the next step.
+       If the version of `docker-compose` is not latest (1.25.5), upgrade the version by following the next step.
 	   
 	   
-c. [Optional]
+    c. [Optional]
 	
-To upgrade the docker-compose version, run the following command:
+        To upgrade the docker-compose version, run the following command:
 
-If the environment is behind proxy:
-```
-$ sudo curl -proxy "http://web-proxy.corp.hpecorp.net:8080" -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose$(uname s)$(uname -m)" -o /usr/bin/docker-compose
-```
+        If the environment is behind proxy:
+            ```
+            $ sudo curl -proxy "http://web-proxy.corp.hpecorp.net:8080" -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose$(uname s)$(uname -m)" -o /usr/bin/docker-compose
+            ```
 		 
-If the environment is not behind proxy:
-```
-$ sudo curl L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose$(uname s)$(uname -m)" -o /usr/bin/docker-compose
-```
+        If the environment is not behind proxy:
+           ```
+           $ sudo curl L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose$(uname s)$(uname -m)" -o /usr/bin/docker-compose
+           ```
 			
 
- d. Check the status of Docker:
-```
- $ sudo systemctl status docker
-```
+    d. Check the status of Docker:
+        ```
+        $ sudo systemctl status docker
+        ```
  
    If Docker is active and running, the following output is generated:
    ```
@@ -134,10 +134,10 @@ $ sudo curl L "https://github.com/docker/compose/releases/download/1.25.5/docker
    >  **NOTE:** If your system is behind a corporate proxy, ensure to configure Docker to use proxy server and restart docker services. To know how to configure Docker proxy, see [Configuring Docker proxy](#configuring-proxy-for-docker).
 						   
      
-e. Restart the server.
-   ```
-   $ sudo init 6
-   ```
+    e. Restart the server.
+        ```
+        $ sudo init 6
+        ```
  >  **NOTE:** To enable Docker service to start on reboot, run the following command:
    `$ sudo systemctl enable docker`
   
