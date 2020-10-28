@@ -40,6 +40,7 @@ To install `Ubuntu Make`, run the following command:
 4. Set up Docker environment:
      > **IMPORTANT:** This procedure installs only the community edition of Docker.
 
+   
    a. To install Docker, run the following commands:
    1.  ```
        $ sudo apt update
@@ -80,41 +81,63 @@ To install `Ubuntu Make`, run the following command:
        $ sudo apt-get install docker-compose -y
        ```
         
-       >  **NOTE:** To run the commands without sudo, add your username to the docker group using the following command:
-        ```
-         $ sudo usermod -aG docker ${USER}
-        ```
+       >  **NOTE:** To run the commands without sudo, add your username to the docker   group using the following command:
+          ```
+          $ sudo usermod -aG docker ${USER}
+          ```
+          
+		 
+    b. Check the version of `docker-compose` using the following command:
+	   ```
+	   $ docker-compose -v
+	   ```
+	   
+	   If the version of `docker-compose` is not latest (1.25.5), upgrade the version by following the next step.
+	   
+    c. [Optional]
+	
+	     To upgrade the docker-compose version, run the following command:
 
-    b. Check the status of Docker:
-      ```
-    $ sudo systemctl status docker
-      ```
+           If the environment is behind proxy:
+		    ```
+		    $ sudo curl -proxy "http://web-proxy.corp.hpecorp.net:8080" -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose$(uname s)$(uname -m)" -o /usr/bin/docker-compose
+		    ```
+		 
+		   If the environment is not behind proxy:
+		    ```
+		    $ sudo curl L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose$(uname s)$(uname -m)" -o /usr/bin/docker-compose
+		    ```
+
+   d.  Check the status of Docker:
+         ```
+         $ sudo systemctl status docker
+         ```
  
-   If Docker is active and running, the following output is generated:
-   ```
-   docker.service - Docker Application Container Engine
-   Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor
-   preset: enabled)
-   Active: active (running) since Thu 2018-07-05 15:08:39 UTC; 2min 55s
-   ago
-   Docs: https://docs.docker.com
-   Main PID: 10096 (dockerd)
-   Tasks: 16
-   CGroup: /system.slice/docker.service
-   +-10096 /usr/bin/dockerd -H fd://
-   +-10113 docker-containerd --config /var/run/docker/containerd/
-   containerd.toml
-   ```
+      If Docker is active and running, the following output is generated:
+          ```
+           docker.service - Docker Application Container Engine
+           Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor
+           preset: enabled)
+           Active: active (running) since Thu 2018-07-05 15:08:39 UTC; 2min 55s
+           ago
+           Docs: https://docs.docker.com
+           Main PID: 10096 (dockerd)
+           Tasks: 16
+           CGroup: /system.slice/docker.service
+           +-10096 /usr/bin/dockerd -H fd://
+           +-10113 docker-containerd --config /var/run/docker/containerd/
+           containerd.toml
+         ```
      
-   >  **NOTE:** If your system is behind a corporate proxy, ensure to configure Docker to use proxy server and restart docker services. To know how to configure Docker proxy, see [Configuring Docker proxy](#configuring-proxy-for-docker).
+     >  **NOTE:** If your system is behind a corporate proxy, ensure to configure Docker to use proxy server and restart docker services. To know how to configure Docker proxy, see [Configuring Docker proxy](#configuring-proxy-for-docker).
 						   
      
-   c. Restart the server.
+   e. Restart the server.
       ```
      $ sudo init 6
      ```
       
-   >  **NOTE:** To enable Docker service to start on reboot, run the following command:
+     >  **NOTE:** To enable Docker service to start on reboot, run the following command:
    
        `$ sudo systemctl enable docker`
   
@@ -139,11 +162,12 @@ This section provides a step-by-step procedure for deploying ODIMRA and GRF plug
 	|`odimra`|1234 |
 	|`plugin`|1235 |
 	
-    `odimra` is created on both the VM and the container for the resource aggregator.
+
+     `odimra` is created on both the VM and the container for the resource aggregator.
 	
-	`plugin` is created  on both the VM and the container for the GRF plugin.
+	 `plugin` is created  on both the VM and the container for the GRF plugin.
 	
-	 Ensure that these user ids and group ids are not present on the VM prior to deployment.
+	  Ensure that these user ids and group ids are not present on the VM prior to deployment.
 
 
 **WARNING:** Do not run the commands provided in this section as root user unless mentioned.

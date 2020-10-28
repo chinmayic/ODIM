@@ -76,7 +76,8 @@
   * [Collection of chassis](#collection-of-chassis)
   * [Single chassis](#single-chassis)
   * [Thermal metrics](#thermal-metrics)
-  * [Network adapters](#network-adapters)
+  * [Collection of network adapters](#collection-of-network-adapters)
+  * [Single network adapter](#single-network-adapter)
   * [Power](#power)
   * [Searching the inventory](#searching-the-inventory)
     + [Request URI parameters](#request-uri-parameters)
@@ -84,7 +85,7 @@
   * [Resetting a computer system](#resetting-a-computer-system)
   * [Changing the boot order of a computer system to default settings](#changing-the-boot-order-of-a-computer-system-to-default-settings)
   * [Changing BIOS settings](#changing-bios-settings)
-  * [Changing the boot order settings](#changing-the-boot-order-settings)
+  * [Changing the boot settings](#changing-the-boot-settings)
 - [Managers](#managers)
   * [Collection of managers](#collection-of-managers)
   * [Single manager](#single-manager)
@@ -396,6 +397,7 @@ Resource Aggregator for ODIM supports the following Redfish APIs:
 |/redfish/v1/Chassis/\{chassisId\}/Thermal|`GET`|
 |/redfish/v1/Chassis/\{ChassisId\}/Power|`GET`|
 |/redfish/v1/Chassis/\{chassisId\}/NetworkAdapters|`GET`|
+|/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{networkadapterId}|GET|`Login` |
 
 |Managers||
 |-------|--------------------|
@@ -3275,7 +3277,7 @@ To discover crucial configuration information about a resource, including chassi
 |/redfish/v1/Systems/\{ComputerSystemId\}/Processors|GET|`Login` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/Processors/\{Id\}|GET|`Login` |
 |/redfish/v1/Systems?$filter=\{searchKeys\}%20\{conditionKeys\}%20\{value\}|GET|`Login` |
-| /redfish/v1/Systems/\{ComputerSystemId\}/Bios/Settings<br> |GET, PATCH|`Login`, `ConfigureComponents` |
+|/redfish/v1/Systems/\{ComputerSystemId\}/Bios/Settings<br> |GET, PATCH|`Login`, `ConfigureComponents` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/Actions/ComputerSystem.Reset|POST|`ConfigureComponents` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/Actions/ComputerSystem.SetDefaultBootOrder|POST|`ConfigureComponents` |
 
@@ -3285,6 +3287,7 @@ To discover crucial configuration information about a resource, including chassi
 |/redfish/v1/Chassis/\{chassisId\}|GET|`Login` |
 |/redfish/v1/Chassis/\{chassisId\}/Thermal|GET|`Login` |
 |/redfish/v1/Chassis/\{chassisId\}/NetworkAdapters|GET|`Login` |
+|/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{networkadapterId}|GET|`Login` |
 
 |API URI|Operation Applicable|Required privileges|
 |-------|--------------------|-------------------|
@@ -4600,14 +4603,14 @@ curl -i GET \
 
 
 
-##  Network adapters
+##  A collection of network adapters
 
 |||
 |---------|-------|
 |**Method** |`GET` |
-|**URI** |`/redfish/v1/Chassis/{ChassisId}/NetworkAdapters` |
-|**Description** | Use this endpoint to discover information on network adapters. Some examples of network adapters include Ethernet, fibre channel, and converged network adapters.<br> A `NetworkAdapter` represents the physical network adapter capable of connecting to a computer network.<br> |
-|**Returns** |Links to network adapter instances available in this chassis.|
+|**URI** |`/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{networkadapterId}` |
+|**Description** | Use this endpoint to discover information on a specific network adapter.|
+|**Returns** |JSON schema representing this network adapter.|
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
@@ -4618,7 +4621,7 @@ curl -i GET \
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/NetworkAdapters'
+ 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{networkadapterId}'
 
 
 ```
