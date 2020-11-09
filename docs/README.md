@@ -3524,6 +3524,42 @@ curl -i GET \
          "VirtualProfile":"Inactive"
       }
    },
+   "PCIeDevices":[
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/1"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/2"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/3"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/4"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/5"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/6"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/7"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/8"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/9"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/10"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/11"
+    }
+   ],
+   "PCIeDevices@odata.count": 11,
    "PowerState":"On",
    "ProcessorSummary":{ 
       "Count":2,
@@ -3834,6 +3870,76 @@ curl -i GET \
 	},
 	"UefiDevicePath": "PciRoot(0x3)/Pci(0x2,0x0)/Pci(0x0,0x0)"
 }
+```
+
+
+
+
+
+
+
+
+
+##  PCIeDevice
+
+|||
+|---------|-------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/PCIeDevices/{PCIeDeviceId}` |
+|**Description** | This operation fetches information about a specific PCIeDevice.<br> |
+|**Returns** |Details of a PCIeDevice for a computer system.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
+
+>**curl command**
+
+```
+curl -i GET \
+         -H "X-Auth-Token:{X-Auth-Token}" \
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/PCIeDevices/{PCIeDeviceId}'
+
+
+```
+> Sample response body
+
+```
+{
+    "@odata.context": "/redfish/v1/$metadata#PCIeDevice.PCIeDevice",
+    "@odata.etag": "W/\"33150E20\"",
+    "@odata.id": "/redfish/v1/Systems/1b77fcdd-b6a2-44b4-83f9-cfb4926fcd79:1/PCIeDevices/1",
+    "@odata.type": "#PCIeDevice.v1_5_0.PCIeDevice",
+    "Id": "1",
+    "Name": "HPE Ethernet 1Gb 4-port 331i Adapter - NIC",
+    "Oem": {
+        "Hpe": {
+            "@odata.context": "/redfish/v1/$metadata#HpeServerPciDevice.HpeServerPciDevice",
+            "@odata.etag": "W/\"33150E20\"",
+            "@odata.id": "/redfish/v1/Systems/1b77fcdd-b6a2-44b4-83f9-cfb4926fcd79:1/PCIDevices/1",
+            "@odata.type": "#HpeServerPciDevice.v2_0_0.HpeServerPciDevice",
+            "BusNumber": 2,
+            "ClassCode": 2,
+            "DeviceID": 5719,
+            "DeviceInstance": 1,
+            "DeviceLocation": "Embedded",
+            "DeviceNumber": 0,
+            "DeviceSubInstance": 1,
+            "DeviceType": "Embedded LOM",
+            "FunctionNumber": 0,
+            "Id": "1",
+            "LocationString": "Embedded LOM 1",
+            "Name": "HPE Ethernet 1Gb 4-port 331i Adapter - NIC",
+            "SegmentNumber": 0,
+            "StructuredName": "NIC.LOM.1.1",
+            "SubclassCode": 0,
+            "SubsystemDeviceID": 8894,
+            "SubsystemVendorID": 4156,
+            "UEFIDevicePath": "PciRoot(0x0)/Pci(0x1C,0x0)/Pci(0x0,0x0)",
+            "VendorID": 5348
+        }
+    }
+}
+
 ```
 
 
