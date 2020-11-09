@@ -4698,7 +4698,7 @@ curl -i GET \
 
 
 
-##  Network adapters
+##  Network adapters Collection
 
 |||
 |---------|-------|
@@ -4721,8 +4721,152 @@ curl -i GET \
 
 ```
 
+>**Sample response body**
+
+```
+{
+              "@odata.context": "/redfish/v1/$metadata#NetworkAdapterCollection.NetworkAdapterCollection",
+              "@odata.id": "/redfish/v1/Chassis/a022faa5-107c-496d-874e-89c9f3e2df1c:1/NetworkAdapters",
+              "@odata.type": "#NetworkAdapterCollection.NetworkAdapterCollection",
+              "Description": "The collection of network adapter resource instances available in this chassis.",
+              "Members": [{
+                             "@odata.id": "/redfish/v1/Chassis/a022faa5-107c-496d-874e-89c9f3e2df1c:1/NetworkAdapters/{rid}"
+              }],
+              "Members@odata.count": 1,
+              "Name": "NetworkAdapterCollection",
+              "Oem": {
+                             "Hpe": {
+                                           "@odata.context": "/redfish/v1/$metadata#HpeNetworkAdapterStatus.HpeNetworkAdapterStatus",
+                                           "@odata.type": "#HpeNetworkAdapterStatus.v1_0_0.HpeNetworkAdapterStatus",
+                                           "MemberContents": "AllDevices"
+                             }
+              }
+}
 
 
+```
+
+## Single  Network Adapter
+
+|||
+|---------|-------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{NetworkAdapterId}` |
+|**Description** | Use this endpoint to discover information on network adapter. <br> A `NetworkAdapter` represents the physical network adapter capable of connecting to a computer network.<br> |
+|**Returns** |Links to network adapter instances available under Network Adapter collection in this chassis.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
+
+>**Sample response body**
+
+```
+
+{
+              "@odata.context": "/redfish/v1/$metadata#NetworkAdapter.NetworkAdapter",
+              "@odata.etag": "W/\"F303ECE9\"",
+              "@odata.id": "/redfish/v1/Chassis/a022faa5-107c-496d-874e-89c9f3e2df1c:1/NetworkAdapters/{rid}",
+              "@odata.type": "#NetworkAdapter.v1_5_0.NetworkAdapter",
+              "Description": "The network adapter resource instances available in this chassis.",
+              "Name": "Network Adapter View",
+              "Oem": {
+                             "Hpe": {
+                                           "@odata.context": "/redfish/v1/$metadata#HpeBaseNetworkAdapter.HpeBaseNetworkAdapter",
+                                           "@odata.etag": "W/\"7A9A9CE7\"",
+                                           "@odata.id": "/redfish/v1/Systems/1/BaseNetworkAdapters/1/",
+                                           "@odata.type": "#HpeBaseNetworkAdapter.v2_0_0.HpeBaseNetworkAdapter",
+                                           "Id": "1",
+                                           "FcPorts": [],
+                                           "Firmware": {
+                                                          "Current": {
+                                                                        "VersionString": "20.14.54"
+                                                          }
+                                           },
+                                           "Name": "HPE Ethernet 1Gb 4-port 331i Adapter - NIC",
+                                           "PhysicalPorts": [{
+                                                          "FullDuplex": true,
+                                                          "IPv4Addresses": [],
+                                                          "IPv6Addresses": [],
+                                                          "LinkStatus": null,
+                                                          "MacAddress": "80:30:e0:2c:92:a4",
+                                                          "Name": "",
+                                                          "Oem": {
+                                                                        "Hpe": {
+                                                                                      "@odata.context": "/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                                                                                      "@odata.type": "#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                                                                                      "BadReceives": 0,
+                                                                                      "BadTransmits": 0,
+                                                                                      "GoodReceives": 0,
+                                                                                      "GoodTransmits": 0
+                                                                        }
+                                                          },
+                                                          "SpeedMbps": 0
+                                           }, {
+                                                         "FullDuplex": true,
+                                                          "IPv4Addresses": [],
+                                                          "IPv6Addresses": [],
+                                                          "LinkStatus": null,
+                                                          "MacAddress": "80:30:e0:2c:92:a5",
+                                                          "Name": "",
+                                                          "Oem": {
+                                                                        "Hpe": {
+                                                                                      "@odata.context": "/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                                                                                      "@odata.type": "#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                                                                                      "BadReceives": 0,
+                                                                                      "BadTransmits": 0,
+                                                                                      "GoodReceives": 0,
+                                                                                      "GoodTransmits": 0
+                                                                        }
+                                                          },
+                                                          "SpeedMbps": 0
+                                           }, {
+                                                          "FullDuplex": true,
+                                                          "IPv4Addresses": [],
+                                                          "IPv6Addresses": [],
+                                                          "LinkStatus": null,
+                                                          "MacAddress": "80:30:e0:2c:92:a6",
+                                                          "Name": "",
+                                                          "Oem": {
+                                                                        "Hpe": {
+                                                                                      "@odata.context": "/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                                                                                      "@odata.type": "#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                                                                                      "BadReceives": 0,
+                                                                                      "BadTransmits": 0,
+                                                                                      "GoodReceives": 0,
+                                                                                      "GoodTransmits": 0
+                                                                        }
+                                                          },
+                                                          "SpeedMbps": 0
+                                           }, {
+                                                          "FullDuplex": true,
+                                                          "IPv4Addresses": [],
+                                                          "IPv6Addresses": [],
+                                                          "LinkStatus": null,
+                                                          "MacAddress": "80:30:e0:2c:92:a7",
+                                                          "Name": "",
+                                                          "Oem": {
+                                                                        "Hpe": {
+                                                                                      "@odata.context": "/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                                                                                      "@odata.type": "#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                                                                                      "BadReceives": 0,
+                                                                                      "BadTransmits": 0,
+                                                                                      "GoodReceives": 0,
+                                                                                      "GoodTransmits": 0
+                                                                        }
+                                                          },
+                                                          "SpeedMbps": 0
+                                           }],
+                                           "Status": {
+                                                          "State": null
+                                           },
+                                           "StructuredName": "NIC.LOM.1.1",
+                                           "UEFIDevicePath": "PciRoot(0x0)/Pci(0x1C,0x0)/Pci(0x0,0x0)"
+                             }
+              }
+}
+
+
+```
 
 
 
