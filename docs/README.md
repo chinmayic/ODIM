@@ -3891,7 +3891,53 @@ curl -i GET \
 
 
 ```
+> Sample response body 
 
+```
+{
+    "@odata.context": "/redfish/v1/$metadata#Storage.Storage",
+    "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0",
+    "@odata.type": "#Storage.v1_7_1.Storage",
+    "Description": "HPE Smart Storage Array Controller View",
+    "Drives": [
+        {
+            "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0/Drives/0"
+        },
+        {
+            "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0/Drives/1"
+        }
+    ],
+    "Id": "ArrayController-0",
+    "Name": "HpeSmartStorageArrayController",
+    "StorageControllers": [
+        {
+            "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0#/StorageControllers/0",
+            "FirmwareVersion": "1.98",
+            "Manufacturer": "HPE",
+            "MemberId": "0",
+            "Model": "HPE Smart Array P408i-a SR Gen10",
+            "Name": "HpeSmartStorageArrayController",
+            "PartNumber": "836260-001",
+            "PhysicalLocation": {
+                "PartLocation": {
+                    "LocationOrdinalValue": 0,
+                    "LocationType": "Slot",
+                    "ServiceLabel": "Slot=0"
+                }
+            },
+            "SerialNumber": "PEYHC0DRHBV3CZ ",
+            "Status": {
+                "Health": "OK",
+                "State": "Enabled"
+            }
+        }
+    ],
+    "Volumes": {
+        "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0/Volumes"
+    }
+}
+
+```
 
 
 
