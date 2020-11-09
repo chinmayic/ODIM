@@ -4746,7 +4746,7 @@ curl -i GET \
 
 ```
 
-## Single  Network Adapter
+## Single Network Adapter
 
 |||
 |---------|-------|
