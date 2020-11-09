@@ -934,8 +934,7 @@ curl -i -X POST \
 }
 ```
 
-
-
+<br>**NOTE:**<br> Created volume will be reflected only after the system resets. To see the change, [reset the computer system](#resetting-a-computer-system).
 
 
 
@@ -976,6 +975,8 @@ curl -i -X DELETE \
 |---------|----|-----------|
 |@Redfish.OperationApplyTimeSupport|Redfish annotation \(optional\)<br> | It enables you to control when the operation is carried out.<br> Supported value is: `OnReset`. Supported values are: `OnReset` and `Immediate`. `OnReset` indicates that the volume will be deleted only after you reset the system.<br> |
 
+
+<br>**NOTE:**<br> Deleted volume will be reflected only after the system resets. To see the change, [reset the computer system](#resetting-a-computer-system).
 
 
 
