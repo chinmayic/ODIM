@@ -18,6 +18,7 @@ To discover crucial configuration information about a resource, including chassi
 |/redfish/v1/Systems/\{ComputerSystemId\}/EthernetInterfaces/\{Id\}|GET|`Login` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/Bios|GET|`Login` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/SecureBoot|GET|`Login` |
+|/redfish/v1/Systems/{ComputerSystemId}/PCIeDevices/{PCIeDeviceId}|`GET`|`Login` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage|GET|`Login` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}|GET|`Login` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Drives/\{driveId\}|GET|`Login` |
@@ -408,6 +409,42 @@ curl -i GET \
          "VirtualProfile":"Inactive"
       }
    },
+   "PCIeDevices":[
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/1"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/2"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/3"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/4"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/5"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/6"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/7"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/8"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/9"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/10"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/11"
+    }
+   ],
+   "PCIeDevices@odata.count": 11,
    "PowerState":"On",
    "ProcessorSummary":{ 
       "Count":2,
@@ -722,7 +759,67 @@ curl -i GET \
 
 
 
+##  PCIeDevice
 
+|||
+|---------|-------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/PCIeDevices/{PCIeDeviceId}` |
+|**Description** | This operation fetches information about a specific PCIe device.<br> |
+|**Returns** |Properties of a PCIe device attached to a computer system such as type, the version of the PCIe specification in use by this device, and more.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
+
+>**curl command**
+
+```
+curl -i GET \
+         -H "X-Auth-Token:{X-Auth-Token}" \
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/PCIeDevices/{PCIeDeviceId}'
+
+
+```
+> Sample response body
+
+```
+{
+    "@odata.context": "/redfish/v1/$metadata#PCIeDevice.PCIeDevice",
+    "@odata.etag": "W/\"33150E20\"",
+    "@odata.id": "/redfish/v1/Systems/1b77fcdd-b6a2-44b4-83f9-cfb4926fcd79:1/PCIeDevices/1",
+    "@odata.type": "#PCIeDevice.v1_5_0.PCIeDevice",
+    "Id": "1",
+    "Name": "HPE Ethernet 1Gb 4-port 331i Adapter - NIC",
+    "Oem": {
+        "Hpe": {
+            "@odata.context": "/redfish/v1/$metadata#HpeServerPciDevice.HpeServerPciDevice",
+            "@odata.etag": "W/\"33150E20\"",
+            "@odata.id": "/redfish/v1/Systems/1b77fcdd-b6a2-44b4-83f9-cfb4926fcd79:1/PCIDevices/1",
+            "@odata.type": "#HpeServerPciDevice.v2_0_0.HpeServerPciDevice",
+            "BusNumber": 2,
+            "ClassCode": 2,
+            "DeviceID": 5719,
+            "DeviceInstance": 1,
+            "DeviceLocation": "Embedded",
+            "DeviceNumber": 0,
+            "DeviceSubInstance": 1,
+            "DeviceType": "Embedded LOM",
+            "FunctionNumber": 0,
+            "Id": "1",
+            "LocationString": "Embedded LOM 1",
+            "Name": "HPE Ethernet 1Gb 4-port 331i Adapter - NIC",
+            "SegmentNumber": 0,
+            "StructuredName": "NIC.LOM.1.1",
+            "SubclassCode": 0,
+            "SubsystemDeviceID": 8894,
+            "SubsystemVendorID": 4156,
+            "UEFIDevicePath": "PciRoot(0x0)/Pci(0x1C,0x0)/Pci(0x0,0x0)",
+            "VendorID": 5348
+        }
+    }
+}
+
+```
 
 
 
@@ -776,7 +873,53 @@ curl -i GET \
 
 ```
 
+> Sample response body 
 
+```
+{
+    "@odata.context": "/redfish/v1/$metadata#Storage.Storage",
+    "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0",
+    "@odata.type": "#Storage.v1_7_1.Storage",
+    "Description": "HPE Smart Storage Array Controller View",
+    "Drives": [
+        {
+            "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0/Drives/0"
+        },
+        {
+            "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0/Drives/1"
+        }
+    ],
+    "Id": "ArrayController-0",
+    "Name": "HpeSmartStorageArrayController",
+    "StorageControllers": [
+        {
+            "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0#/StorageControllers/0",
+            "FirmwareVersion": "1.98",
+            "Manufacturer": "HPE",
+            "MemberId": "0",
+            "Model": "HPE Smart Array P408i-a SR Gen10",
+            "Name": "HpeSmartStorageArrayController",
+            "PartNumber": "836260-001",
+            "PhysicalLocation": {
+                "PartLocation": {
+                    "LocationOrdinalValue": 0,
+                    "LocationType": "Slot",
+                    "ServiceLabel": "Slot=0"
+                }
+            },
+            "SerialNumber": "PEYHC0DRHBV3CZ ",
+            "Status": {
+                "Health": "OK",
+                "State": "Enabled"
+            }
+        }
+    ],
+    "Volumes": {
+        "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0/Volumes"
+    }
+}
+
+```
 
 
 
@@ -810,7 +953,7 @@ curl -i GET \
 
 
 
-### A collection of volumes
+### Collection of volumes
 
 | | |
 |----------|-----------|
@@ -918,7 +1061,7 @@ curl -i GET \
 |----------|-----------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong>  |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes` |
-|<strong>Description</strong>  | This operation creates a volume in a specific storage subsystem.|
+|<strong>Description</strong>  | This operation creates a volume in a specific storage subsystem.<br>**IMPORTANT**<br><ul><li>Ensure that the system is powered off before creating a volume.</li><li>Power on the system once the operation is successful. The volume will be available in the system only after a successful reset.</li></ul><br> To know how to power off, power on, or restart a system, see [Resetting a computer system](#resetting-a-computer-system).|
 |<strong>Response code</strong>   |On success, `200 Ok` |
 |<strong>Authentication</strong>|Yes|
 
@@ -1002,7 +1145,7 @@ curl -i -X POST \
 |----------|-----------|
 |<strong>Method</strong>  | `DELETE` |
 |<strong>URI</strong>   |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes/{volumeId}` |
-|<strong>Description</strong>  | This operation removes a volume in a specific storage subsystem.<br> |
+|<strong>Description</strong>  | This operation removes a volume in a specific storage subsystem.<br>NOTE: Reset the computer system once the operation is successful. The changes will be reflected in the system only after a successful reset. To know how to reset, see [Resetting a computer system](#resetting-a-computer-system). |
 |<strong>Response code</strong>|On success, `204 No Content` |
 |<strong>Authentication</strong>  |Yes|
 
@@ -1030,7 +1173,7 @@ curl -i -X DELETE \
 
 |Parameter|Type|Description|
 |---------|----|-----------|
-|@Redfish.OperationApplyTimeSupport|Redfish annotation \(optional\)<br> | It enables you to control when the operation is carried out.<br> Supported value is: `OnReset`. Supported values are: `OnReset` and `Immediate`. `OnReset` indicates that the volume will be deleted only after you reset the system.<br> |
+|@Redfish.OperationApplyTimeSupport|Redfish annotation \(optional\)<br> | It enables you to control when the operation is carried out.<br> Supported values are: `OnReset` and `Immediate`. `OnReset` indicates that the volume will be deleted only after you reset the system.<br> |
 
 
 
@@ -1355,13 +1498,13 @@ curl -i GET \
 
 
 
-##  Network adapters
+## Collection of network adapters
 
 |||
 |---------|-------|
 |**Method** |`GET` |
-|**URI** |`/redfish/v1/Chassis/{ChassisId}/NetworkAdapters` |
-|**Description** | Use this endpoint to discover information on network adapters. Some examples of network adapters include Ethernet, fibre channel, and converged network adapters.<br> A `NetworkAdapter` represents the physical network adapter capable of connecting to a computer network.<br> |
+|**URI** |`/redfish/v1/Chassis/{ChassisId}/NetworkAdapters|
+|**Description** | This endpoint lists network adapters contained in a chassis. A `NetworkAdapter` represents the physical network adapter capable of connecting to a computer network.<br> Some examples include Ethernet, fibre channel, and converged network adapters.|
 |**Returns** |Links to network adapter instances available in this chassis.|
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
@@ -1374,6 +1517,165 @@ curl -i GET \
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
  'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/NetworkAdapters'
+
+
+```
+
+
+## Single network adapter
+
+|||
+|---------|-------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{NetworkAdapterId}` |
+|**Description** | This endpoint retrieves information on a specific network adapter.|
+|**Returns** |JSON schema representing this network adapter.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
+
+
+>**curl command**
+
+
+```
+curl -i GET \
+   -H "X-Auth-Token:{X-Auth-Token}" \
+ 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{NetworkAdapterId}'
+
+
+```
+
+
+>**Sample response body**
+
+```
+
+{
+   "@odata.context":"/redfish/v1/$metadata#NetworkAdapter.NetworkAdapter",
+   "@odata.etag":"W/\"F303ECE9\"",
+   "@odata.id":"/redfish/v1/Chassis/a022faa5-107c-496d-874e-89c9f3e2df1c:1/NetworkAdapters/{rid}",
+   "@odata.type":"#NetworkAdapter.v1_5_0.NetworkAdapter",
+   "Description":"The network adapter resource instances available in this chassis.",
+   "Name":"Network Adapter View",
+   "Oem":{
+      "Hpe":{
+         "@odata.context":"/redfish/v1/$metadata#HpeBaseNetworkAdapter.HpeBaseNetworkAdapter",
+         "@odata.etag":"W/\"7A9A9CE7\"",
+         "@odata.id":"/redfish/v1/Systems/1/BaseNetworkAdapters/1/",
+         "@odata.type":"#HpeBaseNetworkAdapter.v2_0_0.HpeBaseNetworkAdapter",
+         "Id":"1",
+         "FcPorts":[
+            
+         ],
+         "Firmware":{
+            "Current":{
+               "VersionString":"20.14.54"
+            }
+         },
+         "Name":"HPE Ethernet 1Gb 4-port 331i Adapter - NIC",
+         "PhysicalPorts":[
+            {
+               "FullDuplex":true,
+               "IPv4Addresses":[
+                  
+               ],
+               "IPv6Addresses":[
+                  
+               ],
+               "LinkStatus":null,
+               "MacAddress":"80:30:e0:2c:92:a4",
+               "Name":"",
+               "Oem":{
+                  "Hpe":{
+                     "@odata.context":"/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                     "@odata.type":"#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                     "BadReceives":0,
+                     "BadTransmits":0,
+                     "GoodReceives":0,
+                     "GoodTransmits":0
+                  }
+               },
+               "SpeedMbps":0
+            },
+            {
+               "FullDuplex":true,
+               "IPv4Addresses":[
+                  
+               ],
+               "IPv6Addresses":[
+                  
+               ],
+               "LinkStatus":null,
+               "MacAddress":"80:30:e0:2c:92:a5",
+               "Name":"",
+               "Oem":{
+                  "Hpe":{
+                     "@odata.context":"/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                     "@odata.type":"#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                     "BadReceives":0,
+                     "BadTransmits":0,
+                     "GoodReceives":0,
+                     "GoodTransmits":0
+                  }
+               },
+               "SpeedMbps":0
+            },
+            {
+               "FullDuplex":true,
+               "IPv4Addresses":[
+                  
+               ],
+               "IPv6Addresses":[
+                  
+               ],
+               "LinkStatus":null,
+               "MacAddress":"80:30:e0:2c:92:a6",
+               "Name":"",
+               "Oem":{
+                  "Hpe":{
+                     "@odata.context":"/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                     "@odata.type":"#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                     "BadReceives":0,
+                     "BadTransmits":0,
+                     "GoodReceives":0,
+                     "GoodTransmits":0
+                  }
+               },
+               "SpeedMbps":0
+            },
+            {
+               "FullDuplex":true,
+               "IPv4Addresses":[
+                  
+               ],
+               "IPv6Addresses":[
+                  
+               ],
+               "LinkStatus":null,
+               "MacAddress":"80:30:e0:2c:92:a7",
+               "Name":"",
+               "Oem":{
+                  "Hpe":{
+                     "@odata.context":"/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                     "@odata.type":"#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                     "BadReceives":0,
+                     "BadTransmits":0,
+                     "GoodReceives":0,
+                     "GoodTransmits":0
+                  }
+               },
+               "SpeedMbps":0
+            }
+         ],
+         "Status":{
+            "State":null
+         },
+         "StructuredName":"NIC.LOM.1.1",
+         "UEFIDevicePath":"PciRoot(0x0)/Pci(0x1C,0x0)/Pci(0x0,0x0)"
+      }
+   }
+}
 
 
 ```

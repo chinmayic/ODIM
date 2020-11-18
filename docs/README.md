@@ -76,8 +76,7 @@
   * [Collection of chassis](#collection-of-chassis)
   * [Single chassis](#single-chassis)
   * [Thermal metrics](#thermal-metrics)
-  * [Collection of network adapters](#collection-of-network-adapters)
-  * [Single network adapter](#single-network-adapter)
+  * [Network adapters](#network-adapters)
   * [Power](#power)
   * [Searching the inventory](#searching-the-inventory)
     + [Request URI parameters](#request-uri-parameters)
@@ -378,6 +377,7 @@ Resource Aggregator for ODIM supports the following Redfish APIs:
 |/redfish/v1/Systems/\{ComputerSystemId\}/EthernetInterfaces/\{Id\}|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Bios|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/SecureBoot|`GET`|
+|/redfish/v1/Systems/{ComputerSystemId}/PCIeDevices/{PCIeDeviceId}|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}|`GET`|
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Drives/\{driveId\}|`GET`|
@@ -3269,6 +3269,7 @@ To discover crucial configuration information about a resource, including chassi
 |/redfish/v1/Systems/\{ComputerSystemId\}/EthernetInterfaces/\{Id\}|GET|`Login` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/Bios|GET|`Login` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/SecureBoot|GET|`Login` |
+|/redfish/v1/Systems/{ComputerSystemId}/PCIeDevices/{PCIeDeviceId}|`GET`|`Login` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage|GET|`Login` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}|GET|`Login` |
 |/redfish/v1/Systems/\{ComputerSystemId\}/Storage/\{storageSubsystemId\}/Drives/\{driveId\}|GET|`Login` |
@@ -3287,7 +3288,7 @@ To discover crucial configuration information about a resource, including chassi
 |/redfish/v1/Chassis/\{chassisId\}|GET|`Login` |
 |/redfish/v1/Chassis/\{chassisId\}/Thermal|GET|`Login` |
 |/redfish/v1/Chassis/\{chassisId\}/NetworkAdapters|GET|`Login` |
-|/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{networkadapterId}|GET|`Login` |
+|/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{networkadapterId}|GET|`Login`|
 
 |API URI|Operation Applicable|Required privileges|
 |-------|--------------------|-------------------|
@@ -3652,6 +3653,42 @@ curl -i GET \
          "VirtualProfile":"Inactive"
       }
    },
+   "PCIeDevices":[
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/1"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/2"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/3"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/4"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/5"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/6"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/7"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/8"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/9"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/10"
+    },
+    {
+    "@odata.id": "/redfish/v1/Systems/e24fb205-6669-4080-b53c-67d4923aa73e:1/PCIeDevices/11"
+    }
+   ],
+   "PCIeDevices@odata.count": 11,
    "PowerState":"On",
    "ProcessorSummary":{ 
       "Count":2,
@@ -3966,7 +4003,67 @@ curl -i GET \
 
 
 
+##  PCIeDevice
 
+|||
+|---------|-------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/Systems/{ComputerSystemId}/PCIeDevices/{PCIeDeviceId}` |
+|**Description** | This operation fetches information about a specific PCIe device.<br> |
+|**Returns** |Properties of a PCIe device attached to a computer system such as type, the version of the PCIe specification in use by this device, and more.|
+|**Response code** |`200 OK` |
+|**Authentication** |Yes|
+
+
+>**curl command**
+
+```
+curl -i GET \
+         -H "X-Auth-Token:{X-Auth-Token}" \
+              'https://{odimra_host}:{port}/redfish/v1/Systems/{ComputerSystemId}/PCIeDevices/{PCIeDeviceId}'
+
+
+```
+> Sample response body
+
+```
+{
+    "@odata.context": "/redfish/v1/$metadata#PCIeDevice.PCIeDevice",
+    "@odata.etag": "W/\"33150E20\"",
+    "@odata.id": "/redfish/v1/Systems/1b77fcdd-b6a2-44b4-83f9-cfb4926fcd79:1/PCIeDevices/1",
+    "@odata.type": "#PCIeDevice.v1_5_0.PCIeDevice",
+    "Id": "1",
+    "Name": "HPE Ethernet 1Gb 4-port 331i Adapter - NIC",
+    "Oem": {
+        "Hpe": {
+            "@odata.context": "/redfish/v1/$metadata#HpeServerPciDevice.HpeServerPciDevice",
+            "@odata.etag": "W/\"33150E20\"",
+            "@odata.id": "/redfish/v1/Systems/1b77fcdd-b6a2-44b4-83f9-cfb4926fcd79:1/PCIDevices/1",
+            "@odata.type": "#HpeServerPciDevice.v2_0_0.HpeServerPciDevice",
+            "BusNumber": 2,
+            "ClassCode": 2,
+            "DeviceID": 5719,
+            "DeviceInstance": 1,
+            "DeviceLocation": "Embedded",
+            "DeviceNumber": 0,
+            "DeviceSubInstance": 1,
+            "DeviceType": "Embedded LOM",
+            "FunctionNumber": 0,
+            "Id": "1",
+            "LocationString": "Embedded LOM 1",
+            "Name": "HPE Ethernet 1Gb 4-port 331i Adapter - NIC",
+            "SegmentNumber": 0,
+            "StructuredName": "NIC.LOM.1.1",
+            "SubclassCode": 0,
+            "SubsystemDeviceID": 8894,
+            "SubsystemVendorID": 4156,
+            "UEFIDevicePath": "PciRoot(0x0)/Pci(0x1C,0x0)/Pci(0x0,0x0)",
+            "VendorID": 5348
+        }
+    }
+}
+
+```
 
 
 
@@ -4020,6 +4117,53 @@ curl -i GET \
 
 ```
 
+> Sample response body 
+
+```
+{
+    "@odata.context": "/redfish/v1/$metadata#Storage.Storage",
+    "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0",
+    "@odata.type": "#Storage.v1_7_1.Storage",
+    "Description": "HPE Smart Storage Array Controller View",
+    "Drives": [
+        {
+            "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0/Drives/0"
+        },
+        {
+            "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0/Drives/1"
+        }
+    ],
+    "Id": "ArrayController-0",
+    "Name": "HpeSmartStorageArrayController",
+    "StorageControllers": [
+        {
+            "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0#/StorageControllers/0",
+            "FirmwareVersion": "1.98",
+            "Manufacturer": "HPE",
+            "MemberId": "0",
+            "Model": "HPE Smart Array P408i-a SR Gen10",
+            "Name": "HpeSmartStorageArrayController",
+            "PartNumber": "836260-001",
+            "PhysicalLocation": {
+                "PartLocation": {
+                    "LocationOrdinalValue": 0,
+                    "LocationType": "Slot",
+                    "ServiceLabel": "Slot=0"
+                }
+            },
+            "SerialNumber": "PEYHC0DRHBV3CZ ",
+            "Status": {
+                "Health": "OK",
+                "State": "Enabled"
+            }
+        }
+    ],
+    "Volumes": {
+        "@odata.id": "/redfish/v1/Systems/49999b11-3e20-41e8-b6ca-2e466e6d8ccf:1/Storage/ArrayControllers-0/Volumes"
+    }
+}
+
+```
 
 
 
@@ -4058,7 +4202,7 @@ curl -i GET \
 The volume schema represents a volume, virtual disk, LUN, or other logical storage entity for any system.
 
 
-### A collection of volumes
+### Collection of volumes
 
 | | |
 |----------|-----------|
@@ -4250,7 +4394,7 @@ curl -i -X POST \
 |----------|-----------|
 |<strong>Method</strong>  | `DELETE` |
 |<strong>URI</strong>   |`/redfish/v1/Systems/{ComputerSystemId}/Storage/{storageSubsystemId}/Volumes/{volumeId}` |
-|<strong>Description</strong>  | This operation removes a volume in a specific storage subsystem.<br> |
+|<strong>Description</strong>  | This operation removes a volume in a specific storage subsystem.<br>**NOTE:** Reset the computer system once the operation is successful. The changes will be reflected in the system only after a successful reset. To know how to reset, see [Resetting a computer system](#resetting-a-computer-system).|
 |<strong>Response code</strong>|On success, `204 No Content` |
 |<strong>Authentication</strong>  |Yes|
 
@@ -4278,7 +4422,7 @@ curl -i -X DELETE \
 
 |Parameter|Type|Description|
 |---------|----|-----------|
-|@Redfish.OperationApplyTimeSupport|Redfish annotation \(optional\)<br> | It enables you to control when the operation is carried out.<br> Supported value is: `OnReset`. Supported values are: `OnReset` and `Immediate`. `OnReset` indicates that the volume will be deleted only after you reset the system.<br> |
+|@Redfish.OperationApplyTimeSupport|Redfish annotation \(optional\)<br> | It enables you to control when the operation is carried out.<br> Supported values are: `OnReset` and `Immediate`. `OnReset` indicates that the volume will be deleted only after you reset the system.<br> |
 
 
 
@@ -4362,7 +4506,7 @@ curl -i GET \
 
 
 
-##  Collection of chassis
+## Collection of chassis
 
 |||
 |-------|-------|
@@ -4603,14 +4747,14 @@ curl -i GET \
 
 
 
-##  A collection of network adapters
+## Collection of network adapters
 
 |||
 |---------|-------|
 |**Method** |`GET` |
-|**URI** |`/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{networkadapterId}` |
-|**Description** | Use this endpoint to discover information on a specific network adapter.|
-|**Returns** |JSON schema representing this network adapter.|
+|**URI** |`/redfish/v1/Chassis/{ChassisId}/NetworkAdapters|
+|**Description** | This endpoint lists network adapters contained in a chassis. A `NetworkAdapter` represents the physical network adapter capable of connecting to a computer network.<br> Some examples include Ethernet, fibre channel, and converged network adapters.|
+|**Returns** |Links to network adapter instances available in this chassis.|
 |**Response code** | `200 OK` |
 |**Authentication** |Yes|
 
@@ -4621,11 +4765,169 @@ curl -i GET \
 ```
 curl -i GET \
    -H "X-Auth-Token:{X-Auth-Token}" \
- 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{networkadapterId}'
+ 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/NetworkAdapters'
 
 
 ```
 
+
+## Single network adapter
+
+|||
+|---------|-------|
+|**Method** |`GET` |
+|**URI** |`/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{NetworkAdapterId}` |
+|**Description** | This endpoint retrieves information on a specific network adapter.|
+|**Returns** |JSON schema representing this network adapter.|
+|**Response code** | `200 OK` |
+|**Authentication** |Yes|
+
+
+
+>**curl command**
+
+
+```
+curl -i GET \
+   -H "X-Auth-Token:{X-Auth-Token}" \
+ 'https://{odimra_host}:{port}/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{NetworkAdapterId}'
+
+
+```
+
+
+>**Sample response body**
+
+```
+
+{
+   "@odata.context":"/redfish/v1/$metadata#NetworkAdapter.NetworkAdapter",
+   "@odata.etag":"W/\"F303ECE9\"",
+   "@odata.id":"/redfish/v1/Chassis/a022faa5-107c-496d-874e-89c9f3e2df1c:1/NetworkAdapters/{rid}",
+   "@odata.type":"#NetworkAdapter.v1_5_0.NetworkAdapter",
+   "Description":"The network adapter resource instances available in this chassis.",
+   "Name":"Network Adapter View",
+   "Oem":{
+      "Hpe":{
+         "@odata.context":"/redfish/v1/$metadata#HpeBaseNetworkAdapter.HpeBaseNetworkAdapter",
+         "@odata.etag":"W/\"7A9A9CE7\"",
+         "@odata.id":"/redfish/v1/Systems/1/BaseNetworkAdapters/1/",
+         "@odata.type":"#HpeBaseNetworkAdapter.v2_0_0.HpeBaseNetworkAdapter",
+         "Id":"1",
+         "FcPorts":[
+            
+         ],
+         "Firmware":{
+            "Current":{
+               "VersionString":"20.14.54"
+            }
+         },
+         "Name":"HPE Ethernet 1Gb 4-port 331i Adapter - NIC",
+         "PhysicalPorts":[
+            {
+               "FullDuplex":true,
+               "IPv4Addresses":[
+                  
+               ],
+               "IPv6Addresses":[
+                  
+               ],
+               "LinkStatus":null,
+               "MacAddress":"80:30:e0:2c:92:a4",
+               "Name":"",
+               "Oem":{
+                  "Hpe":{
+                     "@odata.context":"/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                     "@odata.type":"#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                     "BadReceives":0,
+                     "BadTransmits":0,
+                     "GoodReceives":0,
+                     "GoodTransmits":0
+                  }
+               },
+               "SpeedMbps":0
+            },
+            {
+               "FullDuplex":true,
+               "IPv4Addresses":[
+                  
+               ],
+               "IPv6Addresses":[
+                  
+               ],
+               "LinkStatus":null,
+               "MacAddress":"80:30:e0:2c:92:a5",
+               "Name":"",
+               "Oem":{
+                  "Hpe":{
+                     "@odata.context":"/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                     "@odata.type":"#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                     "BadReceives":0,
+                     "BadTransmits":0,
+                     "GoodReceives":0,
+                     "GoodTransmits":0
+                  }
+               },
+               "SpeedMbps":0
+            },
+            {
+               "FullDuplex":true,
+               "IPv4Addresses":[
+                  
+               ],
+               "IPv6Addresses":[
+                  
+               ],
+               "LinkStatus":null,
+               "MacAddress":"80:30:e0:2c:92:a6",
+               "Name":"",
+               "Oem":{
+                  "Hpe":{
+                     "@odata.context":"/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                     "@odata.type":"#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                     "BadReceives":0,
+                     "BadTransmits":0,
+                     "GoodReceives":0,
+                     "GoodTransmits":0
+                  }
+               },
+               "SpeedMbps":0
+            },
+            {
+               "FullDuplex":true,
+               "IPv4Addresses":[
+                  
+               ],
+               "IPv6Addresses":[
+                  
+               ],
+               "LinkStatus":null,
+               "MacAddress":"80:30:e0:2c:92:a7",
+               "Name":"",
+               "Oem":{
+                  "Hpe":{
+                     "@odata.context":"/redfish/v1/$metadata#HpeBaseNetworkAdapterExt.HpeBaseNetworkAdapterExt",
+                     "@odata.type":"#HpeBaseNetworkAdapterExt.v2_0_0.HpeBaseNetworkAdapterExt",
+                     "BadReceives":0,
+                     "BadTransmits":0,
+                     "GoodReceives":0,
+                     "GoodTransmits":0
+                  }
+               },
+               "SpeedMbps":0
+            }
+         ],
+         "Status":{
+            "State":null
+         },
+         "StructuredName":"NIC.LOM.1.1",
+         "UEFIDevicePath":"PciRoot(0x0)/Pci(0x1C,0x0)/Pci(0x0,0x0)"
+      }
+   }
+}
+
+
+```
 
 
 
@@ -8253,12 +8555,12 @@ curl -i POST \
 |EventTypes|Array \(string \(enum\)\)|Read-only \(Optional\)<br> |The types of events that are sent to the destination. For possible values, see "Event types" table.|
 |ResourceTypes|Array \(string, null\)|Read-only \(Optional\)<br> |The list of resource type values \(Schema names\) that correspond to the `OriginResources`. For possible values, perform `GET` on `redfish/v1/EventService` and check values listed under `ResourceTypes` in the JSON response.<br> Examples: "ComputerSystem", "Storage", "Task"<br> |
 |Context|String|Read/write Required \(null\)<br> |A string that is stored with the event destination subscription.|
-|MessageId|String|Read-only \(Optional\)<br> |The key used to find the message in a Message Registry.|
+|MessageIds|Array|Read-only \(Optional\)<br> |The key used to find the message in a Message Registry.|
 |Protocol|String \(enum\)|Read-only \(Required on create\)<br> |The protocol type of the event connection. For possible values, see "Protocol" table.|
 |SubscriptionType|String \(enum\)|Read-only Required \(null\)<br> |Indicates the subscription type for events. For possible values, see "Subscription type" table.|
 |EventFormatType|String \(enum\)|Read-only \(Optional\)<br> |Indicates the content types of the message that this service can send to the event destination. For possible values, see "EventFormat" type table.|
 |SubordinateResources|Boolean|Read-only \(null\)|Indicates whether the service supports the `SubordinateResource` property on event subscriptions or not. If it is set to `true`, the service creates subscription for an event originating from the specified `OriginResoures` and also from its subordinate resources. For example, by setting this property to `true`, you can receive specified events from a compute node: `/redfish/v1/Systems/{ComputerSystemId}` and from its subordinate resources such as:<br> `/redfish/v1/Systems/{ComputerSystemId}/Memory`,<br> `/redfish/v1/Systems/{ComputerSystemId}/EthernetInterfaces`,<br> `/redfish/v1/Systems/{ComputerSystemId}/Bios`,<br> `/redfish/v1/Systems/{ComputerSystemId}/Storage`|
-|OriginResources|Array| Required \(null\)<br> |Resources for which the service only sends related events. If this property is absent or the array is empty, events originating from any resource will be sent to the subscriber. For possible values, see "Origin resources" table.|
+|OriginResources|Array| Optional \(null\)<br> |Resources for which the service only sends related events. If this property is absent or the array is empty, events originating from any resource will be sent to the subscriber. For possible values, see "Origin resources" table.|
 
 **Origin resources**
 
@@ -8269,6 +8571,7 @@ curl -i POST \
 |/redfish/v1/Systems|All computer system resources available in Resource Aggregator for ODIM for which the service sends only related events. By setting `EventType` property in the request payload to `ResourceAdded` or `ResourceRemoved` and `OriginResources` property to `/redfish/v1/Systems`, you can receive notifications when a system is added or removed in Resource Aggregator for ODIM.|
 |/redfish/v1/Chassis|All chassis resources available in Resource Aggregator for ODIM for which the service sends only related events.|
 |/redfish/v1/Fabrics|All fabric resources available in Resource Aggregator for ODIM for which the service sends only related events.|
+|/redfish/v1/Managers|All manager resources available in Resource Aggregator for ODIM for which the service sends only related events.|
 |/redfish/v1/TaskService/Tasks|All tasks scheduled by or being executed by Redfish `TaskService`. By subscribing to Redfish tasks, you can receive task status change notifications on the subscribed destination client.<br> By specifying the task URIs as `OriginResources` and `EventTypes` as `StatusChange`, you can receive notifications automatically when the tasks are complete.<br> To check the status of a specific task manually, perform HTTP `GET` on its task monitor until the task is complete.<br> |
 
 **Event types**
@@ -8424,7 +8727,6 @@ curl -i POST \
    "EventTimestamp":"{Event_Time_Stamp}",
    "EventType":"{Event_Type_String}",
    "Message":"{Message_String}",
-   "ResourceTypes":[{resource_type_string}],
    "MessageArgs":[ 
 
    ],
@@ -8454,7 +8756,6 @@ curl -i POST \
    "EventTimestamp":"2020-02-17T17:17:42-0600",
    "EventType":"Alert",
    "Message":"The LAN has been disconnected",
-   "ResourceTypes":["EthernetInterface"],
    "MessageArgs":[ 
        "EthernetInterface 1",
             "/redfish/v1/Systems/8fbda4f3-f55f-4fe4-8db8-4aec1dc3a7d7:1"
@@ -8477,7 +8778,6 @@ curl -i POST \
 |EventTimestamp|String|Optional|The date and time stamp for the event to add. When the event is received, it translates as the time the event occurred.|
 |EventType|String \(enum\)|Optional|The type for the event to add. For possible property values, see "EventType" in [Creating an event subscription](#creating-an-event-subscription).|
 |Message|String|Optional|The human-readable message for the event to add.|
-|ResourceTypes|Array \(string, null\)|Read-only  <br> |The list of resource type values \(Schema names\) that correspond to `OriginOfCondition`. For possible values, perform `GET` on `redfish/v1/EventService` and check values listed under `ResourceTypes` in the JSON response.<br> Examples: "ComputerSystem", "Storage", "Task"<br> |
 |MessageArgs \[ \]|Array \(string\)|Optional|An array of message arguments for the event to add. The message arguments are substituted for the arguments in the message when looked up in the message registry. It helps in trouble ticketing when there are bad events. For example, `MessageArgs` in "Sample event payload" has the following two substitution variables:<br><ul><li>`EthernetInterface 1`</li><li>`/redfish/v1/Systems/{ComputerSystemId}`</li></ul><br>`Description` and `Message` values in "Sample message registry" are substituted with the above-mentioned variables. They translate to "A LAN Disconnect on `EthernetInterface 1` was detected on system `/redfish/v1/Systems/{ComputerSystemId}.` |
 |MessageId|String|Required|The Message Id for the event to add. It is the key used to find the message in a message registry. It has `RegistryPrefix` concatenated with the version, and the unique identifier for the message registry entry. The `RegistryPrefix` concatenated with the version is the name of the message registry. To get the names of available message registries, perform HTTP `GET` on `/redfish/v1/Registries`. The message registry mentioned in the sample request payload is `Alert.1.0`.|
 |OriginOfCondition|String|Optional|The URL in the `OriginOfCondition` property of the event to add. It is not a reference object. It is the resource that originated the condition that caused the event to be generated. For possible values, see "Origin resources" in [Creating an event subscription](#creating-an-event-subscription).|
