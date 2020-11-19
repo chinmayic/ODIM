@@ -32,6 +32,9 @@
   * [Deleting a user account](#deleting-a-user-account)
 - [Resource aggregation and management](#resource-aggregation-and-management)
   * [Viewing the aggregation service root](#viewing-the-aggregation-service-root)
+  * [Connection methods](#connection-methods)
+    + [Viewing a collection of connection methods](#viewing-a-collection-of-connection-methods)
+    + [Viewing a connection method](#viewing-a-connection-method)
   * [Adding a plugin as an aggregation source](#adding-a-plugin-as-an-aggregation-source)
   * [Adding a server as an aggregation source](#adding-a-server-as-an-aggregation-source)
   * [Viewing a collection of aggregation sources](#viewing-a-collection-of-aggregation-sources)
@@ -49,10 +52,7 @@
   * [Resetting an aggregate of computer systems](#resetting-an-aggregate-of-computer-systems)
   * [Setting boot order of an aggregate to default settings](#setting-boot-order-of-an-aggregate-to-default-settings)
   * [Removing elements from an aggregate](#removing-elements-from-an-aggregate)
-  * [Connection methods](#connection-methods)
-  * [Viewing a collection of connection methods](#viewing-a-collection-of-connection-methods)
-  * [Viewing a connection method](#viewing-a-connection-method)
-  * [Resource inventory](#resource-inventory)
+- [Resource inventory](#resource-inventory)
   * [Collection of computer systems](#collection-of-computer-systems)
   * [Single computer system](#single-computer-system)
   * [Memory collection](#memory-collection)
@@ -62,11 +62,13 @@
   * [Network interfaces](#network-interfaces)
   * [Ethernet interfaces](#ethernet-interfaces)
   * [Single Ethernet interface](#single-ethernet-interface)
+  * [PCIeDevice](#pciedevice)
   * [Storage](#storage)
   * [Storage subsystem](#storage-subsystem)
-  * [Storage drive](#storage-drive)
+  * [Drives](#drives)
+    + [Single drive](#single-drive)
   * [Volumes](#volumes)
-    + [A collection of volumes](#a-collection-of-volumes)
+    + [Collection of volumes](#collection-of-volumes)
     + [Single volume](#single-volume)
     + [Creating a volume](#creating-a-volume)
     + [Deleting a volume](#deleting-a-volume)
@@ -121,7 +123,7 @@
   * [Deleting an endpoint](#deleting-an-endpoint)
   * [Deleting an address pool](#deleting-an-address-pool)
 - [Tasks](#tasks)
-  * [viewing the task service root](#viewing-the-task-service-root)
+  * [Viewing the task service root](#viewing-the-task-service-root)
   * [Viewing a collection of tasks](#viewing-a-collection-of-tasks)
   * [Viewing information about a specific task](#viewing-information-about-a-specific-task)
   * [Viewing a task monitor](#viewing-a-task-monitor)
@@ -141,6 +143,9 @@
   * [Viewing a collection of registries](#viewing-a-collection-of-registries)
   * [Viewing a single registry](#viewing-a-single-registry)
   * [Viewing a file in a registry](#viewing-a-file-in-a-registry)
+
+
+
 
 
 
