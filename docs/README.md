@@ -76,7 +76,8 @@
   * [Collection of chassis](#collection-of-chassis)
   * [Single chassis](#single-chassis)
   * [Thermal metrics](#thermal-metrics)
-  * [Network adapters](#network-adapters)
+  * [Collection of network adapters](#collection-of-network-adapters)
+  * [Single network adapter](#single-network-adapter)
   * [Power](#power)
   * [Searching the inventory](#searching-the-inventory)
     + [Request URI parameters](#request-uri-parameters)
@@ -1735,6 +1736,9 @@ Transfer-Encoding":chunked
    "AggregationSources":{
       "@odata.id":"/redfish/v1/AggregationService/AggregationSources"
    },
+   "ConnectionMethods":{
+      "@odata.id": "/redfish/v1/AggregationService/ConnectionMethods"
+   },
    "ServiceEnabled":true,
    "Status":{
       "Health":"OK",
@@ -1745,7 +1749,122 @@ Transfer-Encoding":chunked
 ```
 
 
+## Connection methods
 
+Connection methods indicate protocols, providers, or other methods that are used to communicate with an endpoint. 
+The `ConnectionMethod` schema describes these connection methods for the Redfish aggregation service. 
+
+###  Viewing a collection of connection methods
+
+
+|||
+|--------|---------|
+|**Method**| `GET` |
+|**URI** |`/redfish/v1/AggregationService/ConnectionMethods` |
+|**Description** |This operation lists all connection methods associated with the Redfish aggregation service.|
+|**Returns** |A list of links to all the available connection method resources.|
+|**Response Code** |On success, `200 Ok` |
+|**Authentication** |Yes|
+
+
+
+>**curl command** 
+
+```
+curl -i GET \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+ 'https://{odim_host}:{port}/redfish/v1/AggregationService/ConnectionMethods'
+
+
+```
+
+>**Sample response body**
+
+```
+{
+   ​   "@odata.type":"#ConnectionMethodCollection.ConnectionMethodCollection",
+   ​   "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods",
+   ​   "@odata.context":"/redfish/v1/$metadata#ConnectionMethodCollection.ConnectionMethodCollection",
+   ​   "Name":"Connection Methods",
+   ​   "Members@odata.count":3,
+   ​   "Members":[
+      ​      {
+         ​         "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/c27575d2-052d-4ce9-8be1-978cab002a0f"         ​
+      },
+      ​      {
+         ​         "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/aa166b6b-a367-40ba-ac2e-402f9a0c818f"         ​
+      },
+      ​      {
+         ​         "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/7cb9fc3b-8b75-45da-8aad-5ff595968b71"         ​
+      }      ​
+   ]   ​
+}
+```
+
+### Viewing a connection method
+
+|||
+|--------|---------|
+|**Method** | `GET` |
+|**URI** |`/redfish/v1/AggregationService/ConnectionMethods/ {connectionmethodsId}` |
+|**Description** |This operation retrieves information about a specific connection method.|
+|**Returns** |JSON schema representing this connection method.|
+|**Response Code** |On success, `200 Ok` |
+|**Authentication**|Yes|
+
+>**curl command**
+
+```
+curl -i GET \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+ 'https://{odim_host}:{port}/redfish/v1/AggregationService/ConnectionMethods/{connectionmethodsId}'
+
+
+```
+
+>**Sample response body**
+
+```
+{
+   ​   "@odata.type":"#ConnectionMethod.v1_0_0.ConnectionMethod",
+   ​   "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/c27575d2-052d-4ce9-8be1-978cab002a0f",
+   ​   "@odata.context":"/redfish/v1/$metadata#ConnectionMethod.v1_0_0.ConnectionMethod",
+   ​   "Id":"c27575d2-052d-4ce9-8be1-978cab002a0f",
+   ​   "Name":"Connection Method",
+   ​   "ConnectionMethodType":"Redfish",
+   ​   "ConnectionMethodVariant":"Compute:BasicAuth:GRF_v1.0.0",
+   ​   "Links":{
+      ​      "AggregationSources":[
+         {
+            "@odata.id":"/redfish/v1/AggregationService/AggregationSources/839c212d-9ab2-4868-8767-1bdcc0ce862c"
+         },
+         {
+            "@odata.id":"/redfish/v1/AggregationService/AggregationSources/3536bb46-a023-4e3a-ac1a-7528cc18b660"
+         }
+      ]      ​
+   }   ​
+}​
+```
+
+>**Connection method properties**
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|ConnectionMethodType|String| The type of this connection method.<br> For possible property values, see "Connection method types" table.<br> |
+|ConnectionMethodVariant|String|The variant of connection method.|
+|Links \{|Object|Links to other resources that are related to this connection method.|
+|AggregationSources \[ \{<br> @odata.id<br> \} \]<br> |Array|An array of links to the `AggregationSources` resources that use this connection method.|
+
+ >**Connection method types**
+
+|String|Description|
+|------|-----------|
+| IPMI15<br> | IPMI 1.5 connection method.<br> |
+| IPMI20<br> | IPMI 2.0 connection method.<br> |
+| NETCONF<br> | Network Configuration Protocol.<br> |
+| OEM<br> | OEM connection method.<br> |
+| Redfish<br> | Redfish connection method.<br> |
+| SNMP<br> | Simple Network Management Protocol.<br> |
 
 
 
@@ -1755,12 +1874,20 @@ Transfer-Encoding":chunked
 |-------|------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Actions/AggregationSources` |
-|<strong>Description</strong> | This operation creates an aggregation source for a plugin and adds it in the inventory. This operation is performed in the background as a Redfish task.|
+|<strong>Description</strong> | This operation creates an aggregation source for a plugin and adds it in the inventory. It is performed in the background as a Redfish task.|
 |<strong>Returns</strong> |<ul><li>`Location` URI of the task monitor associated with this operation in the response header. See `Location` URI highlighted in bold in "Sample response header \(HTTP 202 status\)".</li><li>Link to the task and the task Id in the sample response body. To get more information on the task, perform HTTP `GET` on the task URI. See "Sample response body \(HTTP 202 status\)".</li><li>On successful completion:<ul><li>The aggregation source Id, the IP address, the username, and other details of the added plugin in the JSON response body.</li><li> A link \(having the aggregation source Id\) to the added plugin in the `Location` header. See `Location` URI highlighted in bold in "Sample response header \(HTTP 201 status\)".</li></ul></li></ul>  |
 |<strong>Response Code</strong> |`202 Accepted` On success, `201 Created`|
 |<strong>Authentication</strong> |Yes|
 
-To know the progress of this action, perform `GET` on the [task monitor](#viewing-a-task-monitor) returned in the response header \(until the task is complete\).
+**Usage information**
+
+Perform HTTP POST on the mentioned URI with a request body specifying either one of the following:
+- Plugin details inside an OEM block.
+- A connection method to use for adding the plugin. To know about connection methods, see [Connection methods](#connection-methods).
+				
+A Redfish task will be created and you will receive a link to the [task monitor](#viewing-a-task-monitor) associated with it.
+To know the progress of this operation, perform HTTP `GET` on the task monitor returned in the response header (until the task is complete).
+		
 
 After the plugin is successfully added as an aggregation source, it will also be available as a manager resource at:
 
@@ -1797,7 +1924,7 @@ curl -i POST \
 
 ```
 
->**Sample request body**
+>**Sample request body (having OEM information)**
 
 ```
 {
@@ -1814,6 +1941,21 @@ curl -i POST \
 }
 ```
 
+>**Sample request body (having a connection method link)**
+
+```
+{
+   "HostName":"{plugin_host}:45001",
+   "UserName":"admin",
+   "Password":"GRFPlug!n12$4",
+   "Links":{
+      "ConnectionMethod": {
+         "@odata.id": "/redfish/v1/AggregationService/ConnectionMethods/d172e66c-b4a8-437c-981b-1c07ddfeacaa"
+      }
+   }
+}
+```
+
 **Request parameters**
 
 |Parameter|Type|Description|
@@ -1824,8 +1966,9 @@ curl -i POST \
 |PluginID|String \(required\)<br> |The id of the plugin you want to add. Example: GRF \(Generic Redfish Plugin\), ILO<br> |
 |PreferredAuthType|String \(required\)<br> |Preferred authentication method to connect to the plugin - `BasicAuth` or `XAuthToken`.|
 |PluginType|String \(required\)<br> |The string that represents the type of the plugin. Allowed values: `Compute`, and `Fabric` <br> |
+|ConnectionMethod|Array (required)|The connection method that is used to communicate with this endpoint: `/redfish/v1/AggregationService/AggregationSources`. |
 
->**Sample response header** \(HTTP 202 status\)
+>**Sample response header \(HTTP 202 status\)**
 
 ```
 Connection:keep-alive
@@ -1838,7 +1981,7 @@ Content-Length:491 bytes
 
 ```
 
->**Sample response header** \(HTTP 201 status\)
+>**Sample response header \(HTTP 201 status\)**
 
 ```
 "cache-control":"no-cache
@@ -1852,7 +1995,7 @@ transfer-encoding:"chunked
 x-frame-options":"sameorigin"
 ```
 
->**Sample response body** \(HTTP 202 status\)
+>**Sample response body \(HTTP 202 status\)**
 
 ```
 {
@@ -1871,7 +2014,7 @@ x-frame-options":"sameorigin"
 }
 ```
 
->  Sample response body \(HTTP 201 status\)
+>**Sample response body having OEM block \(HTTP 201 status\)**
 
 ```
 {
@@ -1892,6 +2035,24 @@ x-frame-options":"sameorigin"
 } 
 ```
 
+>**Sample response body having a connection method link \(HTTP 201 status\)**
+
+```
+{
+   "@odata.type":"#AggregationSource.v1_0_0.AggregationSource",
+   "@odata.id":"/redfish/v1/AggregationService/AggregationSources/be626e78-7a8a-4b99-afd2-b8ed45ef3d5a",
+   "@odata.context":"/redfish/v1/$metadata#AggregationSource.AggregationSource",
+   "Id":"be626e78-7a8a-4b99-afd2-b8ed45ef3d5a",
+   "Name":"Aggregation Source",
+   "HostName":"{plugin_host}:45001",
+   "UserName":"admin",
+   "Links":{
+      "ConnectionMethod": {
+         "@odata.id": "/redfish/v1/AggregationService/ConnectionMethods/d172e66c-b4a8-437c-981b-1c07ddfeacaa"
+      }
+   }
+} 
+```
 
 
 
@@ -1912,7 +2073,16 @@ x-frame-options":"sameorigin"
 |<strong>Response Code</strong> |On success, `202 Accepted` On successful completion of the task, `201 Created` <br> |
 |<strong>Authentication</strong> |Yes|
 
-To know the progress of this operation, perform `GET` on the [task monitor](#viewing-a-task-monitor) returned in the response header \(until the task is complete\). When the task is successfully complete, you will receive aggregation source Id of the added BMC. Save it as it is required to identify it in the resource inventory later.
+**Usage information**
+
+Perform HTTP POST on the mentioned URI with a request body specifying either one of the following:
+- Plugin Id inside an OEM block.
+- A connection method to use for adding the BMC. To know about connection methods, see [Connection methods](#connection-methods).
+				
+A Redfish task will be created and you will receive a link to the [task monitor](#viewing-a-task-monitor) associated with it.
+
+To know the progress of this operation, perform HTTP `GET` on the task monitor returned in the response header (until the task is complete).
+When the task is successfully complete, you will receive aggregation source Id of the added BMC. Save it as it is required to identify it in the resource inventory later.
 
 After the server is successfully added as an aggregation source, it will also be available as a computer system resource at `/redfish/v1/Systems/` and a manager resource at `/redfish/v1/Managers/`.
 
@@ -1948,7 +2118,7 @@ curl -i -X POST \
 
 ```
 
->**Sample request body**
+>**Sample request body (having OEM information)**
 
 ```
 {
@@ -1963,6 +2133,21 @@ curl -i -X POST \
 }
 ```
 
+>**Sample request body (having a connection method link)**
+
+```
+{
+   "HostName":"10.24.0.4",
+   "UserName":"admin",
+   "Password":"{BMC_password}",
+   "Links":{
+      "ConnectionMethod": {
+         "@odata.id": "/redfish/v1/AggregationService/ConnectionMethods/d172e66c-b4a8-437c-981b-1c07ddfeacaa"
+      }
+   }
+}
+```
+
 **Request parameters**
 
 |Parameter|Type|Description|
@@ -1972,8 +2157,9 @@ curl -i -X POST \
 |Password|String \(required\)<br> |The password of the BMC administrator account.|
 |Links \{|Object \(required\)<br> |Links to other resources that are related to this resource.|
 |Oem\{ PluginID \} \} |String \(required\)<br> |The plugin Id of the plugin.<br> NOTE: Before specifying the plugin Id, ensure that the installed plugin is added in the resource inventory. To know how to add a plugin, see [Adding a Plugin](#adding-a-plugin-as-an-aggregation-source).|
+|ConnectionMethod|Array (required)|The connection method that is used to communicate with this endpoint: `/redfish/v1/AggregationService/AggregationSources`. |
 
->**Sample response header** \(HTTP 202 status\)
+>**Sample response header \(HTTP 202 status\)**
 
 ```
 Connection:keep-alive
@@ -1986,7 +2172,7 @@ Content-Length:491 bytes
 
 ```
 
->**Sample response header** \(HTTP 201 status\)
+>**Sample response header \(HTTP 201 status\)**
 
 ```
 "cache-control":"no-cache
@@ -2000,7 +2186,7 @@ transfer-encoding:"chunked
 x-frame-options":"sameorigin"
 ```
 
->**Sample response body** \(HTTP 202 status\)
+>**Sample response body \(HTTP 202 status\)**
 
 ```
 {
@@ -2019,7 +2205,7 @@ x-frame-options":"sameorigin"
 }
 ```
 
->**Sample response body** \(HTTP 201 status\)
+>**Sample response body having OEM block \(HTTP 201 status\)**
 
 ```
  {
@@ -2033,6 +2219,24 @@ x-frame-options":"sameorigin"
    "Links":{
       "Oem":{
          "PluginID":"GRF"
+      }
+   }
+}
+```
+
+>** Sample response body having a connection method link \(HTTP 201 status\)**
+```
+ {
+   "@odata.type":"#AggregationSource.v1_0_0.AggregationSource",
+   "@odata.id":"/redfish/v1/AggregationService/AggregationSources/26562c7b-060b-4fd8-977e-94b1a535f3fb",
+   "@odata.context":"/redfish/v1/$metadata#AggregationSource.AggregationSource",
+   "Id":"26562c7b-060b-4fd8-977e-94b1a535f3fb",
+   "Name":"Aggregation Source",
+   "HostName":"10.24.0.4",
+   "UserName":"admin",
+    "Links":{
+      "ConnectionMethod": {
+         "@odata.id": "/redfish/v1/AggregationService/ConnectionMethods/d172e66c-b4a8-437c-981b-1c07ddfeacaa"
       }
    }
 }
@@ -2196,10 +2400,12 @@ curl -i PATCH \
 |--------|--------------------|
 |<strong>Method</strong> | `POST` |
 |<strong>URI</strong> |`/redfish/v1/AggregationService/Actions/AggregationService.Reset` |
-|<strong>Description</strong> |This action shuts down, powers up, and restarts one or more servers. This operation is performed in the background as a Redfish task and is further divided into subtasks to reset each server individually.<br> |
+|<strong>Description</strong> |This action shuts down, powers up, and restarts one or more servers. It is performed in the background as a Redfish task and is further divided into subtasks to reset each server individually.<br> |
 |<strong>Returns</strong> |- `Location` URI of the task monitor associated with this operation \(task\) in the response header. See `Location` URI highlighted in bold in "Sample response header \(HTTP 202 status\)".<br>-   Link to the task and the task Id in the sample response body. To get more information on the task, perform HTTP `GET` on the task URI. See the task URI and the task Id highlighted in bold in "Sample response body \(HTTP 202 status\)". IMPORTANT: Note down the task Id. If the task completes with an error, it is required to know which subtask has failed. To get the list of subtasks, perform HTTP `GET` on `/redfish/v1/TaskService/Tasks/{taskId}`.<br>-  On successful completion of the reset operation, a message in the response body, saying that the reset operation is completed successfully. See "Sample response body \(HTTP 200 status\)".|
 |<strong>Response code</strong> |On success, `202 Accepted`<br> On successful completion of the task, `200 OK`|
 |<strong>Authentication</strong> |Yes|
+
+**Usage information**
 
 To know the progress of this action, perform HTTP `GET` on the [task monitor](#viewing-a-task-monitor) returned in the response header \(until the task is complete\).
 
@@ -2358,6 +2564,8 @@ Content-Length:491 bytes
 |<strong>Response code</strong> |`202 Accepted` On successful completion, `200 OK` <br> |
 |<strong>Authentication</strong> |Yes|
 
+**Usage information**
+
 To know the progress of this action, perform HTTP `GET` on the [task monitor](#viewing-a-task-monitor) returned in the response header \(until the task is complete\).
 
 To get the list of subtask URIs, perform HTTP `GET` on the task URI returned in the JSON response body. See "Sample response body \(HTTP 202 status\)". The JSON response body of each subtask contains a link to the task monitor associated with it. To know the progress of `SetDefaultBootOrder` action \(subtask\) on a specific server, perform HTTP `GET` on the task monitor associated with the respective subtask. See the link to the task monitor highlighted in bold in "Sample response body \(subtask\)".
@@ -2502,6 +2710,8 @@ Content-Length:491 bytes
 |<strong>Response Code</strong> |`202 Accepted` On successful completion, `204 No Content` <br> |
 |<strong>Authentication</strong> |Yes|
 
+**Usage information**
+
 To know the progress of this action, perform `GET` on the [task monitor](#viewing-a-task-monitor) returned in the response header \(until the task is complete\).
 
 
@@ -2559,7 +2769,7 @@ Content-Length:491 bytes
 
 An aggregate is a user-defined collection of resources.
 
-The aggregate schema provides a mechanism to formally group the southbound resources of your choice into a specific group. The advantage of creating aggregates is that they are more persistent than the random groupings—The aggregates are available and accessible in the Resource Aggregator for ODIM environment until you delete them.
+The aggregate schema provides a mechanism to formally group the southbound resources of your choice into a specific group. The advantage of creating aggregates is that they are more persistent than the random groupings—the aggregates are available and accessible in the Resource Aggregator for ODIM environment until you delete them.
 
 The resource aggregator allows you to:
 
@@ -2834,7 +3044,7 @@ curl -i POST \
 |<strong>Response Code</strong> |`202 Accepted` On successful completion, `200 OK` <br> |
 |<strong>Authentication</strong> |Yes|
 
-
+**Usage information**
 
 To know the progress of this action, perform HTTP `GET` on the [task monitor](#viewing-a-task-monitor) returned in the response header \(until the task is complete\).
 
@@ -2969,7 +3179,7 @@ Content-Length:491 bytes
 |<strong>Response Code</strong> |`202 Accepted` On successful completion, `200 OK` <br> |
 |<strong>Authentication</strong> |Yes|
 
-
+**Usage information**
 
 To know the progress of this action, perform HTTP `GET` on the [task monitor](#viewing-a-task-monitor) returned in the response header \(until the task is complete\).
 
@@ -3133,119 +3343,9 @@ curl -i POST \
 }
 ```
 
-## Connection methods
-
-###  Viewing a collection of connection methods
-
-
-|||
-|--------|---------|
-|**Method**| `GET` |
-|**URI** |`/redfish/v1/AggregationService/ConnectionMethods` |
-|**Description** |This operation lists all connection methods associated with the Redfish aggregation service.|
-|**Returns** |A list of links to all the available connection method resources.|
-|**Response Code** |On success, `200 Ok` |
-|**Authentication** |Yes|
 
 
 
->**curl command** 
-
-```
-curl -i GET \
-   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
- 'https://{odim_host}:{port}/redfish/v1/AggregationService/ConnectionMethods'
-
-
-```
-
->**Sample response body**
-
-```
-{
-   ​   "@odata.type":"#ConnectionMethodCollection.ConnectionMethodCollection",
-   ​   "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods",
-   ​   "@odata.context":"/redfish/v1/$metadata#ConnectionMethodCollection.ConnectionMethodCollection",
-   ​   "Name":"Connection Methods",
-   ​   "Members@odata.count":3,
-   ​   "Members":[
-      ​      {
-         ​         "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/c27575d2-052d-4ce9-8be1-978cab002a0f"         ​
-      },
-      ​      {
-         ​         "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/aa166b6b-a367-40ba-ac2e-402f9a0c818f"         ​
-      },
-      ​      {
-         ​         "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/7cb9fc3b-8b75-45da-8aad-5ff595968b71"         ​
-      }      ​
-   ]   ​
-}
-```
-
-### Viewing a connection method
-
-|||
-|--------|---------|
-|**Method** | `GET` |
-|**URI** |`/redfish/v1/AggregationService/ConnectionMethods/ {connectionmethodsId}` |
-|**Description** |This operation retrieves information about a specific connection method.|
-|**Returns** |JSON schema representing this connection method.|
-|**Response Code** |On success, `200 Ok` |
-|**Authentication**|Yes|
-
->**curl command**
-
-```
-curl -i GET \
-   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
- 'https://{odim_host}:{port}/redfish/v1/AggregationService/ConnectionMethods/{connectionmethodsId}'
-
-
-```
-
->**Sample response body**
-
-```
-{
-   ​   "@odata.type":"#ConnectionMethod.v1_0_0.ConnectionMethod",
-   ​   "@odata.id":"/redfish/v1/AggregationService/ConnectionMethods/c27575d2-052d-4ce9-8be1-978cab002a0f",
-   ​   "@odata.context":"/redfish/v1/$metadata#ConnectionMethod.v1_0_0.ConnectionMethod",
-   ​   "Id":"c27575d2-052d-4ce9-8be1-978cab002a0f",
-   ​   "Name":"Connection Method",
-   ​   "ConnectionMethodType":"Redfish",
-   ​   "ConnectionMethodVariant":"Compute:BasicAuth:GRF:1.0.0",
-   ​   "Links":{
-      ​      "AggregationSources":[
-         {
-            "@odata.id":"/redfish/v1/AggregationService/AggregationSources/839c212d-9ab2-4868-8767-1bdcc0ce862c"
-         },
-         {
-            "@odata.id":"/redfish/v1/AggregationService/AggregationSources/3536bb46-a023-4e3a-ac1a-7528cc18b660"
-         }
-      ]      ​
-   }   ​
-}​
-```
-
->**Connection method properties**
-
-|Parameter|Type|Description|
-|---------|----|-----------|
-|ConnectionMethodType|String| The type of this connection method.<br> For possible property values, see "Connection method types" table.<br> |
-|ConnectionMethodVariant|String|The variant of connection method.|
-|Links \{|Object|Links to other resources that are related to this connection method.|
-| AggregationSources \[ \{<br> @odata.id<br> \} \]<br> |Array|An array of links to the `AggregationSources` resources that use this connection method.|
-
- >**Connection method types**
-
-|String|Description|
-|------|-----------|
-| IPMI15<br> | IPMI 1.5 connection method.<br> |
-| IPMI20<br> | IPMI 2.0 connection method.<br> |
-| NETCONF<br> | Network Configuration Protocol.<br> |
-| OEM<br> | OEM connection method.<br> |
-| Redfish<br> | Redfish connection method.<br> |
-| SNMP<br> | Simple Network Management Protocol.<br> |
 
 
 
@@ -8278,9 +8378,9 @@ Use these APIs to subscribe a northbound client to southbound events by creating
 |API URI|Operation Applicable|Required privileges|
 |-------|--------------------|-------------------|
 |/redfish/v1/EventService|GET|`Login` |
-|/redfish/v1/EventService/Subscriptions|POST, GET|`Login`, `ConfigureManager` |
+|/redfish/v1/EventService/Subscriptions|GET, POST|`Login`, `ConfigureManager`, `ConfigureComponents` |
 |/redfish/v1/EventService/Actions/EventService.SubmitTestEvent|POST|`ConfigureManager` |
-|/redfish/v1/EventService/Subscriptions/\{subscriptionId\}|GET, DELETE|`Login`, `ConfigureManager` |
+|/redfish/v1/EventService/Subscriptions/\{subscriptionId\}|GET, DELETE|`Login`, `ConfigureManager`, `ConfigureSelf` |
 
 >**Note:**
 Before accessing these endpoints, ensure that the user has the required privileges. If you access these endpoints without necessary privileges, you will receive an HTTP `403 Forbidden` error.
