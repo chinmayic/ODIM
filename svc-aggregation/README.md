@@ -265,9 +265,7 @@ curl -i GET \
 
 **Usage information**
 
-Perform HTTP POST on the mentioned URI with a request body specifying either one of the following:
-- Plugin details inside an OEM block.
-- A connection method to use for adding the plugin. To know about connection methods, see [Connection methods](#connection-methods).
+Perform HTTP POST on the mentioned URI with a request body specifying a connection method to use for adding the plugin. To know about connection methods, see [Connection methods](#connection-methods).
 				
 A Redfish task will be created and you will receive a link to the [task monitor](#viewing-a-task-monitor) associated with it.
 To know the progress of this operation, perform HTTP `GET` on the task monitor returned in the response header (until the task is complete).
@@ -296,10 +294,8 @@ curl -i POST \
   "UserName":"{plugin_userName}",
   "Password":"{plugin_password}", 
   "Links":{
-      "Oem":{
-         "PluginID":"{Redfish_PluginId}",
-         "PreferredAuthType":"{Preferred_aunthentication_type}",
-         "PluginType":"{plugin_type}"
+     "ConnectionMethod": {
+         "@odata.id": "/redfish/v1/AggregationService/ConnectionMethods/{ConnectionMethodId}"
       }
    }
 }' \
@@ -308,24 +304,9 @@ curl -i POST \
 
 ```
 
->**Sample request body (having OEM information)**
 
-```
-{
-   "HostName":"{plugin_host}:45001",
-   "UserName":"admin",
-   "Password":"GRFPlug!n12$4",
-   "Links":{
-      "Oem":{
-         "PluginID":"GRF",
-         "PreferredAuthType":"BasicAuth",
-         "PluginType":"Compute"
-      }
-   }
-}
-```
 
->**Sample request body (having a connection method link)**
+>**Sample request body**
 
 ```
 {
@@ -350,7 +331,7 @@ curl -i POST \
 |PluginID|String \(required\)<br> |The id of the plugin you want to add. Example: GRF \(Generic Redfish Plugin\), ILO<br> |
 |PreferredAuthType|String \(required\)<br> |Preferred authentication method to connect to the plugin - `BasicAuth` or `XAuthToken`.|
 |PluginType|String \(required\)<br> |The string that represents the type of the plugin. Allowed values: `Compute`, and `Fabric` <br> |
-|ConnectionMethod|Array (required)|The connection method that is used to communicate with this endpoint: `/redfish/v1/AggregationService/AggregationSources`. |
+|ConnectionMethod|Array (required)|Links to the connection method that are used to communicate with this endpoint: `/redfish/v1/AggregationService/AggregationSources`. To know which connection method to use, do the following:<ul><li>Perform HTTP `GET` on: `/redfish/v1/AggregationService/ConnectionMethods`.<br>You will receive a list of  links to available connection methods.</li><li>Perform HTTP `GET` on each link. Check the value of the `ConnectionMethodVariant` property in the JSON response.</li><li>The `ConnectionMethodVariant` property displays the details of a plugin. Choose a connection method having the details of the plugin of your choice.<br> Example: For GRF plugin, the `ConnectionMethodVariant` property displays the following value:<br>`Compute:BasicAuth:GRF:1.0.0`</li></ul>|
 
 >**Sample response header \(HTTP 202 status\)**
 
@@ -398,28 +379,9 @@ x-frame-options":"sameorigin"
 }
 ```
 
->**Sample response body having OEM block \(HTTP 201 status\)**
 
-```
-{
-   "@odata.type":"#AggregationSource.v1_0_0.AggregationSource",
-   "@odata.id":"/redfish/v1/AggregationService/AggregationSources/be626e78-7a8a-4b99-afd2-b8ed45ef3d5a",
-   "@odata.context":"/redfish/v1/$metadata#AggregationSource.AggregationSource",
-   "Id":"be626e78-7a8a-4b99-afd2-b8ed45ef3d5a",
-   "Name":"Aggregation Source",
-   "HostName":"{plugin_host}:45001",
-   "UserName":"admin",
-   "Links":{
-      "Oem":{
-         "PluginID":"GRF",
-         "PreferredAuthType":"BasicAuth",
-         "PluginType":"Compute"
-      }
-   }
-} 
-```
 
->**Sample response body having a connection method link \(HTTP 201 status\)**
+>**Sample response body \(HTTP 201 status\)**
 
 ```
 {
@@ -459,9 +421,7 @@ x-frame-options":"sameorigin"
 
 **Usage information**
 
-Perform HTTP POST on the mentioned URI with a request body specifying either one of the following:
-- Plugin Id inside an OEM block.
-- A connection method to use for adding the BMC. To know about connection methods, see [Connection methods](#connection-methods).
+Perform HTTP POST on the mentioned URI with a request body specifying a connection method to use for adding the BMC. To know about connection methods, see [Connection methods](#connection-methods).
 				
 A Redfish task will be created and you will receive a link to the [task monitor](#viewing-a-task-monitor) associated with it.
 
@@ -492,9 +452,9 @@ curl -i -X POST \
     "UserName": "{BMC_UserName}", 
     "Password": "{BMC_Password}", 
     "Links":{     
-        "Oem": { 
-                  "PluginID": "GRF" 
-    } 
+        "ConnectionMethod": {
+         "@odata.id": "/redfish/v1/AggregationService/ConnectionMethods/{ConnectionMethodId}"
+      }
 }
 }' \
  'https://{odim_host}:{port}/redfish/v1/AggregationService/AggregationSources'
@@ -502,22 +462,9 @@ curl -i -X POST \
 
 ```
 
->**Sample request body (having OEM information)**
 
-```
-{
-   "HostName":"10.24.0.4",
-   "UserName":"admin",
-   "Password":"{BMC_password}",
-   "Links":{
-      "Oem":{
-         "PluginID":"GRF"
-      }
-   }
-}
-```
 
->**Sample request body (having a connection method link)**
+>**Sample request body**
 
 ```
 {
@@ -541,7 +488,7 @@ curl -i -X POST \
 |Password|String \(required\)<br> |The password of the BMC administrator account.|
 |Links \{|Object \(required\)<br> |Links to other resources that are related to this resource.|
 |Oem\{ PluginID \} \} |String \(required\)<br> |The plugin Id of the plugin.<br> NOTE: Before specifying the plugin Id, ensure that the installed plugin is added in the resource inventory. To know how to add a plugin, see [Adding a Plugin](#adding-a-plugin-as-an-aggregation-source).|
-|ConnectionMethod|Array (required)|The connection method that is used to communicate with this endpoint: `/redfish/v1/AggregationService/AggregationSources`. |
+|ConnectionMethod|Array (required)|Links to the connection methods that are used to communicate with this endpoint: `/redfish/v1/AggregationService/AggregationSources`. To know which connection method to use, do the following:<ul><li>Perform HTTP `GET` on: `/redfish/v1/AggregationService/ConnectionMethods`.<br>You will receive a list of  links to available connection methods.</li><li>Perform HTTP `GET` on each link. Check the value of the `ConnectionMethodVariant` property in the JSON response.</li><li>The `ConnectionMethodVariant` property displays the details of a plugin. Choose a connection method having the details of the plugin of your choice.<br> Example: For GRF plugin, the `ConnectionMethodVariant` property displays the following value:<br>`Compute:BasicAuth:GRF:1.0.0`</li></ul>|
 
 >**Sample response header \(HTTP 202 status\)**
 
@@ -589,26 +536,9 @@ x-frame-options":"sameorigin"
 }
 ```
 
->**Sample response body having OEM block \(HTTP 201 status\)**
 
-```
- {
-   "@odata.type":"#AggregationSource.v1_0_0.AggregationSource",
-   "@odata.id":"/redfish/v1/AggregationService/AggregationSources/26562c7b-060b-4fd8-977e-94b1a535f3fb",
-   "@odata.context":"/redfish/v1/$metadata#AggregationSource.AggregationSource",
-   "Id":"26562c7b-060b-4fd8-977e-94b1a535f3fb",
-   "Name":"Aggregation Source",
-   "HostName":"10.24.0.4",
-   "UserName":"admin",
-   "Links":{
-      "Oem":{
-         "PluginID":"GRF"
-      }
-   }
-}
-```
 
->** Sample response body having a connection method link \(HTTP 201 status\)**
+>** Sample response body \(HTTP 201 status\)**
 ```
  {
    "@odata.type":"#AggregationSource.v1_0_0.AggregationSource",
