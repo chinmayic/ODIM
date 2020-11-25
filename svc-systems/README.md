@@ -37,6 +37,7 @@ To discover crucial configuration information about a resource, including chassi
 |/redfish/v1/Chassis/\{chassisId\}|GET|`Login` |
 |/redfish/v1/Chassis/\{chassisId\}/Thermal|GET|`Login` |
 |/redfish/v1/Chassis/\{chassisId\}/NetworkAdapters|GET|`Login` |
+|/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{networkadapterId}|GET|`Login`|
 
 
 
