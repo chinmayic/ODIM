@@ -159,43 +159,42 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
        $ ./get_helm.sh
        ```
 2. Create and encrypt password files: 
-   
    a. Navigate to the `odim-controller/scripts` directory.
-        ```
-        $ cd odim-controller/scripts
-        ```
+    ```
+    $ cd odim-controller/scripts
+    ```
    b. Run the following command:
-        ```
-        $ go build -ldflags "-s -w" -o odim-vault odim-vault.go
-        ```
+    ```
+    $ go build -ldflags "-s -w" -o odim-vault odim-vault.go
+    ```
    c. Create a file called `odimVaultKeyFile` and open it to edit.
-        ```
-        $ sudo vi odimVaultKeyFile
-        ```
+     ```
+    $ sudo vi odimVaultKeyFile
+    ```
    d. Enter a password and save.
    e. Create a file called `nodePasswordFile` and open it to edit.
-        ```
-        $ sudo vi nodePasswordFile
-        ```
+      ```
+    $ sudo vi nodePasswordFile
+      ```
    f. Enter the login password of your machine and save.
    g. Run the following commands to encode and encrypt the passwords:
-        ```
-        $ sudo ./odim-vault -encode /home/<username>/odim-controller/scripts/odimVaultKeyFile
-        ```
+      ```
+     $ sudo ./odim-vault -encode /home/<username>/odim-controller/scripts/odimVaultKeyFile
+    ```
 	   
-	    ```
-        $ sudo ./odim-vault -key odimVaultKeyFile -encrypt /home/<username>/odim-controller/scripts/nodePasswordFile
-        ```
+	  ```
+    $ sudo ./odim-vault -key odimVaultKeyFile -encrypt /home/<username>/odim-controller/scripts/nodePasswordFile
+    ```
 3. [Edit the Kubernetes configuration file](#updating-the-kubernetes-configuration-file).
 4. Update Firmware version:
    a. Navigate to `odim-controller/helmcharts/grfplugin-config/templates`.
-      ```
-      $ cd odim-controller/helmcharts/grfplugin-config/templates
-      ```
+    ```
+    $ cd odim-controller/helmcharts/grfplugin-config/templates
+    ```
    b. Open the `configmaps.yaml` file to edit.
-      ```
-      $ sudo vim configmaps.yaml
-      ```
+    ```
+    $ sudo vim configmaps.yaml
+    ```
    c. Change *FirmwareVersion* to *v1.0.0*.
 5. [Install Docker](#installing-docker).    	   
 6. [Build Docker images](#building-docker-images).
