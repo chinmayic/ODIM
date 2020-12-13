@@ -59,7 +59,7 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
     >   **NOTE:**  Before installation, configure your system IP to access the data center network.
 2. [Prepare the odim-controller node](#preparing-the-odim-controller-node). 
 3. [Deploy Kubernetes](#deploying-kubernetes-on-the-odim-controller-node).
-4. [Copy Docker images to master and worker nodes)](#copying-docker-images-to-the-master-and-worker-nodes).   
+4. [Copy Docker images to master and worker nodes](#copying-docker-images-to-the-master-and-worker-nodes).   
 
   
    
@@ -69,19 +69,19 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
 **Procedure:**
 ---------------
 
-1. Run the following commands to install packages such as Python, Ansible, Java 7, and more on the deployment machine:
+1. Run the following commands to install packages such as Python, Ansible, Java 7, and more on the odim-controller node:
    1. ```
-     $ sudo apt update
-     ```
+      $ sudo apt update
+      ```
    2. ```
-     $ sudo apt-get install sshpass -y
-     ```
+      $ sudo apt-get install sshpass -y
+      ```
    3. ```
-     $ sudo apt-get install python3.8 -y
-     ```
+      $ sudo apt-get install python3.8 -y
+      ```
    4. ```
-     $ sudo apt install python3-pip -y
-     ```
+      $ sudo apt install python3-pip -y
+      ```
    5. ```
      $ sudo apt install software-properties-common -y
      ```
