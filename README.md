@@ -132,8 +132,8 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
        $ mkdir src bin pkg
        ```
    19. ```
-      $ export GOPATH=${HOME}/BRUCE
-      ```
+       $ export GOPATH=${HOME}/BRUCE
+       ```
    20. ```
        $ export GOBIN=$GOPATH/bin
        ```
@@ -159,6 +159,7 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
        $ ./get_helm.sh
        ```
 2. Create and encrypt password files: 
+   
    a. Navigate to the `odim-controller/scripts` directory.
        ```
        $ cd odim-controller/scripts
@@ -168,23 +169,23 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
       $ go build -ldflags "-s -w" -o odim-vault odim-vault.go
       ```
    c. Create a file called `odimVaultKeyFile` and open it to edit.
-       ```
-       $ sudo vi odimVaultKeyFile
-       ```
+      ```
+      $ sudo vi odimVaultKeyFile
+      ```
    d. Enter a password and save.
    e. Create a file called `nodePasswordFile` and open it to edit.
-       ```
-       $ sudo vi nodePasswordFile
-       ```
+      ```
+      $ sudo vi nodePasswordFile
+      ```
    f. Enter the login password of your machine and save.
    g. Run the following commands to encode and encrypt the passwords:
       ```
-       $ sudo ./odim-vault -encode /home/<username>/odim-controller/scripts/odimVaultKeyFile
-       ```
+      $ sudo ./odim-vault -encode /home/<username>/odim-controller/scripts/odimVaultKeyFile
+      ```
 	   
-	   ```
-       $ sudo ./odim-vault -key odimVaultKeyFile -encrypt /home/<username>/odim-controller/scripts/nodePasswordFile
-       ```
+	  ```
+      $ sudo ./odim-vault -key odimVaultKeyFile -encrypt /home/<username>/odim-controller/scripts/nodePasswordFile
+      ```
 3. [Edit the Kubernetes configuration file](#updating-the-kubernetes-configuration-file).
 4. Update Firmware version:
    a. Navigate to `odim-controller/helmcharts/grfplugin-config/templates`.
