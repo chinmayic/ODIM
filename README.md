@@ -683,21 +683,24 @@ To configure NTP client, do the following:
    ```
 3. Comment the following lines:
    > #pool 0.ubuntu.pool.ntp.org iburst
+   
      #pool 1.ubuntu.pool.ntp.org iburst
+	 
      #pool 2.ubuntu.pool.ntp.org iburst
+	 
      #pool 3.ubuntu.pool.ntp.org iburst
 4. Add the following line and save:
    ```
    server <NTP_server_IP_address> prefer iburst
-   ``
+   ```
 5. Restart NTP server by running the following command:
    ```
    $ sudo systemctl restart ntp
-   ``
+   ```
 6. To verify the time sync with the NTP server on the NTP client machine, run the following command:
    ```
    $ ntpq -pd
-   ``
+   ```
    
 # Configuring proxy for Docker
 
