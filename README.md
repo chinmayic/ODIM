@@ -407,7 +407,7 @@ Do the following in the master and the worker nodes:
    ```
    
 ## 2. Installing ODIMRA
------------------------------
+
 
 **Procedure**
 
@@ -504,7 +504,7 @@ Password: GRFPlug!n12$4
       ```
  
 # Updating the Kubernetes Configuration file
--------------------------------------------------
+
 
 **Procedure**
 
@@ -635,7 +635,7 @@ Update the following parameters in the `kube_deploy_nodes.yaml` file:
 
    
 # Setting proxy
---------------------------
+
 
 **Procedure**
 
@@ -658,7 +658,7 @@ To set proxy:
 
   
 # Setting up NTP client 
----------------------------
+
 
 **Procedure**
 
@@ -699,9 +699,7 @@ To configure NTP client, do the following:
    ``
    
 # Configuring proxy for Docker
-----------------------------------
 
-**Procedure**
 
 <blockquote>
 IMPORTANT:
@@ -717,7 +715,7 @@ During the course of this procedure, you will be required to create files and co
 </blockquote>
 
 **Procedure**
---------------
+
 
 1.   In the home directory of odimra user, create a hidden directory called .docker, and then create a file called config.json inside it.
 
@@ -790,7 +788,7 @@ During the course of this procedure, you will be required to create files and co
 
 
 # Resetting Kubernetes
------------------------------
+
   
   To reset Kubernetes setup, run the following command:
   ```
@@ -798,7 +796,7 @@ During the course of this procedure, you will be required to create files and co
   ```
   
 # Removing a node from the Kubernetes cluster
-------------------------------------------------
+
 
   To remove an existing node form the kubernetes cluster, run the following command:
   ```
@@ -806,7 +804,7 @@ During the course of this procedure, you will be required to create files and co
   ```
 
 # Uninstalling ODIMRA
-------------------------------------
+
   
   To remove ODIMRA, run the following command:
   
