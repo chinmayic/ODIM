@@ -110,54 +110,54 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
    11. ```
        $ pip3 install pyyaml==5.3.1
        ```
-  12. ```
-      $ pip3 install pycryptodomex==3.9.7
+   12. ```
+       $ pip3 install pycryptodomex==3.9.7
+       ```
+   13. ```
+       $ wget https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz -P /var/tmp
+       ```
+   14. ```
+       $ sudo tar -C /usr/local -xzf /var/tmp/go1.13.7.linux-amd64.tar.gz
+       ```
+   15. ```
+       $ export PATH=$PATH:/usr/local/go/bin
+       ```
+   16. ```
+       $ mkdir ${HOME}/BRUCE
+       ```
+   17. ```
+       $ cd ${HOME}/BRUCE
+       ```
+   18. ```
+       $ mkdir src bin pkg
+       ```
+   19. ```
+      $ export GOPATH=${HOME}/BRUCE
       ```
-  13. ```
-      $ wget https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz -P /var/tmp
-      ```
-  14. ```
-      $ sudo tar -C /usr/local -xzf /var/tmp/go1.13.7.linux-amd64.tar.gz
-      ```
-  15. ```
-      $ export PATH=$PATH:/usr/local/go/bin
-      ```
-  16. ```
-      $ mkdir ${HOME}/BRUCE
-      ```
-  17. ```
-      $ cd ${HOME}/BRUCE
-      ```
-  18. ```
-      $ mkdir src bin pkg
-      ```
-  19. ```
-     $ export GOPATH=${HOME}/BRUCE
-     ```
-  20. ```
-      $ export GOBIN=$GOPATH/bin
-      ```
-  21. ```
-      $ export GO111MODULE=on
-      ```
-  22. ```
-      $ export GOROOT=/usr/local/go
-      ```
-  23. ```
-      $ export PATH=$PATH:${GOROOT}/bin
-      ```
-  24. ```
-      $ sudo apt-get remove golang-docker-credential-helpers
-      ```
-  25. ```
-      $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-      ```
-  26. ```
-      $ chmod 700 get_helm.sh
-      ```
-  27. ```
-      $ ./get_helm.sh
-      ```
+   20. ```
+       $ export GOBIN=$GOPATH/bin
+       ```
+   21. ```
+       $ export GO111MODULE=on
+       ```
+   22. ```
+       $ export GOROOT=/usr/local/go
+       ```
+   23. ```
+       $ export PATH=$PATH:${GOROOT}/bin
+       ```
+   24. ```
+       $ sudo apt-get remove golang-docker-credential-helpers
+       ```
+   25. ```
+       $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+       ```
+   26. ```
+       $ chmod 700 get_helm.sh
+       ```
+   27. ```
+       $ ./get_helm.sh
+       ```
 2. Create and encrypt password files: 
    a. Navigate to the `odim-controller/scripts` directory.
        ```
