@@ -159,6 +159,7 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
        $ ./get_helm.sh
        ```
 2. Create and encrypt password files: 
+
    a. Navigate to the `odim-controller/scripts` directory.
     ```
     $ cd odim-controller/scripts
@@ -187,6 +188,7 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
     ```
 3. [Edit the Kubernetes configuration file](#updating-the-kubernetes-configuration-file).
 4. Update Firmware version:
+
    a. Navigate to `odim-controller/helmcharts/grfplugin-config/templates`.
     ```
     $ cd odim-controller/helmcharts/grfplugin-config/templates
