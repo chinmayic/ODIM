@@ -5,11 +5,10 @@
 
 - [Deploying the resource aggregator for ODIM (ODIMRA)](#deploying-the-resource-aggregator-for-odim--odimra-)
   * [1. Setting up environment](#1-setting-up-environment)
-  * [**Prerequisites**](#--prerequisites--)
     + [Preparing the odim-controller node](#preparing-the-odim-controller-node)
       - [Installing Docker](#installing-docker)
       - [Building Docker images](#building-docker-images)
-    + [Deploying Kubernetes on the odim-controller node](#deploying-kubernetes-on-the-odim-controller-node)
+      - [Deploying Kubernetes on the odim-controller node](#deploying-kubernetes-on-the-odim-controller-node)
     + [Copying Docker images to the master and worker nodes](#copying-docker-images-to-the-master-and-worker-nodes)
   * [2. Installing ODIMRA](#2-installing-odimra)
     + [Default user credentials for ODIMRA and GRF Plugin](#default-user-credentials-for-odimra-and-grf-plugin)
