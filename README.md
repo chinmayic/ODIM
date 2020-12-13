@@ -100,16 +100,16 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
       $ git clone https://github.hpe.com/Bruce/odim-controller.git
       ```
 	  When prompted for username and password, enter your HPE GitHub username and the personal access token or the SSH key. To know how to generate a personal token, see [Generating personal token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token). 
-  10. ```
-	  $ cd odim-controller/kubespray
-	  ```
+   10. ```
+	   $ cd odim-controller/kubespray
+	   ```
 	 
-	  ```
-      $ sudo -H pip3 install --proxy=http://web-proxy.corp.hpecorp.net:8080/ -r requirements.txt
-      ```
-  11. ```
-      $ pip3 install pyyaml==5.3.1
-      ```
+	   ```
+       $ sudo -H pip3 install --proxy=http://web-proxy.corp.hpecorp.net:8080/ -r requirements.txt
+       ```
+   11. ```
+       $ pip3 install pyyaml==5.3.1
+       ```
   12. ```
       $ pip3 install pycryptodomex==3.9.7
       ```
