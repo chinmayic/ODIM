@@ -99,8 +99,7 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
    9. ```
       $ git clone https://github.hpe.com/Bruce/odim-controller.git
       ```
-	  When prompted for username and password, enter your HPE GitHub username and the personal access token or the SSH key. To know how to generate a personal token, see [Generating personal token](#https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token). 
-
+	  When prompted for username and password, enter your HPE GitHub username and the personal access token or the SSH key. To know how to generate a personal token, see [Generating personal token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token). 
   10. ```
 	  $ cd odim-controller/kubespray
 	  ```
