@@ -665,16 +665,16 @@ To set proxy:
 To configure NTP client, do the following:
 1. Run the following commands:
 
-   a. ```
+   1. ```
       $ sudo apt update -y
       ```
-   b. ```
+   2. ```
       $ sudo apt install ntpdate -y
       ```
-   c. ```
+   3. ```
       $ sudo timedatectl set-ntp off
       ```
-   d. ```
+   4. ```
       $ sudo apt install ntp -y 
       ```
 2. Open the `/etc/ntp.conf` file to edit.
