@@ -65,9 +65,10 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
    
 	   
 ### Preparing the odim-controller node
+------------------------------------------
 
 **Procedure:**
----------------
+
 
 1. Run the following commands to install packages such as Python, Ansible, Java 7, and more on the odim-controller node:
    1. ```
@@ -83,81 +84,81 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
       $ sudo apt install python3-pip -y
       ```
    5. ```
-     $ sudo apt install software-properties-common -y
-     ```
+      $ sudo apt install software-properties-common -y
+      ```
    6. ```
-     $ sudo -E apt-add-repository ppa:ansible/ansible
-     ```
-	 Press enter when prompted.
+      $ sudo -E apt-add-repository ppa:ansible/ansible
+      ```
+	  Press enter when prompted.
    7. ```
-     $ sudo apt install openjdk-8-jre-headless -y
-     ```
+      $ sudo apt install openjdk-8-jre-headless -y
+      ```
    8. ```
-     $ python3 -m pip install --upgrade pip
-     ```
+      $ python3 -m pip install --upgrade pip
+      ```
    9. ```
-     $ git clone https://github.hpe.com/Bruce/odim-controller.git
-     ```
-	 When prompted for username and password, enter your HPE GitHub username and the personal access token or the SSH key. To know how to generate a personal token, see [Generating personal token](#https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token). 
+      $ git clone https://github.hpe.com/Bruce/odim-controller.git
+      ```
+	  When prompted for username and password, enter your HPE GitHub username and the personal access token or the SSH key. To know how to generate a personal token, see [Generating personal token](#https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token). 
 
   10. ```
 	  $ cd odim-controller/kubespray
 	  ```
 	 
-	 ```
-     $ sudo -H pip3 install --proxy=http://web-proxy.corp.hpecorp.net:8080/ -r requirements.txt
-     ```
+	  ```
+      $ sudo -H pip3 install --proxy=http://web-proxy.corp.hpecorp.net:8080/ -r requirements.txt
+      ```
   11. ```
-     $ pip3 install pyyaml==5.3.1
-     ```
+      $ pip3 install pyyaml==5.3.1
+      ```
   12. ```
-     $ pip3 install pycryptodomex==3.9.7
-     ```
+      $ pip3 install pycryptodomex==3.9.7
+      ```
   13. ```
-     $ wget https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz -P /var/tmp
-     ```
+      $ wget https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz -P /var/tmp
+      ```
   14. ```
-     $ sudo tar -C /usr/local -xzf /var/tmp/go1.13.7.linux-amd64.tar.gz
-     ```
+      $ sudo tar -C /usr/local -xzf /var/tmp/go1.13.7.linux-amd64.tar.gz
+      ```
   15. ```
-     $ export PATH=$PATH:/usr/local/go/bin
-     ```
+      $ export PATH=$PATH:/usr/local/go/bin
+      ```
   16. ```
-     $ mkdir ${HOME}/BRUCE
-     ```
+      $ mkdir ${HOME}/BRUCE
+      ```
   17. ```
-     $ cd ${HOME}/BRUCE
-     ```
+      $ cd ${HOME}/BRUCE
+      ```
   18. ```
-     $ mkdir src bin pkg
-     ```
+      $ mkdir src bin pkg
+      ```
   19. ```
      $ export GOPATH=${HOME}/BRUCE
      ```
   20. ```
-     $ export GOBIN=$GOPATH/bin
-     ```
+      $ export GOBIN=$GOPATH/bin
+      ```
   21. ```
-     $ export GO111MODULE=on
-     ```
+      $ export GO111MODULE=on
+      ```
   22. ```
-     $ export GOROOT=/usr/local/go
-     ```
+      $ export GOROOT=/usr/local/go
+      ```
   23. ```
-     $ export PATH=$PATH:${GOROOT}/bin
-     ```
+      $ export PATH=$PATH:${GOROOT}/bin
+      ```
   24. ```
-     $ sudo apt-get remove golang-docker-credential-helpers
-     ```
+      $ sudo apt-get remove golang-docker-credential-helpers
+      ```
   25. ```
-     $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-     ```
+      $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+      ```
   26. ```
-     $ chmod 700 get_helm.sh
-     ```
+      $ chmod 700 get_helm.sh
+      ```
   27. ```
-     $ ./get_helm.sh
-     ```
+      $ ./get_helm.sh
+      ```
 2. Create and encrypt password files: 
    a. Navigate to the `odim-controller/scripts` directory.
        ```
@@ -165,8 +166,8 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
        ```
    b. Run the following command:
       ```
-     $ go build -ldflags "-s -w" -o odim-vault odim-vault.go
-     ```
+      $ go build -ldflags "-s -w" -o odim-vault odim-vault.go
+      ```
    c. Create a file called `odimVaultKeyFile` and open it to edit.
        ```
        $ sudo vi odimVaultKeyFile
