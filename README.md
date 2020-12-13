@@ -407,9 +407,10 @@ Do the following in the master and the worker nodes:
    ```
    
 ## 2. Installing ODIMRA
+-----------------------------
 
 **Procedure**
---------------
+
 1. Log in to the odim-controller node.
 2. Navigate to `odim-controller/scripts`.
    ```
@@ -503,9 +504,10 @@ Password: GRFPlug!n12$4
       ```
  
 # Updating the Kubernetes Configuration file
+-------------------------------------------------
 
 **Procedure**
---------------
+
 1. Navaigate to the `odim-controller/scripts` directory.
       ```
        $ cd odim-controller/scripts
@@ -633,9 +635,10 @@ Update the following parameters in the `kube_deploy_nodes.yaml` file:
 
    
 # Setting proxy
+--------------------------
 
 **Procedure**
-----------------
+
 To set proxy:
 1. Open the `/etc/environment' file.
    ```
@@ -655,9 +658,10 @@ To set proxy:
 
   
 # Setting up NTP client 
+---------------------------
 
 **Procedure**
----------------
+
 To configure NTP client, do the following:
 1. Run the following commands:
    a. ```
@@ -695,6 +699,9 @@ To configure NTP client, do the following:
    ``
    
 # Configuring proxy for Docker
+----------------------------------
+
+**Procedure**
 
 <blockquote>
 IMPORTANT:
@@ -783,6 +790,7 @@ During the course of this procedure, you will be required to create files and co
 
 
 # Resetting Kubernetes
+-----------------------------
   
   To reset Kubernetes setup, run the following command:
   ```
@@ -790,6 +798,7 @@ During the course of this procedure, you will be required to create files and co
   ```
   
 # Removing a node from the Kubernetes cluster
+------------------------------------------------
 
   To remove an existing node form the kubernetes cluster, run the following command:
   ```
@@ -797,6 +806,7 @@ During the course of this procedure, you will be required to create files and co
   ```
 
 # Uninstalling ODIMRA
+------------------------------------
   
   To remove ODIMRA, run the following command:
   
