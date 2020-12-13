@@ -664,6 +664,7 @@ To set proxy:
 
 To configure NTP client, do the following:
 1. Run the following commands:
+
    a. ```
       $ sudo apt update -y
       ```
