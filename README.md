@@ -203,6 +203,10 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
 
 
 #### Installing Docker
+--------------------------------------------
+
+**Procedure**
+
  > **IMPORTANT:** This procedure installs only the community edition of Docker.
 
 1. To install Docker, run the following commands:
@@ -285,48 +289,48 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
 	   
 
 #### Building Docker images
+---------------------------------------------------
 
 **Procedure**
-----------------
 
 To build Docker images, do the following:
 1. Run the following commands:
-   a. ```
+   1. ```
       $ git clone https://github.com/ODIM-Project/ODIM.git
       ```
-   b. ```
+   2. ```
       $ cd ODIM
       ```
-   c. ```
+   3. ```
       $ export ODIMRA_USER_ID=2021
 	  ```
 	  ```
       $ export ODIMRA_GROUP_ID=2021
 	  ```
-   d. ```
+   4. ```
       $ ./build_images.sh
       ```
-   e. ```
+   5. ```
       $ sudo docker images
       ```
 	  If the images are built successfully, you will receive an output which is similar to the following sample:
-	 ```
-	 REPOSITORY                                TAG                                      IMAGE ID                   CREATED                     SIZE
-     consul                                    1.6                                       33ff2311df24               4 hours ago                  185MB
-     odim_zookeeper                            1.0                                      981d43f6c8b4              22 hours ago                 278MB
-     update                                    1.0                                      2cfb65430181              22 hours ago                 128MB
-     task                                      1.0                                      c4dd52b9ade0              22 hours ago                129MB
-     systems                                   1.0                                       9d3ad9845b16             22 hours ago                129MB
-     redis                                     1.0                                      81bf552d3a52              22 hours ago                 99.2MB
-     managers                                  1.0                                      2f7955586c54              22 hours ago                 128MB
-     odim_kafka                                1.0                                     f03a52363483              22 hours ago                  278MB
-     grf-plugin                                1.0                                     c7a086d02b16              22 hours ago                  100MB
-     fabrics                                   1.0                                     9b9ea8bafc30                22 hours ago                  128MB
-     events                                    1.0                                     860a9202a483              22 hours ago                  130MB
-     api                                       1.0                                     effab530ede5                22 hours ago                  130MB
-     aggregation                               1.0                                     354f67a857b6               22 hours ago                  130MB
-     account-session                           1.0                                     a7eb07e69395              22 hours ago                  129MB
-	 ```
+	  ```
+	  REPOSITORY                                TAG                                      IMAGE ID                   CREATED                     SIZE
+      consul                                    1.6                                       33ff2311df24               4 hours ago                  185MB
+      odim_zookeeper                            1.0                                      981d43f6c8b4              22 hours ago                 278MB
+      update                                    1.0                                      2cfb65430181              22 hours ago                 128MB
+      task                                      1.0                                      c4dd52b9ade0              22 hours ago                129MB
+      systems                                   1.0                                       9d3ad9845b16             22 hours ago                129MB
+      redis                                     1.0                                      81bf552d3a52              22 hours ago                 99.2MB
+      managers                                  1.0                                      2f7955586c54              22 hours ago                 128MB
+      odim_kafka                                1.0                                     f03a52363483              22 hours ago                  278MB
+      grf-plugin                                1.0                                     c7a086d02b16              22 hours ago                  100MB
+      fabrics                                   1.0                                     9b9ea8bafc30                22 hours ago                  128MB
+      events                                    1.0                                     860a9202a483              22 hours ago                  130MB
+      api                                       1.0                                     effab530ede5                22 hours ago                  130MB
+      aggregation                               1.0                                     354f67a857b6               22 hours ago                  130MB
+      account-session                           1.0                                     a7eb07e69395              22 hours ago                  129MB
+	  ```
 2. Save each Docker image to a tar archive using the following command:
     ```
     $ sudo docker save -o <image_name.tar> <image_name:tag>
@@ -340,9 +344,10 @@ To build Docker images, do the following:
 
  
 ### Deploying Kubernetes on the odim-controller node
+---------------------------------------------------------
 
 **Procedure**
------------------
+
 1. Navigate to `odim-controller/scripts` on the odim-controller node.
    ```
    cd odim-controller/scripts
@@ -370,9 +375,10 @@ To build Docker images, do the following:
    
    
 ### Copying Docker images to the master and worker nodes
+-----------------------------------------------------------
 
 **Procedure**
----------------
+
 Do the following in the master and the worker nodes:
 1. Log in and create a file called `load_images.sh` in the same path where the ODIMRA Docker image tarballs are copied.
    ```
