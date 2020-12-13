@@ -682,13 +682,12 @@ To configure NTP client, do the following:
    $ sudo vim /etc/ntp.conf
    ```
 3. Comment the following lines:
-   > #pool 0.ubuntu.pool.ntp.org iburst
-   
+     ```
+     #pool 0.ubuntu.pool.ntp.org iburst
      #pool 1.ubuntu.pool.ntp.org iburst
-	 
-     #pool 2.ubuntu.pool.ntp.org iburst
-	 
+     #pool 2.ubuntu.pool.ntp.org iburst 
      #pool 3.ubuntu.pool.ntp.org iburst
+	 ```
 4. Add the following line and save:
    ```
    server <NTP_server_IP_address> prefer iburst
