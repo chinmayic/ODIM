@@ -58,8 +58,8 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
 1. Download and install `Ubuntu 18.04 LTS` on your machines.
     >   **NOTE:**  Before installation, configure your system IP to access the data center network.
 2. [Prepare the odim-controller node](#preparing-the-odim-controller-node). 
-3. [installing Docker on the odim-controller node](#installing-docker-on-the-odim-controller-node).
-4. [Building Docker images on the odim-controller node](#building-docker-images-on-the-odim-controller node).
+3. [Installing Docker on the odim-controller node](#installing-docker-on-the-odim-controller-node).
+4. [Building Docker images on the odim-controller node](#building-docker-images-on-the-odim-controller-node).
 5. [Deploy Kubernetes on the odim-controller node](#deploying-kubernetes-on-the-odim-controller-node).
 6. [Copy Docker images to master and worker nodes](#copying-docker-images-to-the-master-and-worker-nodes).   
 
