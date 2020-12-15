@@ -58,8 +58,8 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
 1. Download and install `Ubuntu 18.04 LTS` on your machines.
     >   **NOTE:**  Before installation, configure your system IP to access the data center network.
 2. [Prepare the odim-controller node](#preparing-the-odim-controller-node). 
-3. [Installing Docker on the odim-controller node](#installing-docker-on-the-odim-controller-node).
-4. [Building Docker images on the odim-controller node](#building-docker-images-on-the-odim-controller-node).
+3. [Install Docker on the odim-controller node](#installing-docker-on-the-odim-controller-node).
+4. [Build Docker images on the odim-controller node](#building-docker-images-on-the-odim-controller-node).
 5. [Deploy Kubernetes on the odim-controller node](#deploying-kubernetes-on-the-odim-controller-node).
 6. [Copy Docker images to master and worker nodes](#copying-docker-images-to-the-master-and-worker-nodes).   
 
@@ -175,11 +175,13 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
     $ sudo vi odimVaultKeyFile
     ```
    d. Enter a password and save.
+   
    e. Create a file called `nodePasswordFile` and open it to edit.
       ```
     $ sudo vi nodePasswordFile
       ```
    f. Enter the login password of your machine and save.
+   
    g. Run the following commands to encode and encrypt the passwords:
       ```
      $ sudo ./odim-vault -encode /home/<username>/odim-controller/scripts/odimVaultKeyFile
@@ -284,9 +286,9 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
      ```
       
    >  **NOTE:** To enable Docker service to start on reboot, run the following command:
-   
-       `$ sudo systemctl enable docker`
-	   
+       ```
+       $ sudo systemctl enable docker
+	   ```
 	   
 
 ### Building Docker images on the odim-controller node
@@ -504,19 +506,19 @@ Password: GRFPlug!n12$4
      $ docker restart build_odimra_1
       ```
  
-# Updating the Kubernetes Configuration file
+# Updating the Kubernetes configuration file
 
 
 **Procedure**
 
 1. Navaigate to the `odim-controller/scripts` directory.
-      ```
-       $ cd odim-controller/scripts
-       ```
+    ```
+    $ cd odim-controller/scripts
+    ```
 2. Rename the `kube_deploy_nodes.yaml.tmpl` file to `kube_deploy_nodes.yaml` using the following command:
-      ```
-       $ mv kube_deploy_nodes.yaml.tmpl kube_deploy_nodes.yaml
-       ```
+    ```
+    $ mv kube_deploy_nodes.yaml.tmpl kube_deploy_nodes.yaml
+    ```
 3. Open the `kube_deploy_nodes.yaml` file to edit.
    
 **Sample Config file**
@@ -618,9 +620,9 @@ Update the following parameters in the `kube_deploy_nodes.yaml` file:
 |httpsProxy|HTTPS Proxy to be used for connecting to external network.|
 |noProxy|List of IP addresses and FQDNs for which proxy should not be used.<br> `noProxy` should begin with `127.0.0.1,localhost,localhost.localdomain,10.96.0.0/12,` followed by the IP addresses of the nodes.<br>Example:<ul><li>For one node setup:<br>`noProxy: "127.0.0.1,localhost,localhost.localdomain,10.96.0.0/12,<Node_IP>"`</li><li>For three node setup:<br>`noProxy: "127.0.0.1,localhost,localhost.localdomain,10.96.0.0/12,<Node1_IP>,<Node2_IP>,<Node3_IP>"`</li></ul> |
 |nodePasswordFilePath|The absolute path of the file containing the node's encoded password - */home/<username>/odim-controller/scripts/nodePasswordFile*|
-|nodes:|List of nodes that are part of the kubernetes cluster.<br> **Note:**For one node setup, only one node's information is required. Remove the entries of the other two nodes.|
+|nodes:|List of nodes that are part of the kubernetes cluster.<br>**Note:**For one node setup, only one node's information is required. Remove the entries of the other two nodes.|
 |Node1_Hostname|Hostname of the master node. To know the hostname, run the following command:<br>`$ hostname`|
-|ip|Ip address of the master node.|
+|ip|IP address of the master node.|
 |username|Username of the master node.<br>**Important:** Ensure that the username is same across all the nodes.|
 |odimControllerSrcPath|The absolute path of the downloaded odim-controller source code - */home/<username>/odim-controller*|
 |odimVaultKeyFilePath|The absolute path of the file containing odim-vault's encoded password - */home/<username>/odim-controller/scripts/odimVaultKeyFile*|
