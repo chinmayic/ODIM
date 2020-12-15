@@ -6,9 +6,9 @@
 - [Deploying the resource aggregator for ODIM (ODIMRA)](#deploying-the-resource-aggregator-for-odim--odimra-)
   * [1. Setting up environment](#1-setting-up-environment)
     + [Preparing the odim-controller node](#preparing-the-odim-controller-node)
-      - [Installing Docker](#installing-docker)
-      - [Building Docker images](#building-docker-images)
-      - [Deploying Kubernetes on the odim-controller node](#deploying-kubernetes-on-the-odim-controller-node)
+    + [Installing Docker](#installing-docker)
+    + [Building Docker images](#building-docker-images)
+    + [Deploying Kubernetes on the odim-controller node](#deploying-kubernetes-on-the-odim-controller-node)
     + [Copying Docker images to the master and worker nodes](#copying-docker-images-to-the-master-and-worker-nodes)
   * [2. Installing ODIMRA](#2-installing-odimra)
     + [Default user credentials for ODIMRA and GRF Plugin](#default-user-credentials-for-odimra-and-grf-plugin)
@@ -60,7 +60,7 @@ This procedure provides step-by-step instructions on how to deploy Docker and Ku
 2. [Prepare the odim-controller node](#preparing-the-odim-controller-node). 
 3. [Install Docker on the odim-controller node](#installing-docker-on-the-odim-controller-node).
 4. [Build Docker images on the odim-controller node](#building-docker-images-on-the-odim-controller-node).
-5. [Deploy Kubernetes on the odim-controller node](#deploying-kubernetes-on-the-odim-controller-node).
+5. [Deploy Kubernetes](#deploying-kubernetes).
 6. [Copy Docker images to master and worker nodes](#copying-docker-images-to-the-master-and-worker-nodes).   
 
   
@@ -346,8 +346,8 @@ To build Docker images, do the following:
 	
 
  
-### Deploying Kubernetes on the odim-controller node
----------------------------------------------------------
+### Deploying Kubernetes
+--------------------------
 
 **Procedure**
 
@@ -521,7 +521,7 @@ Password: GRFPlug!n12$4
     ```
 3. Open the `kube_deploy_nodes.yaml` file to edit.
    
-**Sample Config file**
+**Sample configuration file**
 ----------------------
 ```
 deploymentID: <Unique identifier for the deployment>
