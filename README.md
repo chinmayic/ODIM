@@ -3,44 +3,216 @@
 
 # Table of contents
 
-- [Deploying ODIMRA](#deploying-odimra)
-  * [1. Setting up OS and Docker environment](#1-setting-up-os-and-docker-environment)
-  * [2. Installing the resource aggregator for ODIM and GRF plugin](#2-installing-the-resource-aggregator-for-odim-and-grf-plugin)
+- [Deploying the resource aggregator for ODIM (ODIMRA)](#deploying-the-resource-aggregator-for-odim--odimra-)
+  * [1. Setting up environment](#1-setting-up-environment)
+    + [Preparing the odim-controller node](#preparing-the-odim-controller-node)
+    + [Installing Docker](#installing-docker)
+    + [Building Docker images](#building-docker-images)
+    + [Deploying Kubernetes on the odim-controller node](#deploying-kubernetes-on-the-odim-controller-node)
+    + [Copying Docker images to the master and worker nodes](#copying-docker-images-to-the-master-and-worker-nodes)
+  * [2. Installing ODIMRA](#2-installing-odimra)
     + [Default user credentials for ODIMRA and GRF Plugin](#default-user-credentials-for-odimra-and-grf-plugin)
 - [Modifying default configuration parameters for the resource aggregator](#modifying-default-configuration-parameters-for-the-resource-aggregator)
+- [Updating the Kubernetes Configuration file](#updating-the-kubernetes-configuration-file)
+  * [**Sample Config file**](#--sample-config-file--)
+- [Setting proxy](#setting-proxy)
+- [Setting up NTP client](#setting-up-ntp-client)
 - [Configuring proxy for Docker](#configuring-proxy-for-docker)
+- [Resetting Kubernetes](#resetting-kubernetes)
+- [Removing a node from the Kubernetes cluster](#removing-a-node-from-the-kubernetes-cluster)
+- [Uninstalling ODIMRA](#uninstalling-odimra)
+
+
    
 
 
 
 # Deploying the resource aggregator for ODIM (ODIMRA)
 
-## 1. Setting up OS and Docker environment
+## 1. Setting up environment
+
+This procedure provides step-by-step instructions on how to deploy Docker and Kubernetes. You will require a minimum of two machines - one as a deployment node where odim-controller is installed and the others as master and worker nodes where ODIMRA is deployed. 
 
 **Prerequisites**
-------------------
-- Ensure that the Internet is available. If your system is behind a corporate proxy or firewall, set your proxy configuration. To know how to set proxy, see information provided at `https://www.serverlab.ca/tutorials/linux/administration-linux/how-to-set-the-proxy-for-apt-for-ubuntu-18-04/`.  
+-----------------
+- Ensure that the odim-controller node has a minimum RAM of 8GB (8192MB), four cups, and 100GB of Hdd.
+
+- Ensure that the master and worker nodes have a minimum RAM of 16GB (16384MB), four cups, and 150GB of Hdd.
+
+- Ensure that the Internet is available on all the machines. If the systems are behind a corporate proxy or firewall, [set your proxy configuration on all the machines](#setting-proxy).  
+
+- Ensure to create same non-root username and password on all the machines and login with the same.
 
 - Ensure not to create `odimra` user during the installation of the VM.
 
+- Ensure that the FQDN entry in the `/etc/hosts` file is same on all the machines.
+
+- Ensure that time across the machines are in sync.
+
+- Ensure to [set the NTP client on the machines](#setting-up-ntp-client) to sync with NTP server in your environment.
+
+
+
 **Procedure**
 --------------
-1. Download and install `Ubuntu 18.04 LTS` on your system.
+1. Download and install `Ubuntu 18.04 LTS` on your machines.
     >   **NOTE:**  Before installation, configure your system IP to access the data center network.
-2. Install `Ubuntu Make` on your system.
-To install `Ubuntu Make`, run the following command:
-   ```
-   $ sudo apt install make
-   ```
-3. Install `Java 11` on your system.
-   To install `Java 11`, run the following command:
-   ```
-    $ sudo apt install openjdk-11-jre-headless -y
-   ```
-4. Set up Docker environment:
-     > **IMPORTANT:** This procedure installs only the community edition of Docker.
+2. [Prepare the odim-controller node](#preparing-the-odim-controller-node). 
+3. [Install Docker on the odim-controller node](#installing-docker-on-the-odim-controller-node).
+4. [Build Docker images on the odim-controller node](#building-docker-images-on-the-odim-controller-node).
+5. [Deploy Kubernetes](#deploying-kubernetes).
+6. [Copy Docker images to master and worker nodes](#copying-docker-images-to-the-master-and-worker-nodes).   
 
-   a. To install Docker, run the following commands:
+  
+   
+	   
+### Preparing the odim-controller node
+------------------------------------------
+
+**Procedure:**
+
+
+1. Run the following commands to install packages such as Python, Ansible, Java 7, and more on the odim-controller node:
+   1. ```
+      $ sudo apt update
+      ```
+   2. ```
+      $ sudo apt-get install sshpass -y
+      ```
+   3. ```
+      $ sudo apt-get install python3.8 -y
+      ```
+   4. ```
+      $ sudo apt install python3-pip -y
+      ```
+   5. ```
+      $ sudo apt install software-properties-common -y
+      ```
+   6. ```
+      $ sudo -E apt-add-repository ppa:ansible/ansible
+      ```
+	  Press enter when prompted.
+   7. ```
+      $ sudo apt install openjdk-8-jre-headless -y
+      ```
+   8. ```
+      $ python3 -m pip install --upgrade pip
+      ```
+   9. ```
+      $ git clone https://github.hpe.com/Bruce/odim-controller.git
+      ```
+	  When prompted for username and password, enter your HPE GitHub username and the personal access token or the SSH key. To know how to generate a personal token, see [Generating personal token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token). 
+   10. ```
+	   $ cd odim-controller/kubespray
+	   ```
+	 
+	   ```
+       $ sudo -H pip3 install --proxy=http://web-proxy.corp.hpecorp.net:8080/ -r requirements.txt
+       ```
+   11. ```
+       $ pip3 install pyyaml==5.3.1
+       ```
+   12. ```
+       $ pip3 install pycryptodomex==3.9.7
+       ```
+   13. ```
+       $ wget https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz -P /var/tmp
+       ```
+   14. ```
+       $ sudo tar -C /usr/local -xzf /var/tmp/go1.13.7.linux-amd64.tar.gz
+       ```
+   15. ```
+       $ export PATH=$PATH:/usr/local/go/bin
+       ```
+   16. ```
+       $ mkdir ${HOME}/BRUCE
+       ```
+   17. ```
+       $ cd ${HOME}/BRUCE
+       ```
+   18. ```
+       $ mkdir src bin pkg
+       ```
+   19. ```
+       $ export GOPATH=${HOME}/BRUCE
+       ```
+   20. ```
+       $ export GOBIN=$GOPATH/bin
+       ```
+   21. ```
+       $ export GO111MODULE=on
+       ```
+   22. ```
+       $ export GOROOT=/usr/local/go
+       ```
+   23. ```
+       $ export PATH=$PATH:${GOROOT}/bin
+       ```
+   24. ```
+       $ sudo apt-get remove golang-docker-credential-helpers
+       ```
+   25. ```
+       $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+       ```
+   26. ```
+       $ chmod 700 get_helm.sh
+       ```
+   27. ```
+       $ ./get_helm.sh
+       ```
+2. Create and encrypt password files: 
+
+   a. Navigate to the `odim-controller/scripts` directory.
+    ```
+    $ cd odim-controller/scripts
+    ```
+   b. Run the following command:
+    ```
+    $ go build -ldflags "-s -w" -o odim-vault odim-vault.go
+    ```
+   c. Create a file called `odimVaultKeyFile` and open it to edit.
+     ```
+    $ sudo vi odimVaultKeyFile
+    ```
+   d. Enter a password and save.
+   
+   e. Create a file called `nodePasswordFile` and open it to edit.
+      ```
+    $ sudo vi nodePasswordFile
+      ```
+   f. Enter the login password of your machine and save.
+   
+   g. Run the following commands to encode and encrypt the passwords:
+      ```
+     $ sudo ./odim-vault -encode /home/<username>/odim-controller/scripts/odimVaultKeyFile
+    ```
+	   
+	  ```
+    $ sudo ./odim-vault -key odimVaultKeyFile -encrypt /home/<username>/odim-controller/scripts/nodePasswordFile
+    ```
+3. [Edit the Kubernetes configuration file](#updating-the-kubernetes-configuration-file).
+4. Update Firmware version:
+
+   a. Navigate to `odim-controller/helmcharts/grfplugin-config/templates`.
+    ```
+    $ cd odim-controller/helmcharts/grfplugin-config/templates
+    ```
+   b. Open the `configmaps.yaml` file to edit.
+    ```
+    $ sudo vim configmaps.yaml
+    ```
+   c. Change *FirmwareVersion* to *v1.0.0*.
+
+
+
+### Installing Docker on the odim-controller node
+---------------------------------------------------
+
+**Procedure**
+
+ > **IMPORTANT:** This procedure installs only the community edition of Docker.
+
+1. To install Docker, run the following commands:
    1.  ```
        $ sudo apt update
        ```
@@ -60,7 +232,7 @@ To install `Ubuntu Make`, run the following command:
       $ apt-cache policy docker-ce
        ```
       
-        The following output is generated:
+      The following output is generated:
       ```
       docker-ce:
       Installed: (none)
@@ -84,8 +256,7 @@ To install `Ubuntu Make`, run the following command:
         ```
          $ sudo usermod -aG docker ${USER}
         ```
-
-    b. Check the status of Docker:
+2. Check the status of Docker:
       ```
     $ sudo systemctl status docker
       ```
@@ -109,279 +280,155 @@ To install `Ubuntu Make`, run the following command:
    >  **NOTE:** If your system is behind a corporate proxy, ensure to configure Docker to use proxy server and restart docker services. To know how to configure Docker proxy, see [Configuring Docker proxy](#configuring-proxy-for-docker).
 						   
      
-   c. Restart the server.
+3. Restart the server.
       ```
      $ sudo init 6
      ```
       
    >  **NOTE:** To enable Docker service to start on reboot, run the following command:
-   
-       `$ sudo systemctl enable docker`
-  
-   
+       ```
+       $ sudo systemctl enable docker
+	   ```
 	   
 
-
-	   
-## 2. Installing the resource aggregator for ODIM and GRF plugin
-This section provides a step-by-step procedure for deploying ODIMRA and GRF plugin.
-
-  
-  **NOTE:**
-  - All configuration parameters are set to default values in the configuration files for odimra and GRF plugin. 
-  - The following ports are used for deploying odimra and GRF plugin:
-    45000, 45001, 45101-45110, 9092, 9082, 6380, 6379, 8500, 8300, 8302, 8301, 8600
-    Ensure that the above ports are not in use.
-  - The following users are created and added to group ids automatically when the certificates are generated during deployment. 
-  
-    |User Id| Group Id|
-	-----|---------|
-	|`odimra`|1234 |
-	|`plugin`|1235 |
-	
-
-     `odimra` is created on both the VM and the container for the resource aggregator.
-	
-	 `plugin` is created  on both the VM and the container for the GRF plugin.
-	
-	  Ensure that these user ids and group ids are not present on the VM prior to deployment.
-
-
-**WARNING:** Do not run the commands provided in this section as root user unless mentioned.
+### Building Docker images on the odim-controller node
+------------------------------------------------------
 
 **Procedure**
---------------
-1. Clone the odimra repository form `https://github.com/ODIM-Project/ODIM.git` to the home directory of the user.
-   ```
-   $ git clone https://github.com/ODIM-Project/ODIM.git
-   ```
-2. Choose a Fully Qualified Domain Name (FQDN) for the resource aggregator server. 
-   Example: odim.local.com.
-3. Set FQDN to environment of the host machine using the following command:
+
+To build Docker images, do the following:
+1. Run the following commands:
+   1. ```
+      $ git clone https://github.com/ODIM-Project/ODIM.git
+      ```
+   2. ```
+      $ cd ODIM
+      ```
+   3. ```
+      $ export ODIMRA_USER_ID=2021
+	  ```
+	  ```
+      $ export ODIMRA_GROUP_ID=2021
+	  ```
+   4. ```
+      $ ./build_images.sh
+      ```
+   5. ```
+      $ sudo docker images
+      ```
+	  If the images are built successfully, you will receive an output which is similar to the following sample:
+	  ```
+	  REPOSITORY                                TAG                                      IMAGE ID                   CREATED                     SIZE
+      consul                                    1.6                                       33ff2311df24               4 hours ago                  185MB
+      odim_zookeeper                            1.0                                      981d43f6c8b4              22 hours ago                 278MB
+      update                                    1.0                                      2cfb65430181              22 hours ago                 128MB
+      task                                      1.0                                      c4dd52b9ade0              22 hours ago                129MB
+      systems                                   1.0                                       9d3ad9845b16             22 hours ago                129MB
+      redis                                     1.0                                      81bf552d3a52              22 hours ago                 99.2MB
+      managers                                  1.0                                      2f7955586c54              22 hours ago                 128MB
+      odim_kafka                                1.0                                     f03a52363483              22 hours ago                  278MB
+      grf-plugin                                1.0                                     c7a086d02b16              22 hours ago                  100MB
+      fabrics                                   1.0                                     9b9ea8bafc30                22 hours ago                  128MB
+      events                                    1.0                                     860a9202a483              22 hours ago                  130MB
+      api                                       1.0                                     effab530ede5                22 hours ago                  130MB
+      aggregation                               1.0                                     354f67a857b6               22 hours ago                  130MB
+      account-session                           1.0                                     a7eb07e69395              22 hours ago                  129MB
+	  ```
+2. Save each Docker image to a tar archive using the following command:
     ```
-    $ export FQDN=<user_preferred_fqdn_for_host>
+    $ sudo docker save -o <image_name.tar> <image_name:tag>
     ```
-4. Set the environment variable, `HOSTIP` to the IP address of your system.
+	Example: sudo docker save -o consul.tar consul:1.0
+3. Copy each tar archive to the second machine using the following command:
+    ```
+    $ scp <image_name.tar> <username>@<IP_address>:/<path>
+    ```
+	
+
+ 
+### Deploying Kubernetes
+--------------------------
+
+**Procedure**
+
+1. Navigate to `odim-controller/scripts` on the odim-controller node.
    ```
-   $ export HOSTIP=<ip_address_of_your_system>
+   cd odim-controller/scripts
    ```
-
-5. Set below environment variables with user and group ID to be used for odimra
+2. Run the following command:
    ```
-   $ export ODIMRA_USER_ID=1234
-   $ export ODIMRA_GROUP_ID=1234
+   python3 odim-controller.py --deploy kubernetes --config /home/<username>/odim-controller/scripts/kube_deploy_nodes.yaml
    ```
-
-6. Set up FQDN in the `/etc/hosts` file (only if there is no DNS infrastructure):
-
-    a. Open the `/etc/hosts` file for editing:
-      ```
-      $ sudo vim /etc/hosts
-      ```
-    b. Scroll to the end of the file, add the following line, and then save:
-      ```
-      <host_ipv4_address> <user_preferred_fqdn_for_host>
-      ```
-   Example:
-`<host_ipv4_address> <fqdn>`
-
-7. Generate certificates:
-
+3. Log in to the master and worker nodes and run the following commands:
+   ```
+   $ mkdir -p $HOME/.kube
+   ```
    
-   **NOTE:**
-   - Self-signed Root CA (Certificate Authority) certificate and key are generated with 4096 key length and sha512 digest algorithm.
-   - Using the generated CA certificate, certificates and private keys for the resource aggregator services are also generated with 4096 key length and sha512 digest algorithm. They are valid for services matching the provided FQDN. You can use one-word description of the certificate as the common name.
-   - Certificates are used by the resource aggregator services to communicate    internally (Remote Procedure Call) and with the plugin services.
-   - If you are using an intermediate CA for signing certificates assigned to the resource aggregator and the plugin services, ensure to:
-        - Append all the intermediate certificates to the server certificate file in   the order such that each certificate has signed the preceding one.
-        - Append the Root CA used for signing the intermediate CA to the resource   aggregator CA file.
-
-
-    **Procedure**
+   ```
+   $ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+   ```
    
-   a. Navigate to the path: `ODIM/build/cert_generator`
-      ```
-       $ cd ODIM/build/cert_generator
-      ```
-
-    > NOTE: `ODIM/build/cert_generator` contains the automated scripts to        generate the resource aggregator and GRF plugin TLS and Kafka TLS  certificates.
-
-   b. Use the following command to generate the resource aggregator and the      GRF plugin certificates. Provide FQDN as a command-line argument.
-      ```
-      $ ./generate_odimra_cert.sh <FQDN>
-      ```
-   c. Use the following command to generate Kafka TLS certificate:
-      ```
-       $ ./generate_kafka_certs.sh kafka
-      ```
-   d. Use the following command to generate Zookeeper TLS certificate:
-      ```
-       $ ./generate_zookeeper_certs.sh zookeeper
-      ```
-   e. Use the following command to copy the resource aggregator, the GRF  plugin, the Kafka and Zookeeper TLS certificates:
-     ```
-      $ sudo ./copy_certificate.sh
-     ```
-     The following files are copied in the path: `/etc/odimracert/`
-      - rootCA.crt
-      - odimra_server.key
-      - odimra_server.crt
-      - odimra_rsa.public
-      - odimra_rsa.private
-      - odimra_kafka_client.key
-      - odimra_kafka_client.crt
-
-     The following files are copied in the path: `/etc/kafka/conf/`
-      - kafka.keystore.jks
-      - kafka.truststore.jks
-
-     The following files are copied in the path: - /etc/zookeeper/conf
-      - zookeeper.keystore.jks
-      - zookeeper.trustore.jks
-      
-    The following files are copied in the path: `/etc/plugincert/`
-      - rootCA.crt
-      - odimra_server.key
-      - odimra_server.crt
-      - odimra_kafka_client.key
-      - odimra_kafka_client.crt
-      
-
-8. Navigate to the odimra folder.
    ```
-   $ cd ~/ODIM
+   $ sudo chown $(id -u):$(id -g) $HOME/.kube/config
    ```
-
-9. Use the following command to deploy and start the containers:
+4. To verify that the Kubernetes pods are up and running in the master and worker nodes, run the following command:
    ```
-   $ make all
+   $ kubectl get pods -n kube-system -o wide
    ```
-    The following containers are loaded.
-      - build_odimra_1
-      - build_kafka_1
-      - build_zookeeper_1
-      - build_redis_1
-      - build_consul_1
-      - build_grf_plugin_1
+   
+   
+### Copying Docker images to the master and worker nodes
+-----------------------------------------------------------
 
-10. Verify that the resource aggregator services are running successfully.
+**Procedure**
+
+Do the following in the master and the worker nodes:
+1. Log in and create a file called `load_images.sh` in the same path where the ODIMRA Docker image tarballs are copied.
    ```
-   $ ps -eaf | grep svc
-   ```
-   All the resource aggregator services are listed:
-   ```
-   root 8343 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-api --registry=consul --registry_address=consul:8500 --
-   client_request_timeout=1m
-   bruce 8346 8343 0 15:20 ? 00:00:00 ./svc-api --
-   registry=consul --registry_address=consul:8500 --client_request_timeout=1m
-   root 8406 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-account-session --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45101
-   bruce 8408 8406 0 15:20 ? 00:00:00 ./svc-account-session --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45101
-   root 8424 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-aggregation --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45102
-   bruce 8426 8424 0 15:20 ? 00:00:00 ./svc-aggregation --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45102
-   root 8441 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-events --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45103
-   bruce 8443 8441 0 15:20 ? 00:00:00 ./svc-events --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45103
-   root 8458 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-systems --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45104
-   bruce 8460 8458 0 15:20 ? 00:00:00 ./svc-systems --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45104
-   root 8474 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-task --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45105
-   bruce 8476 8474 0 15:20 ? 00:00:00 ./svc-task --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45105
-   root 8492 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-fabrics --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45106
-   bruce 8494 8492 0 15:20 ? 00:00:00 ./svc-fabrics --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45106
-   root 8519 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-managers --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45107
-   bruce 8521 8519 0 15:20 ? 00:00:00 ./svc-managers --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45107
-   ```
-
-
-    **NOTE:**
-    - The resource aggregator configuration files are available at `/etc/odimra_config`.
-    -  The GRF configuration files are available at `/etc/grf_plugin_config`.
-    - The resource aggregator API service runs on the default port 45000.
-    - The GRF plugin API service runs on default port 45001.
-    - The resource aggregator logs are available at `/var/log/odimra`.
-    - The GRF plugin logs are available at `/var/log/GRF_PLUGIN`.
-
-
-11. To configure log rotation, do the following:
-
-    a. Navigate to the `/etc/logrotate.d` directory.
+    $ sudo vim load_images.sh
     ```
-    $ cd /etc/logrotate.d
+2. Copy the following lines into `load_images.sh` and save.
     ```
-    b. Edit a file by name odimra (`$ sudo vi odimra`) and add the following content:
-     ```
-    /var/log/GRF_PLUGIN/*.log
-     /var/log/odimra/*.log {
-    hourly
-    missingok
-    rotate 10
-    notifempty
-    maxsize 1M
-    compress
-    create 0644 <user> <group>
-    shred
-    copytruncate
-    }
-    ``` 
-    c. Navigate to the `/etc/cron.hourly` directory.
-       ```
-       $ cd /etc/cron.hourly
-       ```
-    d. Edit a file by name logrotate (`$ sudo vi logrotate`) and add following content:
-	   ```
-       logrotate -s /var/lib/logrotate/status /etc/logrotate.d/odimra
-	   ```
-    e. To verify that the configuration is working, run the following command:
-      ```
-      $ sudo logrotate -v -f /etc/logrotate.d/odimra
-  	  ```
-  
-12.  Use following commands to undeploy odimra solution and remove the docker images, persistent data, logs.
+	#!/bin/bash
 
-     ```
-     $ make clean
-     ```
-     The above command will perform below tasks:
-     - brings down all the deployed containers.
-     - remove only those docker images which were created and deployed as containers.
-     - removes data stored by Consul, Redis & Kafka.
+    images_list=( task managers grf-plugin events update systems fabrics api aggregation account-session redis consul odim_zookeeper odim_kafka)
 
-     ```
-     $ make deepclean
-     ```
-     The above command will perform below tasks: 
-     - brings down the deployed conatiners
-     - remove all the docker images, as well as intermediate/dependent images created as part of deployment.
-     - removes configuration & data stored by Consul, Redis & Kafka
-     - removes all generated certifictes.
-     - removes logs files created for odimra services and grfplugin.
+    for image in "${images_list[@]}"; do
+        docker load -i ${image}.tar
+    done
+    ```	
+3. Run the following commands:
+   ```
+   $ chmod +x load_images.sh
+   ```
+   ```
+   $ ./load_images.sh
+   ```
+4. Verify that Docker images are available using the following command:
+   ```
+   $ sudo docker images
+   ```
+   
+## 2. Installing ODIMRA
 
-     [NOTE] Provide the sudo password when prompted by above commands.
 
-     [CAUTION] The above commands are not encouraged to be executed in production envoirnment as this will erase important data.
-               The action is irrecoverable and will wipe all the odimra completely. 
+**Procedure**
 
-13. To add the Generic Redfish Plugin and servers to the resource aggregator for ODIM, refer to the following readme.  
+1. Log in to the odim-controller node.
+2. Navigate to `odim-controller/scripts`.
+   ```
+   cd odim-controller/scripts
+   ```
+3. Run the following command:
+   ```
+   $ python3 odim-controller.py --deploy odimra --config /home/<username>/odim-controller/scripts/kube_deploy_nodes.yaml
+   ```
+4. Log in to the master node.
+5. To verify that the odimra pods are up and running, run the following command:
+   ```
+   $ kubectl get pods -n odim -o wide
+   ```
+6. To add the Generic Redfish Plugin and servers to the resource aggregator for ODIM, refer to the following readme.  
     https://github.com/ODIM-Project/ODIM/blob/development/svc-aggregation/README.md
 	
 	
@@ -458,12 +505,207 @@ Password: GRFPlug!n12$4
      ```
      $ docker restart build_odimra_1
       ```
-    
+ 
+# Updating the Kubernetes configuration file
+
+
+**Procedure**
+
+1. Navaigate to the `odim-controller/scripts` directory.
+    ```
+    $ cd odim-controller/scripts
+    ```
+2. Rename the `kube_deploy_nodes.yaml.tmpl` file to `kube_deploy_nodes.yaml` using the following command:
+    ```
+    $ mv kube_deploy_nodes.yaml.tmpl kube_deploy_nodes.yaml
+    ```
+3. Open the `kube_deploy_nodes.yaml` file to edit.
    
+**Sample configuration file**
+----------------------
+```
+deploymentID: <Unique identifier for the deployment>
+httpProxy: <HTTP Proxy to be set in the nodes>
+httpsProxy: <HTTPS Proxy to be set in the nodes>
+noProxy: <NO PROXY env to be set in the nodes>
+nodePasswordFilePath: <Absolute path of the file containing encrypted node password>
+nodes:
+  <Node1_Hostname>:
+    ip: <Node1_IP_Address>
+    username: <Node1_Username>
+  <Node2_Hostname>:
+    ip: <Node2_IP_Address>
+    username: <Node2_Username>
+  <Node3_Hostname>:
+    ip: <Node3_IP_Address>
+    username: <Node3_Username>
+odimControllerSrcPath: <Absolute_Path_odim-controller_Src>
+odimVaultKeyFilePath: <Absolute path of the file containing encoded odim vault password>
+odimra_cert_path: <Absolute_path_of_odimra_certificates>
+ 
+odimra:
+  groupID: 2021
+  userID: 2021
+  namespace: odim
+  fqdn: ''
+  hostIP: ''
+  rootServiceUUID: ''
+  redisInMemoryHost: redis-inmemory
+  redisOnDiskHost: redis-ondisk
+  redisHAEnabled: false
+  connectionMethodConf:
+  - ConnectionMethodType: Redfish
+    ConnectionMethodVariant: Compute:BasicAuth:GRF_v1.0.0
+  - ConnectionMethodType: Redfish
+    ConnectionMethodVariant: Storage:BasicAuth:STG_v1.0.0
+  kafkaHost: kafka
+  kafkaPort: 9092
+  grfPluginRootServiceUUID:
+  grfPluginUsername: admin
+  grfPluginPassword: "UUFCYFpBoHh6UdvytPzm65SkHj5zyl73EYVNJNbrFeAPWYrkpTijGB9zrVQSbbLv052HK7-7chqDQQcjgWf7YA=="
+  grfPluginLBHost: ''
+  grfPluginLBPort: 30081
+  etcHostsEntries:
+  appsLogPath: /var/log/odimra
+ 
+  odimraServerCertFQDNSan: "<CSV of FQDNs to include in ODIM-RA server certificate SAN>"
+  odimraServerCertIPSan: "<CSV of IPs to include in ODIM-RA server certificate SAN>"
+  odimraKafkaClientCertFQDNSan: "<CSV of FQDNs to include in ODIM-RA kafka client certificate SAN>"
+  odimraKafkaClientCertIPSan: "<CSV of IPs to include in ODIM-RA kafka client certificate SAN>"
+ 
+  apiNodePort: 30080
+  apiReplicaCount: 1
+  accountSessionReplicaCount: 1
+  aggregationReplicaCount: 1
+  eventReplicaCount: 1
+  fabricsReplicaCount: 1
+  managersReplicaCount: 1
+  systemsReplicaCount: 1
+  taskReplicaCount: 1
+  updateReplicaCount: 1
+  pluginReplicaCount: 1
+  pluginEventNodePort: 30081
+  pluginLogPath: /var/log/grfplugin_logs
+ 
+  consulDataPath: /etc/consul/data
+  consulConfPath: /etc/consul/conf
+ 
+  kafkaConfPath: /etc/kafka/conf
+  kafkaDataPath: /etc/kafka/data
+  kafkaJKSPassword: "K@fk@_store1"
+ 
+  redisOndiskDataPath: /etc/redis/data/ondisk
+  redisInmemoryDataPath: /etc/redis/data/inmemory
+ 
+  zookeeperConfPath: /etc/zookeeper/conf
+  zookeeperDataPath: /etc/zookeeper/data
+  zookeeperJKSPassword: "K@fk@_store1"
+ 
+  rootCACert:
+  odimraServerCert:
+  odimraServerKey:
+  odimraRSAPublicKey:
+  odimraRSAPrivateKey:
+  odimraKafkaClientCert:
+  odimraKafkaClientKey:
+
+```
+
+Update the following parameters in the `kube_deploy_nodes.yaml` file:
+
+|Parameter|Description|
+|---------|-----------|
+|deploymentID| A unique identifier to identify the Kubernetes cluster. Example: *Kubenode*<br>`deploymentID` is required for the following operations:<ul><li>Adding a node.</li><li>Deleting a node.</li><li>Resetting the Kubernetes cluster.</li><li>Deploying and removing ODIMRA services.</li></ul>|
+|httpProxy|HTTP Proxy to be used for connecting to external network.|
+|httpsProxy|HTTPS Proxy to be used for connecting to external network.|
+|noProxy|List of IP addresses and FQDNs for which proxy should not be used.<br> `noProxy` should begin with `127.0.0.1,localhost,localhost.localdomain,10.96.0.0/12,` followed by the IP addresses of the nodes.<br>Example:<ul><li>For one node setup:<br>`noProxy: "127.0.0.1,localhost,localhost.localdomain,10.96.0.0/12,<Node_IP>"`</li><li>For three node setup:<br>`noProxy: "127.0.0.1,localhost,localhost.localdomain,10.96.0.0/12,<Node1_IP>,<Node2_IP>,<Node3_IP>"`</li></ul> |
+|nodePasswordFilePath|The absolute path of the file containing the node's encoded password - */home/<username>/odim-controller/scripts/nodePasswordFile*|
+|nodes:|List of nodes that are part of the kubernetes cluster.<br>**Note:**For one node setup, only one node's information is required. Remove the entries of the other two nodes.|
+|Node1_Hostname|Hostname of the master node. To know the hostname, run the following command:<br>`$ hostname`|
+|ip|IP address of the master node.|
+|username|Username of the master node.<br>**Important:** Ensure that the username is same across all the nodes.|
+|odimControllerSrcPath|The absolute path of the downloaded odim-controller source code - */home/<username>/odim-controller*|
+|odimVaultKeyFilePath|The absolute path of the file containing odim-vault's encoded password - */home/<username>/odim-controller/scripts/odimVaultKeyFile*|
+|odimra_cert_path| The absolute path of the directory where certificates required for ODIM-RA services are present.<br> `odimra_cert_path` will be updated to a default path when odim-controller generates certificates required for the ODIM-RA services. Optionally, you can update it to a different path.<br> **Important:** Before specify a different path, ensure that the directory contains all the required certificates.|
+|odimra|List of configuration parameters required for deploying ODIMRA and third party services.|
+|fqdn| FQDN of the master node where ODIMRA will be deployed.|
+|hostIP|IP address of the master node where the Generic Redfish (GRF) plugin will be deployed.|
+|rootServiceUUID|RootServiceUUID to be used by ODIMRA and the plugin service.|
+|grfPluginRootServiceUUID|RootServiceUUID for the GRF plugin.|
+|grfPluginLBHost|The host address of the LB server configured for receiving events from a compute server.<br> **Important:** `grfPluginLBHost` must be same as `hostIP`.|
+
+
+
    
+# Setting proxy
+
+
+**Procedure**
+
+To set proxy:
+1. Open the `/etc/environment' file.
+   ```
+   $ sudo vim /etc/environment
+   ```
+2. Add the following lines and save:
+   ```
+   http_proxy=http://16.85.88.10:8080/
+   https_proxy=http://16.85.88.10:8080/
+   no_proxy="127.0.0.1,localhost,localhost.localdomain,10.96.0.0/12,<Node1_IP>,<Node2_IP>"
+   EOF
+   ```
+   <Node1_IP> is the IP address of the first machine.
+   <Node2_IP> is the IP address of the second machine.
    
+   **Important:** When you add a new node to the cluster, ensure to update no_proxy with the IP address of the new node.
+
+  
+# Setting up NTP client 
+
+
+**Procedure**
+
+To configure NTP client, do the following:
+1. Run the following commands:
+
+   1. ```
+      $ sudo apt update -y
+      ```
+   2. ```
+      $ sudo apt install ntpdate -y
+      ```
+   3. ```
+      $ sudo timedatectl set-ntp off
+      ```
+   4. ```
+      $ sudo apt install ntp -y 
+      ```
+2. Open the `/etc/ntp.conf` file to edit.
+   ```
+   $ sudo vim /etc/ntp.conf
+   ```
+3. Comment the following lines:
+     ```
+     #pool 0.ubuntu.pool.ntp.org iburst
+     #pool 1.ubuntu.pool.ntp.org iburst
+     #pool 2.ubuntu.pool.ntp.org iburst 
+     #pool 3.ubuntu.pool.ntp.org iburst
+	 ```
+4. Add the following line and save:
+   ```
+   server <NTP_server_IP_address> prefer iburst
+   ```
+5. Restart NTP server by running the following command:
+   ```
+   $ sudo systemctl restart ntp
+   ```
+6. To verify the time sync with the NTP server on the NTP client machine, run the following command:
+   ```
+   $ ntpq -pd
+   ```
    
 # Configuring proxy for Docker
+
 
 <blockquote>
 IMPORTANT:
@@ -479,7 +721,7 @@ During the course of this procedure, you will be required to create files and co
 </blockquote>
 
 **Procedure**
---------------
+
 
 1.   In the home directory of odimra user, create a hidden directory called .docker, and then create a file called config.json inside it.
 
@@ -550,43 +792,29 @@ During the course of this procedure, you will be required to create files and co
          $ sudo service docker restart
          ```
 
-# CI Process
 
-GitHub Action workflows are added to the ODIM repository. These workflows called as checks gets triggered whenever a Pull Request(PR) is raised against the development branch.
-The result from the workflow execution is then updated to the PR. PRs are allowed to review and merge, only if the checks are passed.
+# Resetting Kubernetes
 
-Following checks are added as part of CI process:
+  
+  To reset Kubernetes setup, run the following command:
+  ```
+  $ python3 odim-controller.py --reset odimra --config /home/<username>/odim-controller/scripts/kube_deploy_nodes.yaml
+  ```
+  
+# Removing a node from the Kubernetes cluster
 
-|Sl No.|Workflow Name|Description|
-|---------|-----------|----------|
-|1|`build_unittest.yml` |Builds and run Unit Tests with code coverage enabled|
-|2|`build_deploy_test.yml` |Builds, Deploys, run sanity tests and upload build artifacts (like odimra logs)|
-|3|`LGTM analysis` |Semantic code analyzer and query tool which finds security vulnerabilities in codebases| 
 
-These checks run in parallel and takes approximately 9 mins to complete.
+  To remove an existing node form the kubernetes cluster, run the following command:
+  ```
+  $ python3 odim-controller.py --rmnode kubernetes --config /home/<username>/odim-controller/scripts/kube_deploy_nodes.yaml
+  ```
 
-GitHub Action Workflows details
--------------------
+# Uninstalling ODIMRA
 
-1. build_unittest.yml
- - Brings up a Ubuntu 18.04 VM hosted on GitHub infrastructure with preinstalled packages mentioned in link https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md
- - Installs Go 1.13.8 package
- - Installs and configures Redis 5.0.8 with two instances running on port 6379 and 6380.
- - Checks out the PR code into the Go module directory
- - Builds the code
- - Runs the unit tests
-
-2. build_deploy_test.yml
- - Brings up a Ubuntu 18.04 VM hosted on GitHub infrastructure with preinstalled packages mentioned in link https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md
- - Checks out the PR code
- - Build and deploys the following docker containers
-   Odimra
-   Generic redfish plugin
-   Kakfa
-   Zookeeper
-   Consul
-   Redisdb
- - Runs the sanity tests
- - Uploads the build artifacts
-
->   **NOTE:** Build status notifications with the link to the GitHub Actions build job page will be sent to the developer’s email.
+  
+  To remove ODIMRA, run the following command:
+  
+  ```
+  $ python3 odim-controller.py --reset odimra --config /home/<username>/odim-controller/scripts/kube_deploy_nodes.yaml
+  ```
+  
