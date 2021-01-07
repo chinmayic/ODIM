@@ -35,6 +35,7 @@
   * [Connection methods](#connection-methods)
     + [Viewing a collection of connection methods](#viewing-a-collection-of-connection-methods)
     + [Viewing a connection method](#viewing-a-connection-method)
+      - [Connection method variants](#connection-method-variants)
   * [Adding a plugin as an aggregation source](#adding-a-plugin-as-an-aggregation-source)
   * [Adding a server as an aggregation source](#adding-a-server-as-an-aggregation-source)
   * [Viewing a collection of aggregation sources](#viewing-a-collection-of-aggregation-sources)
@@ -75,12 +76,19 @@
   * [SecureBoot](#secureboot)
   * [Processors](#processors)
   * [Single processor](#single-processor)
-  * [Collection of chassis](#collection-of-chassis)
-  * [Single chassis](#single-chassis)
-  * [Thermal metrics](#thermal-metrics)
-  * [Collection of network adapters](#collection-of-network-adapters)
-  * [Single network adapter](#single-network-adapter)
-  * [Power](#power)
+  * [Chassis](#chassis)
+    + [Collection of chassis](#collection-of-chassis)
+    + [Single chassis](#single-chassis)
+    + [Thermal metrics](#thermal-metrics)
+    + [Collection of network adapters](#collection-of-network-adapters)
+    + [Single network adapter](#single-network-adapter)
+    + [Power](#power)
+    + [Creating a rack group](#creating-a-rack-group)
+    + [Creating a rack](#creating-a-rack)
+    + [Attaching chassis to a rack](#attaching-chassis-to-a-rack)
+    + [Detaching chassis from a rack](#detaching-chassis-from-a-rack)
+    + [Deleting a rack](#deleting-a-rack)
+    + [Deleting a rack group](#deleting-a-rack-group)
   * [Searching the inventory](#searching-the-inventory)
     + [Request URI parameters](#request-uri-parameters)
 - [Actions on a computer system](#actions-on-a-computer-system)
@@ -99,6 +107,7 @@
   * [Viewing a specific software resource](#viewing-a-specific-software-resource)
   * [Actions](#actions)
     + [Simple update](#simple-update)
+      - [Request parameters](#request-parameters)
     + [Start update](#start-update)
 - [Host to fabric networking](#host-to-fabric-networking)
   * [Collection of fabrics](#collection-of-fabrics)
@@ -143,6 +152,9 @@
   * [Viewing a collection of registries](#viewing-a-collection-of-registries)
   * [Viewing a single registry](#viewing-a-single-registry)
   * [Viewing a file in a registry](#viewing-a-file-in-a-registry)
+
+
+
 
 
 
