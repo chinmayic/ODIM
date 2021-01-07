@@ -1,6 +1,10 @@
 #  Resource inventory
 
-Resource Aggregator for ODIM allows you to view the inventory of compute and local storage resources through Redfish `Systems`, `Chassis`, and `Managers` endpoints. It also offers the capability to search inventory information based on one or more configuration parameters and exposes APIs to manage the added resources.
+Resource Aggregator for ODIM allows you to view the inventory of compute and local storage resources through Redfish `Systems`, `Chassis`, and `Managers` endpoints. 
+It also offers the capability to:	
+- Search inventory information based on one or more configuration parameters.
+	
+- Manage the resources added in the inventory. 
 
 To discover crucial configuration information about a resource, including chassis, perform `GET` on these endpoints.
 
@@ -33,10 +37,11 @@ To discover crucial configuration information about a resource, including chassi
 
 |API URI|Operation Applicable|Required privileges|
 |-------|--------------------|-------------------|
-|/redfish/v1/Chassis|GET|`Login` |
-|/redfish/v1/Chassis/\{chassisId\}|GET|`Login` |
-|/redfish/v1/Chassis/\{chassisId\}/Thermal|GET|`Login` |
+|/redfish/v1/Chassis|GET, POST|`Login`, `ConfigureComponents` |
+|/redfish/v1/Chassis/\{chassisId\}|GET, PATCH, DELETE|`Login`, `ConfigureComponents`|
+|/redfish/v1/Chassis/\{chassisId\}/Thermal|GET|`Login`|
 |/redfish/v1/Chassis/\{chassisId\}/NetworkAdapters|GET|`Login` |
+|/redfish/v1/Chassis/{ChassisId}/NetworkAdapters/{networkadapterId}|GET|`Login`|
 
 
 
@@ -1254,16 +1259,23 @@ curl -i GET \
 ```
 
 
+## Chassis
+
+Chassis represents the physical components of a system—sheet-metal confined spaces, logical zones such as racks, enclosures, chassis and all other containers, and subsystems \(like sensors\).
+
+To view, create, and manage racks or rack groups, ensure that the URP \(Unmanaged Rack Plugin\) is running and is added into the Resource Aggregator for ODIM framework. To know how to add a plugin, see [Adding a plugin as an aggregation source](#adding-a-plugin-as-an-aggregation-source).
+
+>**NOTE:**
+URP is installed automatically during the deployment of the resource aggregator.
 
 
-
-##  Collection of chassis
+###  Collection of chassis
 
 |||
 |-------|-------|
 |**Method** |`GET` |
 |**URI** |`/redfish/v1/Chassis` |
-|**Description** | This operation lists chassis instances available with Resource Aggregator for ODIM.<br> Chassis represents the physical components of a system - sheet-metal confined spaces, logical zones such as racks, enclosures, chassis and all other containers, and subsystems \(like sensors\).<br> |
+|**Description** | This operation lists chassis instances available with Resource Aggregator for ODIM.|
 |**Returns** |A collection of links to chassis instances.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
@@ -1331,13 +1343,13 @@ curl -i GET \
 
 
 
-## Single chassis
+### Single chassis
 
 |||
 |---------|-------|
 |**Method** |`GET` |
 |**URI** |`/redfish/v1/Chassis/{ChassisId}` |
-|**Description** |This operation fetches information on a specific chassis.|
+|**Description** |This operation fetches information on a specific computer system chassis, rack group, or a rack.|
 |**Returns** |JSON schema representing this chassis instance.|
 |**Response code** |On success, `200 OK` |
 |**Authentication** |Yes|
@@ -1354,6 +1366,8 @@ curl -i GET \
 ```
 
 >**Sample response body** 
+
+1. **Computer system chassis
 
 ```
 { 
@@ -1466,14 +1480,74 @@ curl -i GET \
 }
 ```
 
+2. **Rack group chassis**
+
+```
+{
+   "@odata.context":"/redfish/v1/$metadata#Chassis.Chassis",
+   "@odata.id":"/redfish/v1/Chassis/f4e24c1c-dd2f-5a17-91b7-71620eb070df",
+   "@odata.type":"#Chassis.v1_14_0.Chassis",
+   "Id":"f4e24c1c-dd2f-5a17-91b7-71620eb070df",
+   "Description":"My RackGroup",
+   "Name":"RG8",
+   "ChassisType":"RackGroup",
+   "Links":{
+      "ComputerSystems":[
+         
+      ],
+      "ManagedBy":[
+         {
+            "@odata.id":"/redfish/v1/Managers/99999999-9999-9999-9999-999999999999"
+         }
+      ]
+   },
+   "PowerState":"On",
+   "Status":{
+      "Health":"OK",
+      "State":"Enabled"
+   }
+}
+```
+
+3. **Rack chassis**
+
+```
+{
+   "@odata.context":"/redfish/v1/$metadata#Chassis.Chassis",
+   "@odata.id":"/redfish/v1/Chassis/b6766cb7-5721-5077-ae0e-3bf3683ad6e2",
+   "@odata.type":"#Chassis.v1_14_0.Chassis",
+   "Id":"b6766cb7-5721-5077-ae0e-3bf3683ad6e2",
+   "Description":"rack no 1",
+   "Name":"RACK#1",
+   "ChassisType":"Rack",
+   "Links":{
+      "ComputerSystems":[
+         
+      ],
+      "ManagedBy":[
+         {
+            "@odata.id":"/redfish/v1/Managers/99999999-9999-9999-9999-999999999999"
+         }
+      ],
+      "ContainedBy":[
+         {
+            "@odata.id":"/redfish/v1/Chassis/c2459269-011c-58d3-a217-ef914c4c295d"
+         }
+      ]
+   },
+   "PowerState":"On",
+   "Status":{
+      "Health":"OK",
+      "State":"Enabled"
+   }
+}
+```
 
 
 
 
 
-
-
-##  Thermal metrics
+###  Thermal metrics
 
 |||
 |---------|-------|
@@ -1498,7 +1572,7 @@ curl -i GET \
 
 
 
-## Collection of network adapters
+### Collection of network adapters
 
 |||
 |---------|-------|
@@ -1522,7 +1596,7 @@ curl -i GET \
 ```
 
 
-## Single network adapter
+### Single network adapter
 
 |||
 |---------|-------|
@@ -1685,7 +1759,7 @@ curl -i GET \
 
 
 
-##  Power
+###  Power
 
 |||
 |---------|-------|
@@ -1706,6 +1780,473 @@ curl -i GET \
 
 
 ```
+
+### Creating a rack group
+
+|||
+|---------|-------|
+|Method | `POST` |
+|URI |`/redfish/v1/Chassis`|
+|Description |This operation creates a rack group.|
+|Returns |<ul><li>`Location` header that contains a link to the created rack group \(highlighted in bold in the sample response header\).</li><li>JSON schema representing the created rack group.<br></li></ul>|
+|Response code |On success, `201 Created`|
+|Authentication |Yes|
+
+ 
+
+>**curl command**
+
+```
+curl -i POST \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+   -H "Content-Type:application/json" \
+   -d \
+'{
+  "ChassisType": "RackGroup",
+  "Description": "My RackGroup",
+  "Links": {
+    "ManagedBy": [
+      {
+        "@odata.id": "/redfish/v1/Managers/{managerId}"
+      }
+    ]
+  },
+  "Name": "RG5"
+}
+' \
+ 'https://{odim_host}:{port}/redfish/v1/Chassis'
+
+
+```
+
+>**Sample request body**
+
+```
+{
+  "ChassisType": "RackGroup",
+  "Description": "My RackGroup",
+  "Links": {
+    "ManagedBy": [
+      {
+        "@odata.id": "/redfish/v1/Managers/99999999-9999-9999-9999-999999999999"
+      }
+    ]
+  },
+  "Name": "RG5"
+}
+```
+
+**Request parameters**
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|ChassisType|String \(required\)<br> |The type of chassis. The type to be used to create a rack group is RackGroup.<br> |
+|Description|String \(optional\)<br> |Description of this rack group.|
+|Links\{|Object \(required\)<br> |Links to the resources that are related to this rack group.|
+|ManagedBy \[\{<br> @odata.id<br> \}\]<br> \}<br> |Array \(required\)<br> |An array of links to the manager resources that manage this chassis. The manager resource for racks and rack groups is the URP \(Unmanaged Rack Plugin\) manager. Provide the link to the URP manager.<br> |
+|Name|String \(required\)<br> |Name for this rack group.|
+
+
+>**Sample response header**
+
+```
+Connection:keep-alive
+Content-Type:application/json; charset=UTF-8
+Date:Wed,06 Jan 2021 09:37:43 GMT+15m 26s
+**Location:/redfish/v1/Chassis/c2459269-011c-58d3-a217-ef914c4c295d**
+Odata-Version:4.0
+X-Frame-Options:sameorigin
+Content-Length:462 bytes
+```
+
+>**Sample response body**
+
+```
+{
+   "@odata.context":"/redfish/v1/$metadata#Chassis.Chassis",
+   "@odata.id":"/redfish/v1/Chassis/c2459269-011c-58d3-a217-ef914c4c295d",
+   "@odata.type":"#Chassis.v1_14_0.Chassis",
+   "Id":"c2459269-011c-58d3-a217-ef914c4c295d",
+   "Description":"My RackGroup",
+   "Name":"RG5",
+   "ChassisType":"RackGroup",
+   "Links":{
+      "ComputerSystems":[
+         
+      ],
+      "ManagedBy":[
+         {
+            "@odata.id":"/redfish/v1/Managers/99999999-9999-9999-9999-999999999999"
+         }
+      ]
+   },
+   "PowerState":"On",
+   "Status":{
+      "Health":"OK",
+      "State":"Enabled"
+   }
+}
+```
+
+
+### Creating a rack
+
+|||
+|---------|-------|
+|**Method** | `POST` |
+|**URI** |`/redfish/v1/Chassis`|
+|**Description**|This operation creates a rack.|
+|**Returns** |<ul><li>`Location` header that contains a link to the created rack \(highlighted in bold in the sample response header\).</li><li>JSON schema representing the created rack.<br></li></ul>|
+|**Response code** |On success, `201 Created`|
+|**Authentication** |Yes|
+
+ 
+
+>**curl command**
+
+```
+curl -i POST \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+   -H "Content-Type:application/json" \
+   -d \
+'{
+  "ChassisType": "Rack",
+  "Description": "rack number one",
+  "Links": {
+    "ManagedBy": [
+      {
+        "@odata.id": "/redfish/v1/Managers/{managerId}"
+      }
+    ],
+    "ContainedBy": [
+      {
+	    "@odata.id":"/redfish/v1/Chassis/{chassisId}"
+	  }
+    ]
+  },
+  "Name": "RACK#1"
+}
+' \
+ 'https://{odim_host}:{port}/redfish/v1/Chassis'
+
+
+```
+
+>**Sample request body**
+
+```
+{
+  "ChassisType": "Rack",
+  "Description": "rack number one",
+  "Links": {
+    "ManagedBy": [
+      {
+        "@odata.id": "/redfish/v1/Managers/675560ae-e903-41d9-bfb2-561951999999"
+      }
+    ],
+    "ContainedBy": [
+      {
+	    "@odata.id":"/redfish/v1/Chassis/1be678f0-86dd-58ac-ac38-16bf0f6dafee"
+	  }
+    ]
+  },
+  "Name": "RACK#1"
+}
+```
+
+**Request parameters**
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|ChassisType|String \(required\)<br> |The type of chassis. The type to be used to create a rack is Rack.<br> |
+|Description|String \(optional\)<br> |Description of this rack.|
+|Links\{|Object \(required\)<br> |Links to the resources that are related to this rack.|
+|ManagedBy \[\{<br> @odata.id<br> \}\]<br> |Array \(required\)<br> |An array of links to the manager resources that manage this chassis. The manager resource for racks and rack groups is the URP \(Unmanaged Rack Plugin\) manager. Provide the link to the URP manager.<br> |
+|ContainedBy \[\{<br> @odata.id<br> \}\]<br> \}<br> |Array \(required\)<br> |An array of links to the rack groups for containing this rack.|
+|Name|String \(required\)<br> |Name for this rack group.|
+
+
+>**Sample response header**
+
+```
+Connection:keep-alive
+Content-Type:application/json; charset=UTF-8
+Date:Wed,06 Jan 2021 09:37:43 GMT+15m 26s
+**Location:/redfish/v1/Chassis/b6766cb7-5721-5077-ae0e-3bf3683ad6e2**
+Odata-Version:4.0
+X-Frame-Options:sameorigin
+Content-Length:462 bytes
+```
+
+>**Sample response body**
+
+```
+{
+   "@odata.context":"/redfish/v1/$metadata#Chassis.Chassis",
+   "@odata.id":"/redfish/v1/Chassis/b6766cb7-5721-5077-ae0e-3bf3683ad6e2",
+   "@odata.type":"#Chassis.v1_14_0.Chassis",
+   "Id":"b6766cb7-5721-5077-ae0e-3bf3683ad6e2",
+   "Description":"rack no 1",
+   "Name":"RACK#1",
+   "ChassisType":"Rack",
+   "Links":{
+      "ComputerSystems":[
+         
+      ],
+      "ManagedBy":[
+         {
+            "@odata.id":"/redfish/v1/Managers/99999999-9999-9999-9999-999999999999"
+         }
+      ],
+      "ContainedBy":[
+         {
+            "@odata.id":"/redfish/v1/Chassis/c2459269-011c-58d3-a217-ef914c4c295d"
+         }
+      ]
+   },
+   "PowerState":"On",
+   "Status":{
+      "Health":"OK",
+      "State":"Enabled"
+   }
+}
+```
+
+
+
+### Attaching chassis to a rack
+
+|||
+|---------|-------|
+|**Method** | `PATCH` |
+|**URI** |`/redfish/v1/Chassis/{rackId}`|
+|**Description** |This operation attaches chassis to a specific rack.|
+|**Returns** |JSON schema for the modified rack having links to the attached chassis.|
+|**Response code** |On success, `200 Ok`|
+|**Authentication** |Yes|
+
+ 
+
+>**curl command**
+
+```
+curl -i PATCH \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+   -H "Content-Type:application/json" \
+   -d \
+'{
+  "Links": {
+    "Contains": [
+      {
+        "@odata.id": "/redfish/v1/Chassis/{chassisId}"
+      }
+    ]
+  }
+}
+' \
+ 'https://{odim_host}:{port}/redfish/v1/Chassis/{rackId}'
+
+
+```
+
+>**Sample request body**
+
+```
+{
+  "Links": {
+    "Contains": [
+      {
+        "@odata.id": "/redfish/v1/Chassis/46db63a9-2dcb-43b3-bdf2-54ce9c42e9d9:1"
+      }
+    ]
+  }
+}
+```
+
+**Request parameters**
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|Links\{|Object \(required\)<br> |Links to the resources that are related to this rack.|
+|Contains \[\{<br> @odata.id<br> \}\]<br> \}<br> |Array \(required\)<br> |An array of links to the computer system chassis resources to be attached to this rack.|
+
+
+
+
+>**Sample response body**
+
+```
+{
+   "@odata.context":"/redfish/v1/$metadata#Chassis.Chassis",
+   "@odata.id":"/redfish/v1/Chassis/b6766cb7-5721-5077-ae0e-3bf3683ad6e2",
+   "@odata.type":"#Chassis.v1_14_0.Chassis",
+   "Id":"b6766cb7-5721-5077-ae0e-3bf3683ad6e2",
+   "Description":"rack no 1",
+   "Name":"RACK#1",
+   "ChassisType":"Rack",
+   "Links":{
+      "ComputerSystems":[
+         
+      ],
+      "ManagedBy":[
+         {
+            "@odata.id":"/redfish/v1/Managers/99999999-9999-9999-9999-999999999999"
+         }
+      ],
+      "Contains":[
+         {
+            "@odata.id":"/redfish/v1/Chassis/4159c951-d0d0-4263-858b-0294f5be6377:1"
+         }
+      ],
+      "ContainedBy":[
+         {
+            "@odata.id":"/redfish/v1/Chassis/c2459269-011c-58d3-a217-ef914c4c295d"
+         }
+      ]
+   },
+   "PowerState":"On",
+   "Status":{
+      "Health":"OK",
+      "State":"Enabled"
+   }
+}
+```
+
+
+### Detaching chassis from a rack
+
+|||
+|---------|-------|
+|**Method** | `PATCH` |
+|**URI** |`/redfish/v1/Chassis/{rackId}`|
+|**Description** |This operation detaches chassis from a specific rack.|
+|**Returns** |JSON schema representing the modified rack.|
+|**Response code** |On success, `200 Ok`|
+|**Authentication** |Yes|
+
+ 
+
+>**curl command**
+
+```
+curl -i PATCH \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+   -H "Content-Type:application/json" \
+   -d \
+'{
+  "Links": {
+    "Contains": []
+  }
+}
+' \
+ 'https://{odim_host}:{port}/redfish/v1/Chassis/{rackId}'
+
+
+```
+
+>**Sample request body**
+
+```
+{
+  "Links": {
+    "Contains": []
+  }
+}
+```
+
+**Request parameters**
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|Links\{|Object \(required\)<br> |Links to the resources that are related to this rack.|
+|Contains \[\{<br> @odata.id<br> \}\]<br> \}<br> |Array \(required\)<br> |An array of links to the computer system chassis resources to be attached to this rack. To detach chassis from this rack, provide an empty array as value.|
+
+
+
+
+>**Sample response body**
+
+```
+{
+   "@odata.context":"/redfish/v1/$metadata#Chassis.Chassis",
+   "@odata.id":"/redfish/v1/Chassis/b6766cb7-5721-5077-ae0e-3bf3683ad6e2",
+   "@odata.type":"#Chassis.v1_14_0.Chassis",
+   "Id":"b6766cb7-5721-5077-ae0e-3bf3683ad6e2",
+   "Description":"rack no 1",
+   "Name":"RACK#1",
+   "ChassisType":"Rack",
+   "Links":{
+      "ComputerSystems":[
+         
+      ],
+      "ManagedBy":[
+         {
+            "@odata.id":"/redfish/v1/Managers/99999999-9999-9999-9999-999999999999"
+         }
+      ],
+      "ContainedBy":[
+         {
+            "@odata.id":"/redfish/v1/Chassis/c2459269-011c-58d3-a217-ef914c4c295d"
+         }
+      ]
+   },
+   "PowerState":"On",
+   "Status":{
+      "Health":"OK",
+      "State":"Enabled"
+   }
+}
+```
+
+### Deleting a rack
+
+|||
+|---------|-------|
+|**Method** | `DELETE` |
+|**URI** |`/redfish/v1/Chassis/{rackId}`|
+|**Description** |This operation deletes a specific rack.<br>**IMPORTANT:**<br> If you try to delete a nonempty rack, you will receive an HTTP `409 Conflict` error. Ensure to detach the chassis attached to a rack before deleting it.<br>|
+|**Response code** |On success, `204 No Content`|
+|**Authentication** |Yes|
+
+ 
+
+>**curl command**
+
+```
+curl -i DELETE \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+   'https://{odim_host}:{port}/redfish/v1/Chassis/{rackId}'
+```
+   
+
+>**Sample request body**
+
+None.
+
+### Deleting a rack group
+
+|||
+|---------|-------|
+|**Method**| `DELETE` |
+|**URI**|`/redfish/v1/Chassis/{rackGroupId}``|
+|**Description**|This operation deletes a specific rack group.<br>**IMPORTANT:**<br>If you try to delete a nonempty rack group, you will receive an HTTP `409 Conflict` error. Ensure to remove all the racks contained in a rack group before deleting it.<br>|
+|**Response code**|On success, `204 No Content`|
+|**Authentication**|Yes|
+
+ 
+
+>**curl command**
+
+```
+curl -i DELETE \
+   -H 'Authorization:Basic {base64_encoded_string_of_[username:password]}' \
+   'https://{odim_host}:{port}/redfish/v1/Chassis/{rackGroupId}`'
+```
+   
+
+>**Sample request body**
+
+None.
 
 
 
