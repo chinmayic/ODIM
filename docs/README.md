@@ -1888,6 +1888,7 @@ curl -i GET \
 A connection method variant provides details about a plugin and is displayed in the following format:
 
 *`PluginType:PrefferedAuthType:PluginID_Firmwareversion`*. 
+
  It consists of the following parameters:
 
 - **PluginType:**
@@ -1987,7 +1988,7 @@ curl -i POST \
 |Password|String \(required\)<br> |The plugin password.|
 |PluginID|String \(required\)<br> |The id of the plugin you want to add. Example: GRF \(Generic Redfish Plugin\), ILO, URP |
 |PreferredAuthType|String \(required\)<br> |Preferred authentication method to connect to the plugin - `BasicAuth` or `XAuthToken`.|
-|PluginType|String \(required\)<br> |The string that represents the type of the plugin. Allowed values: `Compute`, and `Fabric` <br> |
+|PluginType|String \(required\)<br> |The string that represents the type of the plugin. Allowed values: `Compute`, and `Fabric`.<br> |
 |ConnectionMethod|Array (required)|Links to the connection method that are used to communicate with this endpoint: `/redfish/v1/AggregationService/AggregationSources`. To know which connection method to use, do the following:<ul><li>Perform HTTP `GET` on: `/redfish/v1/AggregationService/ConnectionMethods`.<br>You will receive a list of  links to available connection methods.</li><li>Perform HTTP `GET` on each link. Check the value of the `ConnectionMethodVariant` property in the JSON response. Choose a connection method having the details of the plugin of your choice.<br>For example, the `ConnectionMethodVariant` property for the GRF plugin displays the following value:<br>`Compute:BasicAuth:GRF_v1.0.0` <br>For more information, see the "connection method properties" table in [Viewing a connection method](#viewing-a-connection-method)</li></ul>|
 
 >**Sample response header \(HTTP 202 status\)**
@@ -4594,7 +4595,7 @@ URP is installed automatically during the deployment of the resource aggregator.
 |-------|-------|
 |**Method** |`GET` |
 |**URI** |`/redfish/v1/Chassis` |
-|**Description** | This operation lists chassis instances available with Resource Aggregator for ODIM.<br> Chassis represents the physical components of a system - sheet-metal confined spaces, logical zones such as racks, enclosures, chassis and all other containers, and subsystems \(like sensors\).<br> |
+|**Description** | This operation lists chassis instances available with Resource Aggregator for ODIM.|
 |**Returns** |A collection of links to chassis instances.|
 |**Response code** |`200 OK` |
 |**Authentication** |Yes|
@@ -4608,34 +4609,6 @@ curl -i GET \
  'https://{odimra_host}:{port}/redfish/v1/Chassis'
 
 ```
-
->**Sample response body** 
-
-```
-{ 
-   "@odata.context":"/redfish/v1/$metadata#ChassisCollection.ChassisCollection",
-   "@odata.id":"/redfish/v1/Chassis/",
-   "@odata.type":"#ChassisCollection.ChassisCollection",
-   "Description":"Computer System Chassis view",
-   "Name":"Computer System Chassis",
-   "Members":[ 
-      { 
-         "@odata.id":"/redfish/v1/Chassis/ba0a6871-7bc4-5f7a-903d-67f3c205b08c:1"
-      },
-      { 
-         "@odata.id":"/redfish/v1/Chassis/7ff3bd97-c41c-5de0-937d-85d390691b73:1"
-      }
-   ],
-   "Members@odata.count":2
-}
-```
-
-
-
- 
-
-
-
 
 >**Sample response body** 
 
@@ -4686,7 +4659,7 @@ curl -i GET \
 
 >**Sample response body** 
 
-1. **Computer system chassis
+1. **Computer system chassis**
 
 ```
 { 
@@ -5550,7 +5523,7 @@ None.
 |||
 |---------|-------|
 |**Method**| `DELETE` |
-|**URI**|`/redfish/v1/Chassis/{rackGroupId}``|
+|**URI**|`/redfish/v1/Chassis/{rackGroupId}`|
 |**Description**|This operation deletes a specific rack group.<br>**IMPORTANT:**<br>If you try to delete a nonempty rack group, you will receive an HTTP `409 Conflict` error. Ensure to remove all the racks contained in a rack group before deleting it.<br>|
 |**Response code**|On success, `204 No Content`|
 |**Authentication**|Yes|

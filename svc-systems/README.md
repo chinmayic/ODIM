@@ -1313,32 +1313,6 @@ curl -i GET \
 
 
 
- 
-
-
-
-
->**Sample response body** 
-
-```
-{ 
-   "@odata.context":"/redfish/v1/$metadata#ChassisCollection.ChassisCollection",
-   "@odata.id":"/redfish/v1/Chassis/",
-   "@odata.type":"#ChassisCollection.ChassisCollection",
-   "Description":"Computer System Chassis view",
-   "Name":"Computer System Chassis",
-   "Members":[ 
-      { 
-         "@odata.id":"/redfish/v1/Chassis/ba0a6871-7bc4-5f7a-903d-67f3c205b08c:1"
-      },
-      { 
-         "@odata.id":"/redfish/v1/Chassis/7ff3bd97-c41c-5de0-937d-85d390691b73:1"
-      }
-   ],
-   "Members@odata.count":2
-}
-```
-
 
 
 
@@ -1367,7 +1341,7 @@ curl -i GET \
 
 >**Sample response body** 
 
-1. **Computer system chassis
+1. **Computer system chassis**
 
 ```
 { 
@@ -2228,7 +2202,7 @@ None.
 |||
 |---------|-------|
 |**Method**| `DELETE` |
-|**URI**|`/redfish/v1/Chassis/{rackGroupId}``|
+|**URI**|`/redfish/v1/Chassis/{rackGroupId}`|
 |**Description**|This operation deletes a specific rack group.<br>**IMPORTANT:**<br>If you try to delete a nonempty rack group, you will receive an HTTP `409 Conflict` error. Ensure to remove all the racks contained in a rack group before deleting it.<br>|
 |**Response code**|On success, `204 No Content`|
 |**Authentication**|Yes|
