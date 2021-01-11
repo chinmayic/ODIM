@@ -299,7 +299,7 @@ This section provides a step-by-step procedure for deploying ODIMRA, GRF plugin,
    ```
 
 
-  >**NOTE:**
+  **NOTE:**
     - The resource aggregator configuration files are available at `/etc/odimra_config`.
     - The GRF configuration files are available at `/etc/grf_plugin_config`.
 	- The URP configuration files are available at `/etc/urp_plugin_config`.
