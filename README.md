@@ -580,7 +580,7 @@ Following checks are added as part of the CI process:
 |2|`build_deploy_test.yml` |Builds, Deploys, runs sanity tests, and uploads build artifacts (like odimra logs).|
 |3|`LGTM analysis` |Semantic code analyzer and query tool which finds security vulnerabilities in codebases.| 
 
-These checks run in parallel and take approximately NIne minutes to complete.
+These checks run in parallel and take approximately nine minutes to complete.
 
 GitHub action workflow details
 ------------------------------
