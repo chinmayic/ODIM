@@ -537,29 +537,29 @@ During the course of this procedure, you will be required to create files and co
 
   To uninstall ODIMRA, use either of the two commands listed in this section.
 
-  Use following command to:
-    - Remove all the deployed Docker containers.
-	- Remove only those Docker images which were created and deployed as containers.
-    - Remove data stored by Consul, Redis, and Kafka.	
+  Use the following command to:
+  - Remove all the deployed Docker containers.
+  - Remove only those Docker images which were created and deployed as containers.
+  - Remove data stored by Consul, Redis, and Kafka.	
 
-     ```
-     $ make clean
-     ```
-	 
-	 You will be prompted for the sudo passowrd: enter the password.
+```
+$ make clean
+```
+	
+  You will be prompted for the sudo passowrd: enter the password.
 	 
   Use the following command to:
-     - Remove all the deployed Docker containers.
-     - Remove all the Docker images including the intermediate or dependent images created during the deployment.
-     - Remove configuration information and data stored by Consul, Redis & Kafka.
-	 - Remove all generated certificates.
-	 - Remove logs files created for the ODIMRA services, the GRF plugin, and the URP.
+  - Remove all the deployed Docker containers.
+  - Remove all the Docker images including the intermediate or dependent images created during the deployment.
+  - Remove configuration information and data stored by Consul, Redis & Kafka.
+  - Remove all generated certificates.
+  - Remove logs files created for the ODIMRA services, the GRF plugin, and the URP.
 
-     ```
-     $ make deepclean
-     ```
+```
+$ make deepclean
+```
      
-	 You will be prompted for the sudo passowrd: enter the password.
+  You will be prompted for the sudo passowrd: enter the password.
 
   >**CAUTION**:
  	Running these commands will unistall ODIMRA and remove all related data completely. It is best to not run these commands unless absolutely necessary.
