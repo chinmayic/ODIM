@@ -275,52 +275,31 @@ This section provides a step-by-step procedure for deploying ODIMRA, GRF plugin,
    ```
    $ ps -eaf | grep svc
    ```
+   
    All the resource aggregator services are listed:
    ```
-   root 8343 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-api --registry=consul --registry_address=consul:8500 --
-   client_request_timeout=1m
-   bruce 8346 8343 0 15:20 ? 00:00:00 ./svc-api --
-   registry=consul --registry_address=consul:8500 --client_request_timeout=1m
-   root 8406 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-account-session --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45101
-   bruce 8408 8406 0 15:20 ? 00:00:00 ./svc-account-session --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45101
-   root 8424 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-aggregation --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45102
-   bruce 8426 8424 0 15:20 ? 00:00:00 ./svc-aggregation --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45102
-   root 8441 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-events --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45103
-   bruce 8443 8441 0 15:20 ? 00:00:00 ./svc-events --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45103
-   root 8458 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-systems --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45104
-   bruce 8460 8458 0 15:20 ? 00:00:00 ./svc-systems --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45104
-   root 8474 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-task --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45105
-   bruce 8476 8474 0 15:20 ? 00:00:00 ./svc-task --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45105
-   root 8492 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-fabrics --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45106
-   bruce 8494 8492 0 15:20 ? 00:00:00 ./svc-fabrics --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45106
-   root 8519 8233 0 15:20 ? 00:00:00 sudo -E -u odim nohup ./
-   svc-managers --registry=consul --registry_address=consul:8500 --
-   server_address=odim:45107
-   bruce 8521 8519 0 15:20 ? 00:00:00 ./svc-managers --
-   registry=consul --registry_address=consul:8500 --server_address=odim:45107
+   root     26491 30077  0 Jan10 ?        00:00:00 sudo -E -u odimra nohup ./svc-events --registry=consul --registry_address=consul:8500 --server_address=odimra:45103 --client_request_timeout=300s
+   odimra   26499 26491  0 Jan10 ?        00:09:51 ./svc-events --registry=consul --registry_address=consul:8500 --server_address=odimra:45103 --client_request_timeout=300s
+   root     30291 30077  0 Jan07 ?        00:00:00 sudo -E -u odimra nohup ./svc-task --registry=consul --registry_address=consul:8500 --server_address=odimra:45105 --client_request_timeout=300s
+   root     30301 30077  0 Jan07 ?        00:00:00 sudo -E -u odimra nohup ./svc-update --registry=consul --registry_address=consul:8500 --server_address=odimra:45108 --client_request_timeout=300s
+   root     30304 30077  0 Jan07 ?        00:00:00 sudo -E -u odimra nohup ./svc-account-session --registry=consul --registry_address=consul:8500 --server_address=odimra:45101
+   root     30306 30077  0 Jan07 ?        00:00:00 sudo -E -u odimra nohup ./svc-fabrics --registry=consul --registry_address=consul:8500 --server_address=odimra:45106 --client_request_timeout=300s
+   root     30314 30077  0 Jan07 ?        00:00:00 sudo -E -u odimra nohup ./svc-systems --registry=consul --registry_address=consul:8500 --server_address=odimra:45104 --client_request_timeout=300s
+   root     30321 30077  0 Jan07 ?        00:00:00 sudo -E -u odimra nohup ./svc-managers --registry=consul --registry_address=consul:8500 --server_address=odimra:45107 --client_request_timeout=300s
+   odimra   30326 30304  0 Jan07 ?        00:41:25 ./svc-account-session --registry=consul --registry_address=consul:8500 --server_address=odimra:45101
+   root     30344 30077  0 Jan07 ?        00:00:00 sudo -E -u odimra nohup ./svc-aggregation --registry=consul --registry_address=consul:8500 --server_address=odimra:45102 --client_request_timeout=300s
+   root     30366 30077  0 Jan07 ?        00:00:00 sudo -E -u odimra nohup ./svc-api --registry=consul --registry_address=consul:8500 --client_request_timeout=302s
+   odimra   30374 30301  0 Jan07 ?        00:01:42 ./svc-update --registry=consul --registry_address=consul:8500 --server_address=odimra:45108 --client_request_timeout=300s
+   odimra   30375 30291  0 Jan07 ?        00:31:24 ./svc-task --registry=consul --registry_address=consul:8500 --server_address=odimra:45105 --client_request_timeout=300s
+   odimra   30381 30344  0 Jan07 ?        00:04:27 ./svc-aggregation --registry=consul --registry_address=consul:8500 --server_address=odimra:45102 --client_request_timeout=300s
+   odimra   30398 30306  0 Jan07 ?        00:01:25 ./svc-fabrics --registry=consul --registry_address=consul:8500 --server_address=odimra:45106 --client_request_timeout=300s
+   odimra   30399 30314  0 Jan07 ?        00:03:13 ./svc-systems --registry=consul --registry_address=consul:8500 --server_address=odimra:45104 --client_request_timeout=300s
+   odimra   30414 30321  0 Jan07 ?        00:01:14 ./svc-managers --registry=consul --registry_address=consul:8500 --server_address=odimra:45107 --client_request_timeout=300s
+   odimra   30426 30366  0 Jan07 ?        00:17:52 ./svc-api --registry=consul --registry_address=consul:8500 --client_request_timeout=302s
    ```
 
 
-  **NOTE:**
+  >**NOTE:**
     - The resource aggregator configuration files are available at `/etc/odimra_config`.
     - The GRF configuration files are available at `/etc/grf_plugin_config`.
 	- The URP configuration files are available at `/etc/urp_plugin_config`.
