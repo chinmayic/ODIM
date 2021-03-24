@@ -74,7 +74,8 @@ Resource Aggregator for Open Distributed Infrastructure Management \(ODIM™\) i
 Resource Aggregator for ODIM comprises the following two key components:
 
 -    The resource aggregation function \(the resource aggregator\):
-    The resource aggregation function is the single point of contact between the northbound clients and the southbound infrastructure. Its primary function is to build and maintain a central resource inventory. It exposes Redfish-compliant APIs to allow northbound infrastructure management systems to:
+
+     The resource aggregation function is the single point of contact between the northbound clients and the southbound infrastructure. Its primary function is to build and maintain a central resource inventory. It exposes Redfish-compliant APIs to allow northbound infrastructure management systems to:
 
      -  Get a unified view of the southbound compute, local storage, and Ethernet switch fabrics available in the resource inventory.
 
@@ -85,7 +86,8 @@ Resource Aggregator for ODIM comprises the following two key components:
      -   Listen to similar events from multiple southbound resources.
 
  -    One or more plugins:
-    The plugins abstract, translate, and expose southbound resource information to the resource aggregator through RESTful APIs. Resource Aggregator for ODIM supports:
+ 
+      The plugins abstract, translate, and expose southbound resource information to the resource aggregator through RESTful APIs. Resource Aggregator for ODIM supports:
 
        -  Generic Redfish plugin for ODIM (The GRF plugin): Generic Redfish plugin that can be used as a plugin for any Redfish-compliant device.
 	   
@@ -95,7 +97,7 @@ Resource Aggregator for ODIM comprises the following two key components:
 
       -  Integration of additional third-party plugins.
 
-      Resource Aggregator for ODIM allows third parties to easily develop and integrate their plugins into the Resource Aggregator for ODIM framework. To know more, refer to [Resource Aggregator for Open Distributed Infrastructure Management™ Plugin Developer's Guide](https://github.com/ODIM-Project/ODIM/blob/development/plugin-redfish/README.md).
+      Resource Aggregator for ODIM allows third parties to easily develop and integrate their plugins into it's framework. To know more, refer to [Resource Aggregator for Open Distributed Infrastructure Management™ Plugin Developer's Guide](https://github.com/ODIM-Project/ODIM/blob/development/plugin-redfish/README.md).
 
 
 
@@ -132,7 +134,7 @@ Deploying Resource Aggregator for ODIM in a data center involves installing the 
 
 These microservices can be deployed as portable, light-weight Docker containers. The containerized services are orchestrated and managed by Kubernetes—an open-source container orchestration platform that helps to automate, scale, and manage a containerized application. To learn more about Kubernetes and its architecture, see information provided at [https://kubernetes.io/docs/home/](#).
 
-The following figure shows how Resource Aggregator for ODIM is deployed and used in a Kubernetes environment.
+The following figure illustrates how Resource Aggregator for ODIM is deployed and used in a Kubernetes environment.
 
 ![Deployment diagram](docs/images/odim_deployment.png)
 
@@ -174,7 +176,7 @@ The following diagram is a logical representation of each controller node in a K
 
 The northbound management and orchestration systems access the Resource Aggregator for ODIM services through a virtual IP address \(VIP\) configured on the Kubernetes cluster using Keepalived. The communication between Resource Aggregator for ODIM and the southbound infrastructure happens through the same VIP.
 
-Nginx acts as a reverse-proxy for the cluster nodes. Keepalived and Nginx together help to implement high availability of the Resource Aggregator for ODIM services on the cluster nodes for both the northbound management applications and southbound infrastructure to access.
+Nginx acts as a reverse-proxy for the cluster nodes. Keepalived and Nginx together help to implement high availability of the Resource Aggregator for ODIM services on the cluster nodes for both northbound management applications and southbound infrastructure to access.
 
 ## Deployment considerations
 
@@ -182,17 +184,19 @@ The following is a list of considerations to be made while deploying Resource Ag
 
 -   The following two deployment configurations are supported:
 
--    One-node cluster:
-     It has only one controller node that also functions as a worker node. It does not support scaling of the resources and services of Resource Aggregator for ODIM—you cannot add nodes into a one-node cluster.
+    -  One-node cluster:
+	
+        It has only one controller node that also functions as a worker node. It does not support scaling of the resources and services of Resource Aggregator for ODIM—you cannot add nodes into a one-node cluster.
 
- -   Three-node cluster:
-     It has three controller nodes that also function as worker nodes and additional worker nodes for sharing extra load. It provides High Availability \(HA\) by allowing scaling of the resources and services of Resource Aggregator for ODIM—you can add worker nodes and increase the number of service instances running in a cluster.
+    -  Three-node cluster:
+	
+        It has three controller nodes that also function as worker nodes and additional worker nodes for sharing extra load. It provides High Availability \(HA\) by allowing scaling of the resources and services of Resource Aggregator for ODIM—you can add worker nodes and increase the number of service instances running in a cluster.
 
-     <blockquote>
-      NOTE: The total number of nodes in a cluster must be odd.
-     </blockquote>
+        <blockquote>
+        NOTE: The total number of nodes in a cluster must be odd.
+        </blockquote>
 	 
-     To convert an existing one-node cluster into a three-node cluster, you must reset the one-node deployment first and then modify the necessary parameters in the odim-controller configuration file accordingly.
+    To convert an existing one-node cluster into a three-node cluster, you must reset the one-node deployment first and then modify the necessary parameters in the odim-controller configuration file accordingly.
 
      
 	 <blockquote>
@@ -521,13 +525,13 @@ Ensure that all the [Predeployment procedures](#predeployment-procedures) are co
       $ vi kube_deploy_nodes.yaml
       ```
 
-      The kube_deploy_nodes.yaml file is the configuration file used by odim-controller to set up a Kubernetes cluster and to deploy the Resource Aggregator for ODIM services.
+      The `kube_deploy_nodes.yaml` file is the configuration file used by odim-controller to set up a Kubernetes cluster and to deploy the Resource Aggregator for ODIM services.
 
-   3. Update the kube_deploy_nodes.yaml file and save: 
+   3. Update the `kube_deploy_nodes.yaml` file and save: 
 
-      When you open the kube_deploy_nodes.yaml file for the first time, it looks like the following:
+      When you open the `kube_deploy_nodes.yaml` file for the first time, it looks like the following:
 
-      **kube\_deploy\_nodes.yaml template**
+      **kube_deploy_nodes.yaml template**
 
     ```
     deploymentID: <Unique identifier for the deployment>
@@ -613,7 +617,7 @@ Ensure that all the [Predeployment procedures](#predeployment-procedures) are co
    
 
     <blockquote>
-     NOTE: All the parameters in the kube\_deploy\_nodes.yaml file get sorted alphabetically after the successful deployment of Resource Aggregator for ODIM services.
+     NOTE: All the parameters in the `kube_deploy_nodes.yaml` file get sorted alphabetically after the successful deployment of Resource Aggregator for ODIM services.
     </blockquote>
 	
 	
@@ -822,7 +826,7 @@ Ensure that all the [Predeployment procedures](#predeployment-procedures) are co
         ```
         <blockquote>
         IMPORTANT: Copy and save RootServiceUUID from the kube_deploy_nodes.yaml file available in the following path:
-        ~/ODIM/odim-controller/scripts/kube_deploy_nodes.yaml 
+        `~/ODIM/odim-controller/scripts/kube_deploy_nodes.yaml` 
         If there is reinstallation, use the saved RootServiceUUID for the new instance.
         </blockquote>
         
@@ -836,7 +840,7 @@ Ensure that all the [Predeployment procedures](#predeployment-procedures) are co
 
         <blockquote>
         NOTE: Resetting removes the virtual IP configured through Keepalived. After reset, restart the Keepalived service.
-       </blockquote>
+        </blockquote>
 
 4. If it is a three-node cluster configuration, log in to each cluster node and: 
     -   [Configure Nginx for the resource aggregator](#configuring-nginx-for-the-resource-aggregator).
@@ -865,13 +869,13 @@ Ensure that all the [Predeployment procedures](#predeployment-procedures) are co
 
     Replace `{path_of_rootCA.crt}` with the path specified for the odimCertsPath parameter in the kube\_deploy\_nodes.yaml file - `<odimcertsPath>/rootCA.crt`. The `rootCA.crt` file is required for secure SSL communication.
     
-    -   `{odim_host}` is the virtual IP address of the Kubernetes cluster.
+        - `{odim_host}` is the virtual IP address of the Kubernetes cluster.
 
-         <blockquote>
-         NOTE: To use FQDN as `{odim_host}`, ensure that FQDN is configured to the virtual IP address in the `/etc/hosts` file or in the DNS server.
-         </blockquote>
+          <blockquote>
+          NOTE: To use FQDN as `{odim_host}`, ensure that FQDN is configured to the virtual IP address in the `/etc/hosts` file or in the DNS server.
+          </blockquote>
 
-    - `{port}` is the API server port configured in Nginx. The default port is `30080`. If you have changed the default port, use that as the port.
+        - `{port}` is the API server port configured in Nginx. The default port is `30080`. If you have changed the default port, use that as the port.
 
     If you are running curl commands on a different server, perform the following steps to provide the `rootCA.crt` file.
     
@@ -879,9 +883,9 @@ Ensure that all the [Predeployment procedures](#predeployment-procedures) are co
     
     2. Copy the `rootCA.crt` file.
     
-    3.  Log in to your server and paste the `rootCA.crt` file in a folder.
+    3. Log in to your server and paste the `rootCA.crt` file in a folder.
     
-    4.  Open the `/etc/hosts` file to edit.
+    4. Open the `/etc/hosts` file to edit.
     
     5. Scroll to the end of the file, add the following line, and then save:
     
@@ -896,10 +900,14 @@ Ensure that all the [Predeployment procedures](#predeployment-procedures) are co
         ```
 
     <blockquote>
+	
     NOTE:
     - To avoid using the `--cacert` flag in every curl command, add `rootCA.crt` in the `ca-certificates.crt` file available in this path: `/etc/ssl/certs/ca-certificates.crt`.
-    - You can access the base URL using a REST client. To access it using a REST client, add the rootCA.crt file of HPE Resource Aggregator for ODIM to the browser where the REST client is launched.
-    </blockquote>
+    
+	- You can access the base URL using a REST client. To access it using a REST client, add the rootCA.crt file of HPE Resource Aggregator for ODIM to the browser where the REST client is launched.
+    
+	
+	</blockquote>
 	
     The following JSON response is returned:
 
@@ -1075,8 +1083,8 @@ Kubernetes cluster is set up and the resource aggregator is successfully deploye
     ```
 
     In this command, replace:
-    -   <HPE ODIMRA password\> with the password of Resource Aggregator for ODIM \(default administrator account password\).
-    -   <odimCertsPath> with the path specified for the `<odimCertsPath>` parameter in the `kube_deploy_nodes.yaml` file.
+    -  <HPE ODIMRA password> with the password of Resource Aggregator for ODIM \(default administrator account password\).
+    -  <odimCertsPath> with the path specified for the `<odimCertsPath>` parameter in the `kube_deploy_nodes.yaml` file.
 
     Example Output:
     
