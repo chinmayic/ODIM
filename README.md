@@ -1237,7 +1237,7 @@ This procedure shows how to deploy the Dell plugin.
 
 Kubernetes cluster is set up and the resource aggregator is successfully deployed.
 
-1. Save the GRF plugin Docker image on the deployment node:
+1. Save the Dell plugin Docker image on the deployment node:
    ```
    $ sudo docker save -o dellplugin.tar dellplugin:1.0
    ```
