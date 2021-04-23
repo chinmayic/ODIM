@@ -326,7 +326,10 @@ The following table lists the software components and their versions that are co
        $ sudo -H pip3 install pyyaml==5.3.1 --proxy=${http_proxy}
        ```
 
-
+4. [Download and install go](#downloading-and-installing-go) on th deployment node.
+5. [Configure Docker proxy](#configuring-docker-proxy) on the deployment node.
+6. [Install Docker](#installing-docker) on the deployment node.
+    
 4. Install Helm package on the deployment node: 
     1. Create a directory called helm to store the Helm tool installation script and navigate to it: 
 
@@ -410,31 +413,36 @@ To build Docker images, do the following on the deployment node:
     $ sudo docker save -o <image_name.tar> <image_name:tag>
     ```
 	Example: `sudo docker save -o consul.tar consul:1.0`
-3. Copy each tar archive to all the cluster nodes using the following command:
-    ```
-    $ scp <image_name.tar> <cluster_node_username>@<cluster_node_IP_address>:/<path_on_cluster_node>
-    ```
-4. Log in to each cluster node and create a file called `load_images.sh` in the same path where the tar archives are copied.
-    ```
-    $ sudo vim load_images.sh
-    ```
-5. Copy the following lines into `load_images.sh` and save.
-    ```
-	#!/bin/bash
+	
+3. Install the Docker images on the all the cluster nodes:
+    Do any one of the following:
+	1. Copy all the tar archives manually to all the cluster nodes:
+       1. Copy each tar archive to all the cluster nodes using the following command:
+          ```
+          $ scp <image_name.tar> <cluster_node_username>@<cluster_node_IP_address>:/<path_on_cluster_node>
+          ```
+       2. Log in to each cluster node and create a file called `load_images.sh` in the same path where the tar archives are copied.
+          ```
+          $ sudo vim load_images.sh
+          ```
+       3. Copy the following lines into `load_images.sh` and save.
+          ```
+	      #!/bin/bash
 
-    images_list=( task managers grf-plugin events update systems fabrics api aggregation account-session redis consul odim_zookeeper odim_kafka)
+          images_list=( task managers grf-plugin events update systems fabrics api aggregation account-session redis consul odim_zookeeper odim_kafka)
+          for image in "${images_list[@]}"; do
+          docker load -i ${image}.tar
+          done
+          ```	
+       4. Run the following commands on each cluster node:
+          ```
+          $ chmod +x load_images.sh
+          ```
+          ```
+          $ ./load_images.sh
+          ```
+   2. Copy each tar archive to a directory called `odimra_images` on the deployment node. Update `odimraImagePath` to the path of the `odimra_images` directory in `kube_deploy_nodes.yaml`. The images are automatically installed on all the cluster nodes during deployment.
 
-    for image in "${images_list[@]}"; do
-        docker load -i ${image}.tar
-    done
-    ```	
-6. Run the following commands on each cluster node:
-   ```
-   $ chmod +x load_images.sh
-   ```
-   ```
-   $ ./load_images.sh
-   ```
 7. Verify that Docker images are available on each cluster node using the following command:
    ```
    $ sudo docker images
@@ -444,13 +452,19 @@ To build Docker images, do the following on the deployment node:
 
 Encrypting the password of the local nonroot user on the Kubernetes cluster nodes makes the deployment process noninteractive. If the encrypted password is not available during deployment, you will be prompted to enter the password for the first time.
 
-Resource Aggregator for ODIM uses the odim-vault tool to encrypt and decrypt passwords. It is a binary available in the downloaded resource aggregator tarball.
+Resource Aggregator for ODIM uses the odim-vault tool to encrypt and decrypt passwords.
+   
 
 1. Navigate to ~/ODIM/odim-controller/scripts: 
 
     ```
     $ cd ~/ODIM/odim-controller/scripts
     ```
+
+1. Build the odim-vault tool:
+   ```
+   $ go build -ldflags "-s -w" -o odim-vault odim-vault.go
+   ```
 
 2. Enter a random string in a file called odimVaultKeyFile and save: 
 
@@ -486,7 +500,7 @@ Resource Aggregator for ODIM uses the odim-vault tool to encrypt and decrypt pas
 
     ```
     $ ./odim-vault -key ~/ODIM/odim-controller/\
-    scripts/odimVaultKeyFile -encrypt ~/R4H60-11004/odim-controller/\
+    scripts/odimVaultKeyFile -encrypt /home/${USER}/ODIM/odim-controller/\
     scripts/nodePasswordFile
     ```
 
@@ -627,9 +641,9 @@ Ensure that all the [Predeployment procedures](#predeployment-procedures) are co
     deploymentID: threenodecluster
     httpProxy: <HTTP Proxy to be set in the nodes>
     httpsProxy: <HTTPS Proxy to be set in the nodes>
-    kubernetesImagePath: /home/user/R4H60-11004/kubernetes_images
+    kubernetesImagePath: /home/user/ODIM/kubernetes_images
     noProxy: 127.0.0.1,localhost,localhost.localdomain,10.96.0.0/12,10.18.24.100,10.18.24.101,10.18.24.102
-    nodePasswordFilePath: /home/user/R4H60-11004/odim-controller/scripts/nodePasswordFile
+    nodePasswordFilePath: /home/user/ODIM/odim-controller/scripts/nodePasswordFile
     nodes:
       knode1:
         ip: 10.18.24.100
@@ -641,9 +655,9 @@ Ensure that all the [Predeployment procedures](#predeployment-procedures) are co
         ip: 10.18.24.102
         username: user    
     odimCertsPath:
-    odimControllerSrcPath: /home/user/R4H60-11004/odim-controller
+    odimControllerSrcPath: /home/user/ODIM/odim-controller
     odimPluginPath: /home/user/plugins
-    odimVaultKeyFilePath: /home/user/R4H60-11004/odim-controller/scripts/odimVaultKeyFile
+    odimVaultKeyFilePath: /home/user/ODIM/odim-controller/scripts/odimVaultKeyFile
     odimra:
       apiNodePort: 30080
       appsLogPath: /var/log/odimra
@@ -682,7 +696,7 @@ Ensure that all the [Predeployment procedures](#predeployment-procedures) are co
       zookeeperConfPath: /etc/zookeeper/conf
       zookeeperDataPath: /etc/zookeeper/data
       zookeeperJKSPassword: K@fk@_store1
-    odimraImagePath: /home/user/R4H60-11004/odimra_images
+    odimraImagePath: /home/user/ODIM/odimra_images
     ```
 
 
@@ -1060,6 +1074,14 @@ Kubernetes cluster is set up and the resource aggregator is successfully deploye
    ```
    $ sudo docker save -o urplugin.tar urplugin:1.0
    ```
+2. Create a directory called `plugins` on the deployment node:
+   ```
+   $ mkdir plugins
+   ```
+3. Create a directory called `urplugin`on the deployment node:
+   ```
+   $ mkdir ~/plugins/urplugin
+   ```
 
 2. Log in to each cluster node and run the following commands: 
 
@@ -1091,11 +1113,16 @@ Kubernetes cluster is set up and the resource aggregator is successfully deploye
     ```
     ip/jrKjQdzKIU1JvT4ZQ6gbCe2XJtCKPRgqOQv6g3aIAYtG+hpVgel3k67TB723h9dN2cABWZgE+b9CAxbIXj3qZZFWrUMMuPkT4fwtW8fTlhdR+phmOvnnSw5bvUrXyl5Se1IczwtMXfhqk7U8eqpJnZ6xWNR8Q1K7baDv1QvZwej/v3bqHRTC93pDL+3SvE8VCyrIgbMVdfvv3+mJKvs2F7hXoTJiwjRfKGyzdP0yRIHAFOB3m/xnv6ZIRm8Ak6+sx18NRq8RH20bktzhZ45fT+iX4twMJG1lI0KRJ3j/PL+IqY4MmYzv/72fQhMznL39Rjr9LR6mB/JGI0ww0sMUCFr6obzQfQWv1so+Ck694fNJMQPXQS64VcqVDuISXSd4cqkdMx9zBmfDbgzMQQVwgjDgt4nC1w8/wGSfMtkms8rSJrBa18hKCWi+jfhASbNM84udKc0kQsQJlsnjcdsL84zrE8iUqqXC/fK2cQbNL31H5C+qEfJqdNTauQSskkK3cpNWh1FVw736WBYYJSja59q5QwMniXldwcvRglEIELsjKgjbuOnQoIZaVTcbheaa2b1XAiRKTKuPmweysyV3fbuR0jgSJTmdTehrtYG9omjUbg/L7WFjC43JWq8suWi5uch+jHtGG5mZJFFdkE37pQd3wzHBSa+/9Yq9/ZSY=
     ```
+	
+4. Copy the URP configuration file to `~/plugins/urplugin`:
+   ```
+   $ cp ~/ODIM/odim-controller/helmcharts/urplugin/urplugin-config.yaml ~/plugins/urplugin
+   ```
 
 4. Open the URP plugin configuration YAML file to edit: 
 
     ```
-    $ vi ~/ODIM/odim-controller/helmcharts/urplugin/urplugin-config.yaml
+    $ vi ~/plugins/urplugin/urplugin-config.yaml
     ```
 
 5. Update the URP plugin configuration YAML file and save: 
@@ -1135,7 +1162,7 @@ Kubernetes cluster is set up and the resource aggregator is successfully deploye
       ```
       The Helm package for URP is created in the tar format.
 
-7. Copy the Helm package, the `urplugin` image and the modified `urplugin-config.yaml` to a directory and copy the location.
+7. Copy the Helm package, `urplugin.tgz`, and `urplugin.tar` to `~/plugins/urplugin`.
 
 8. Log in to the deployment node and run the following command to install URP: 
 
@@ -1210,51 +1237,19 @@ This procedure shows how to deploy the Dell plugin.
 
 Kubernetes cluster is set up and the resource aggregator is successfully deployed.
 
-1. Clone the Dell plugin repository in the home directory of the default nonroot user on the deployment node:
+1. Save the Dell plugin Docker image on the deployment node:
    ```
-   $ git clone https://github.hpe.com/Bruce/plugin-dell.git -b development
+   $ sudo docker save -o dellplugin.tar dellplugin:1.0
    ```
-2. Set the environment variables:
-   ```
-    $ export ODIMRA_GROUP_ID=<group_id>
-    ```
 
-    ```
-    $ export ODIMRA_USER_ID=<user_id>
-    ```
-    
-3. Create Docker image for the Dell plugin:
+2. Create a directory called `plugins` on the deployment node:
    ```
-    $ cd plugin-dell
-    ```
-
-    ```
-    $ ./build_images.sh
-    ```
-4. Verify that the Docker image for the Dell plugin is created:
+   $ mkdir plugins
    ```
-    $ sudo docker images
-    ```
-    Example output showing the Dell plugin Docker image details:
-
-    ```
-    REPOSITORY TAG IMAGE ID CREATED SIZE
-    dell-plugin 1.0 8bab7c4b9d7b 6 days ago 100MB
-    ```
-    
-5. Open each of the following files and update the configuration   parameters:
-   - `plugin-dell/install/Kubernetes/helmcharts/dell-platformconfig/values.yaml`
-   - `plugin-dell/install/Kubernetes/helmcharts/dellplugin-config/values.yaml`
-   - `plugin-dell/install/Kubernetes/helmcharts/dellplugin-pv-pvc/values.yaml`
-   - `plugin-dell/install/Kubernetes/helmcharts/dellplugin/values.yaml`
-6. Run the following commands on the deployment node to deploy the Dell plugin using Helm charts:
-    ```
-    $ cd ~/plugin-dell/install/Kubernetes/helmcharts
-    ```
-
-    ```
-    $ ./deploying_chart.sh <namespace>
-    ```
+3. Create a directory called `dellplugin`on the deployment node:
+   ```
+   $ mkdir ~/plugins/dellplugin
+   ```
 7. Log in to each cluster node and run the following commands: 
 
     ```
@@ -1264,13 +1259,76 @@ Kubernetes cluster is set up and the resource aggregator is successfully deploye
     ```
     $ sudo chown odimra:odimra /var/log/dellplugin_logs
     ```
+4. Copy the Dell plugin configuration file to `~/plugins/dellplugin`:
+   ```
+   $ cp ~/ODIM/odim-controller/helmcharts/dellplugin/dellplugin-config.yaml ~/plugins/dellplugin
+   ```
+
+4. Log in to the deployment node and open the Dell plugin configuration YAML file to edit: 
+
+    ```
+    $ vi ~/plugins/dellplugin/dellplugin-config.yaml
+    ```
+
+5. Update the Dell plugin configuration YAML file and save: 
+
+    **Sample dellplugin-config.yaml file:**
+
+    ```
+    odimra:
+     namespace: odim
+     groupID: 2021
+    dellplugin:
+     hostname: knode1
+     eventListenerNodePort: 30084
+     dellPluginRootServiceUUID: 7a38b735-8b9f-48a0-b3e7-e5a180567d37
+     username: admin
+     password: sTfTyTZFvNj5zU5Tt0TfyDYU-ye3_ZqTMnMIj-LAeXaa8vCnBqq8Ga7zV6ZdfqQCdSAzmaO5AJxccD99UHLVlQ==
+     lbHost: 10.24.1.232
+     lbPort: 30084
+     logPath: /var/log/dellplugin_logs
+    
+    ```
+
+    The following parameters highlighted in the sample plugin configuration file must be updated compulsorily. The other parameters have default values. You can optionally modify them according to your requirements.
+    
+    - hostname: Hostname of the cluster node where the Dell plugin will be installed.
+    - lbHost: IP address of the cluster node where the Dell plugin will be installed.
+    - lbPort: The default port is 30084.
+	- dellPluginRootServiceUUID
+
+    To know more about each parameter, see [Plugin configuration parameters](#plugin-configuration-parameters).
+6. Generate Helm package for the Dell plugin on the deployment node:
+   1. Navigate to `odim-controller/helmcharts/dellplugin`.
+      ```
+      $ cd ~/ODIM/odim-controller/helmcharts/dellplugin
+      ```
+   2. Run the following command:
+      ```
+      $ helm package dellplugin
+      ```
+      The Helm package for the Dell plugin is created in the tar format.
+	  
+7. Copy the Helm package, `dellplugin.tgz`, and `dellplugin.tar` to `~/plugins/dellplugin`.
+
+6. If it is a three-node cluster configuration, log in to each cluster node and [configure proxy server for the GRF plugin](#configuring-proxy-server-for-a-plugin-version). 
+
+    Skip this step if it is a one-node cluster configuration.
+7. Log in to the deployment node and run the following command to install the Dell plugin: 
+
+    ```
+    $ python3 odim-controller.py --config \
+     /home/${USER}/ODIM/odim-controller/scripts\
+    /kube_deploy_nodes.yaml --add plugin --plugin dellplugin
+
+
 8. Verify that the Dell plugin pod is up and running: 
 
     ```
     $ kubectl get pods -n odim
     ```
 
-    Example output showing the URP pod details:
+    Example output showing the Dell plugin pod details:
 
     ```
     NAME READY STATUS RESTARTS AGE
@@ -2021,6 +2079,167 @@ Ensure that all the nodes \(deployment node and cluster nodes\) are in the same 
     $ sudo systemctl status systemd-timesyncd
     ```
 
+## Downloading and installing Go
+
+Run the following commands:
+
+1. ```
+    $ wget https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz -P /var/tmp
+   ```
+1. ```
+    $ sudo tar -C /usr/local -xzf /var/tmp/go1.13.7.linux-amd64.tar.gz
+   ```
+1. ```
+    $ export PATH=$PATH:/usr/local/go/bin
+   ```
+1. ```
+    $ mkdir -p ${HOME}/BRUCE/src ${HOME}/BRUCE/bin ${HOME}/BRUCE/pkg
+   ```
+1. ```
+    $ export GOPATH=${HOME}/BRUCE
+   ```
+1. ```
+    $ export GOBIN=$GOPATH/bin
+   ```
+1. ```
+    $ export GO111MODULE=on
+   ```
+1. ```
+    $ export GOROOT=/usr/local/go
+   ```
+1. ```
+    $  export PATH=$PATH:${GOROOT}/bin 
+   ```
+
+
+## Configuring Docker proxy
+<blockquote>
+NOTE: Before performing the following steps, ensure that `http_proxy`, `https_proxy`, and `no_proxy` environment variables are set.
+</blockquote>
+
+1. [Optional] If the following content is not present in the `/etc/environment` file, add it:
+    ```
+	$ cat << EOF | sudo tee -a /etc/environment
+    http_proxy=${http_proxy}
+    https_proxy=${https_proxy}
+    no_proxy=${no_proxy}
+    EOF
+	```
+2. Run the following commands to update proxy information in the Docker service file:
+   ```
+   $ sudo mkdir -p /etc/systemd/system/docker.service.d
+   ```
+   
+   ```
+   $ cat << EOF | sudo tee /etc/systemd/system/docker.service.d/http-proxy.conf
+    [Service]
+    Environment="HTTP_PROXY=${http_proxy}"
+    Environment="HTTPS_PROXY=${https_proxy}"
+    Environment="NO_PROXY=${no_proxy}"
+    EOF
+   ```
+3. Run the following commands to update proxy information in the user Docker config file:
+   ```
+   $ mkdir ~/.docker
+   ```
+   
+   ```
+   $ sudo chown ${USER}:${USER} ~/.docker -R
+   ```
+   
+   ```
+   $ sudo chmod 0700 ~/.docker
+   ```
+   
+   ```
+   $ cat > ~/.docker/config.json <<EOF
+    {
+     "proxies":
+     {
+      "default":
+      {
+      "httpProxy": "${http_proxy}",
+      "httpsProxy": "${https_proxy}",
+      "noProxy": "${no_proxy}"
+      }
+    }
+   }
+   EOF
+   ```
+   
+## Installing Docker
+
+1. Run the following commands:
+   
+   1. ```
+      $ sudo apt-get install -y apt-transport-https=1.6.12ubuntu0.2 ca-certificates=20210119~18.04.1 curl=7.58.0-2ubuntu3.12
+      ```
+	  
+   2. ```
+      $ sudo apt-get install -y gnupg-agent=2.2.4-1ubuntu1.3 software-properties-common=0.96.24.32.14
+      ```
+	  
+   3. ```
+      $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      ```
+	  
+   4. ```
+      $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      ```
+	  
+   5. ```
+      $  sudo apt-get install -y docker-ce=5:19.03.12~3-0~ubuntu-bionic docker-ce-cli=5:19.03.12~3-0~ubuntu-bionic containerd.io --allow-downgrades
+      ```
+
+2. Configure overlay storage for Docker:
+   ```
+   $ cat << EOF | sudo tee /etc/docker/daemon.json
+     {
+       "exec-opts": ["native.cgroupdriver=systemd"],
+       "log-driver": "json-file",
+       "storage-driver": "overlay2"
+     }
+     EOF
+   ```
+3. Perform the following steps to check and create Docker group if doesn't exist:
+
+   1. Check if the Docker group exists using the following command:
+      ```
+	  $ getent group docker
+	  ```
+	  
+	  Example output: `docker:x:998:<username>`
+   2. Create the Docker group using the following command:
+      ```
+	  $ sudo groupadd docker
+	  ```
+4. Configure to use Docker CLI without sudo access:
+   ```
+   $ sudo usermod -aG docker $USER
+   ```
+5. Run the following command to activate the user added to the Docker group:
+   ```
+   $ newgrp docker
+   ```
+   
+   <blockquote>
+   NOTE: If you are unable to access Docker CLI without sudo even after performing this step, log out and log back in so that Docker group membership is re-evaluated.
+   </blockquote>
+6. Restart Docker service:
+   ```
+   $ sudo systemctl enable docker
+   ```
+   
+   ```
+   $ sudo systemctl restart docker
+   ```
+7. Verify that Docker is successfully installed:
+   ```
+   $ docker run hello-world
+   ```
+   
+   
+   
 ##  Installing and configuring Keepalived
 
 Perform the following steps on each cluster node:
@@ -3075,6 +3294,15 @@ Kubernetes cluster is set up and the resource aggregator is successfully deploye
    $ sudo docker save -o grfplugin.tar grfplugin:1.0
    ```
 
+2. Create a directory called `plugins` on the deployment node:
+   ```
+   $ mkdir plugins
+   ```
+3. Create a directory called `grfplugin`on the deployment node:
+   ```
+   $ mkdir ~/plugins/grfplugin
+   ```
+   
 2. Log in to each cluster node and run the following commands: 
 
     ```
@@ -3084,11 +3312,16 @@ Kubernetes cluster is set up and the resource aggregator is successfully deploye
     ```
     $ sudo chown odimra:odimra /var/log/grfplugin_logs/
     ```
+	
+4. Copy the GRF configuration file to `~/plugins/grfplugin`:
+   ```
+   $ cp ~/ODIM/odim-controller/helmcharts/grfplugin/grfplugin-config.yaml ~/plugins/grfplugin
+   ```
 
 4. Log in to the deployment node and open the GRF plugin configuration YAML file to edit: 
 
     ```
-    $ vi ~/ODIM/odim-controller/helmcharts/grfplugin/grfplugin-config.yaml
+    $ vi ~/plugins/grfplugin/grfplugin-config.yaml
     ```
 
 5. Update the GRF plugin configuration YAML file and save: 
@@ -3129,6 +3362,8 @@ Kubernetes cluster is set up and the resource aggregator is successfully deploye
       $ helm package grfplugin
       ```
       The Helm package for the GRF plugin is created in the tar format.
+	  
+7. Copy the Helm package, `grfplugin.tgz`, and `grfplugin.tar` to `~/plugins/grfplugin`.
 
 6. If it is a three-node cluster configuration, log in to each cluster node and [configure proxy server for the GRF plugin](#configuring-proxy-server-for-a-plugin-version). 
 
