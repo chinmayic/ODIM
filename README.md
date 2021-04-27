@@ -9,6 +9,7 @@
 - [Resource Aggregator for ODIM compatibility matrix](#resource-aggregator-for-odim-compatibility-matrix)
 - [Predeployment procedures](#predeployment-procedures)
   * [Setting up environment](#setting-up-environment)
+  * [Pull the Docker images of all the Kubernetes microservices](#Pulling the Docker images of all the Kubernetes microservices).
   * [Building Docker images of all the services](#building-docker-images-of-all-the-services)
   * [Generating an encrypted node password](#generating-an-encrypted-node-password)
 - [Deploying Resource Aggregator for ODIM](#deploying-resource-aggregator-for-odim)
@@ -238,9 +239,10 @@ The following table lists the software components and their versions that are co
 
 # Predeployment procedures
 
-1. [Set up environment](#setting-up-environment). 
-2. [Build the Docker images of all the services](#building-docker-images-of-all-the-services). 
-3. [Generate an encrypted node password using the odim-vault tool](#generating-an-encrypted-node-password-using-the-odim-vault-tool). 
+1. [Set up environment](#setting-up-environment).
+2. [Pull the Docker images of all the Kubernetes microservices](#Pulling the Docker images of all the Kubernetes microservices). 
+3. [Build the Docker images of all the services](#building-docker-images-of-all-the-services). 
+4. [Generate an encrypted node password using the odim-vault tool](#generating-an-encrypted-node-password-using-the-odim-vault-tool). 
    
 
 ## Setting up environment
@@ -367,7 +369,81 @@ The following table lists the software components and their versions that are co
 6. **\[Optional\]** If you have chosen a three-node cluster configuration, [install and configure Nginx on all the cluster nodes](#installing-and-configuring-nginx). 
 
     Skip this step if you have chosen a one-node cluster configuration.
-    
+	
+	
+	
+## Pulling the Docker images of all the Kubernetes microservices
+
+1. Run the following command to pull each Kubernetes image on the deployment node:
+
+   ```
+   $ docker pull <imagename>:<version>
+   ```
+   
+   Example: `$ docker pull calico/cni:v3.15.1`
+   
+   The following table lists all the Kubernetes images.
+   
+   |Docker image name|Version|Docker image tar file name|
+   |-----|----|-----|
+   |calico/cni|v3.15.1 |calico_cni.tar |
+   |calico/kube-controllers|v3.15.1 |calico_kube-controllers.tar |
+   |calico/node|v3.15.1 |calico_node.tar |
+   |coredns/coredns|1.6.7 |coredns_coredns.tar |
+   |k8s.gcr.io/cluster-proportional-autoscaler-amd64|1.8.1 |k8s.gcr.io_cluster-proportional-autoscaler-amd64.tar |
+   |k8s.gcr.io/k8s-dns-node-cache|1.15.13 |k8s.gcr.io_k8s-dns-node-cache.tar |
+   |k8s.gcr.io/kube-apiserver|v1.18.5 |k8s.gcr.io_kube-apiserver.tar |
+   |k8s.gcr.io/kube-controller-manager|v1.18.5 |k8s.gcr.io_kube-controller-manager.tar |
+   |k8s.gcr.io/kube-proxy|v1.18.5 |k8s.gcr.io_kube-proxy.tar |
+   |k8s.gcr.io/kube-scheduler|v1.18.5 |k8s.gcr.io_kube-scheduler.tar |
+   |k8s.gcr.io/pause|3.2 |k8s.gcr.io_pause.tar |
+   |lachlanevenson/k8s-helm|v3.2.3 |lachlanevenson_k8s-helm.tar |
+   |nginx|1.19 |nginx.tar |
+   |quay.io/coreos/etcd|v3.4.3 |quay.io_coreos_etcd.tar |
+   
+   
+2. Verify that the images are successfully pulled using the following command:
+   ```
+   $ docker images
+   ```   
+3. Save each Docker image to a tar archive using the following command:
+    ```
+    $ sudo docker save -o <image_name.tar> <image_name:tag>
+    ```
+	Example: `$ docker save -o calico_node.tar calico/node` 
+4. Install the Kubernetes images on the all the cluster nodes:
+    Do any one of the following:
+	1. Copy all the tar archives manually to all the cluster nodes:
+       1. Copy each tar archive to all the cluster nodes using the following command:
+          ```
+          $ scp <image_name.tar> <cluster_node_username>@<cluster_node_IP_address>:/<path_on_cluster_node>
+          ```
+       2. Log in to each cluster node and create a file called `load_images.sh` in the same path where the tar archives are copied.
+          ```
+          $ sudo vim load_images.sh
+          ```
+       3. Copy the following lines into `load_images.sh` and save.
+          ```
+	      #!/bin/bash
+
+          images_list=( task managers grf-plugin events update systems fabrics api aggregation account-session redis consul odim_zookeeper odim_kafka)
+          for image in "${images_list[@]}"; do
+          docker load -i ${image}.tar
+          done
+          ```	
+       4. Run the following commands on each cluster node:
+          ```
+          $ chmod +x load_images.sh
+          ```
+          ```
+          $ ./load_images.sh
+          ```
+   2. Copy each tar archive to a directory called `kubernetes_images` on the deployment node. Update `kubernetesImagePath` to the path of the `kubernetes_images` directory in `kube_deploy_nodes.yaml`. The images are automatically installed on all the cluster nodes during deployment.   
+      <blockquote>
+	  NOTE: Check the permissions of the archived tar files of the Docker images; the privilage of all the files must be `user:user`.
+	  
+	  
+   
 ## Building Docker images of all the services
 
 To build Docker images, do the following on the deployment node:
